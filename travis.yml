@@ -1,0 +1,13 @@
+anguage: node_js
+node_js:
+  - "9"
+install:
+  - npm install
+script:
+  - npm test
+deploy:
+  provider: heroku
+  api_key:
+    secure: "9caba9e6-8c5c-432f-8465-da9189a6d050"
+  app: fis-gr5-frontend
+  on: master
