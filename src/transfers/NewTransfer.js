@@ -10,10 +10,10 @@ class NewTransfer extends React.Component {
     }
 
     changeTransfer(event){
-        const player_id = event.target.player_id;
+        const name = event.target.name;
         const value = event.target.value;
         this.setState({
-            [player_id] : value
+            [name] : value
         });
     }
 
