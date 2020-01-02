@@ -21,7 +21,6 @@ class Transfers extends React.Component {
     }
 
     componentDidMount(){
-        console.log("STATE1: ", this.state.transfers)
         //TODO
         const array = [{
             _id: "5e0e23b0bfe3e284c18c7000",
@@ -97,8 +96,6 @@ class Transfers extends React.Component {
         }]
 
         this.setState({transfers: array})
-
-        console.log("STATE2: ", this.state.transfers)
     }
 
     handleEdit (transfer) {
