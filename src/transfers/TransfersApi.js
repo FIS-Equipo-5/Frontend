@@ -20,6 +20,20 @@ class TransfersApi{
         });
     }
 
+    static deleteTransfer(id){
+        const headers = this.requestHeader();
+        const request = new Request(TransfersApi.API_BASE_URL+ "/transfer/"+id, {
+            method: 'DELETE',
+            headers: headers
+        });
+
+        return fetch(request).then(response => {
+            return response;
+        }).catch(error => {
+            return error;
+        });
+    }
+
     
 }
 

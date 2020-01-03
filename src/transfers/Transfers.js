@@ -72,7 +72,27 @@ class Transfers extends React.Component {
     }
 
     async handleDelete(transfer){
-        //TODO:
+
+        try{
+            await TransfersApi.deleteTransfer(transfer._id);
+        }catch(err){
+            this.setState({
+                errorInfo: "Failed when deleting the transfer!"
+            })
+        }
+
+        try{
+            let allTransfers = await TransfersApi.getAllTransfers();
+            this.setState({
+                    transfers: allTransfers
+                }
+            )
+        }catch (err){
+            this.setState({
+                errorInfo: "Problem with connection to server"
+            })
+        }
+
     }
 
     render(){
