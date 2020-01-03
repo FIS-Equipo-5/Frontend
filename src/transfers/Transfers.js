@@ -12,7 +12,8 @@ class Transfers extends React.Component {
         this.state = {
             errorInfo: null,
             transfers: [],
-            isEditing: {}
+            isEditing: {},
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGU4NWUyMWRmMjM4MDAxMDk2YWJiMCIsImlhdCI6MTU3ODAxMDA4NiwiZXhwIjoxNTc4MDEzNjg2fQ.JQv39wLc5YXuIv_I2IhfdXMc9gHYDIKOC8GfHuVracQ'
         }
         
         this.handleEdit = this.handleEdit.bind(this);
@@ -22,7 +23,7 @@ class Transfers extends React.Component {
     }
 
     componentDidMount(){
-        TransfersApi.getAllTransfers()
+        TransfersApi.getAllTransfers(this.state.token)
             .then( 
                 (result) => {
                     this.setState({transfers: result})
@@ -74,7 +75,7 @@ class Transfers extends React.Component {
     async handleDelete(transfer){
 
         try{
-            await TransfersApi.deleteTransfer(transfer._id);
+            await TransfersApi.deleteTransfer(transfer._id, this.state.token);
         }catch(err){
             this.setState({
                 errorInfo: "Failed when deleting the transfer!"
@@ -82,7 +83,7 @@ class Transfers extends React.Component {
         }
 
         try{
-            let allTransfers = await TransfersApi.getAllTransfers();
+            let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
             this.setState({
                     transfers: allTransfers
                 }

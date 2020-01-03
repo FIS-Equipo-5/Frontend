@@ -3,16 +3,15 @@ class TransfersApi{
     static API_BASE_URL = "/api/v1"
 
     static requestHeader(){
-        return{
-            'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGU4NWUyMWRmMjM4MDAxMDk2YWJiMCIsImlhdCI6MTU3ODAxMDA4NiwiZXhwIjoxNTc4MDEzNjg2fQ.JQv39wLc5YXuIv_I2IhfdXMc9gHYDIKOC8GfHuVracQ',
-        }
+        return{ }
     }
 
-    static getAllTransfers(){
-        const headers = this.requestHeader();
+    static getAllTransfers(token){
         const request = new Request(TransfersApi.API_BASE_URL+ "/transfers", {
             method: 'GET',
-            headers: headers
+            headers: {
+                'x-access-token': token,
+            }
         });
 
         return fetch(request).then(response => {
@@ -20,11 +19,12 @@ class TransfersApi{
         });
     }
 
-    static deleteTransfer(id){
-        const headers = this.requestHeader();
+    static deleteTransfer(id, token){
         const request = new Request(TransfersApi.API_BASE_URL+ "/transfer/"+id, {
             method: 'DELETE',
-            headers: headers
+            headers: {
+                'x-access-token': token,
+            }
         });
 
         return fetch(request).then(response => {
@@ -34,7 +34,6 @@ class TransfersApi{
         });
     }
 
-    
 }
 
 export default TransfersApi;
