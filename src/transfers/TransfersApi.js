@@ -20,7 +20,6 @@ class TransfersApi{
     }
 
     static putTransfer(updateTransfer, token){
-        console.log("UPDATETRANSFER: ",updateTransfer)
         const request = new Request(TransfersApi.API_BASE_URL+ "/transfer/"+updateTransfer._id, {
             method: 'PUT',
             headers: {

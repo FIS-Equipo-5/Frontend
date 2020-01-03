@@ -13,7 +13,7 @@ class Transfers extends React.Component {
             errorInfo: null,
             transfers: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY0NjQzM2M3ZDQ1MDAxMGU1ODZhZCIsImlhdCI6MTU3ODA1OTU4NiwiZXhwIjoxNTc4MDYzMTg2fQ.9fpNokT1w0QHa9Pt2VeQgPwt-lfKH2Sln3OETxnhqwc'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY1NTcxNmQxMGM5MDAxMGQ4YTA1MyIsImlhdCI6MTU3ODA2MzIyMiwiZXhwIjoxNTc4MDY2ODIyfQ.X7UfaVBGAQdS3Losdo4rXrclUbrLuoKIadHqTldRnzQ'
         }
         
         this.handleEdit = this.handleEdit.bind(this);
@@ -58,7 +58,7 @@ class Transfers extends React.Component {
         //TODO
     }
 
-    handleCancel(_id) {
+    handleCancel(_id, transfer) {
         this.setState(prevState => {
             const isEditing = Object.assign({}, prevState.isEditing);
             delete isEditing[_id];
@@ -74,7 +74,7 @@ class Transfers extends React.Component {
         }))
     }
 
-    async handleSave(_id, transfer){
+    async handleSave(_id,transfer){
         try{
             await TransfersApi.putTransfer(transfer,this.state.token)
             const isEditing = Object.assign({}, this.state.isEditing);
