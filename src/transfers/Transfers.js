@@ -13,7 +13,7 @@ class Transfers extends React.Component {
             errorInfo: null,
             transfers: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY1NTcxNmQxMGM5MDAxMGQ4YTA1MyIsImlhdCI6MTU3ODA2MzIyMiwiZXhwIjoxNTc4MDY2ODIyfQ.X7UfaVBGAQdS3Losdo4rXrclUbrLuoKIadHqTldRnzQ'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY2YzRiZDk3ODg0MDAxMDM1YTIwNyIsImlhdCI6MTU3ODA2OTA3NCwiZXhwIjoxNTc4MDcyNjc0fQ._NVKsv6qQgbwKcuFzKN_QPcvssoCIr3aFOKqgkdVlYY'
         }
         
         this.handleEdit = this.handleEdit.bind(this);
@@ -142,7 +142,7 @@ class Transfers extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <NewTransfer onAddTransfer={this.onAddTransfer}></NewTransfer>
+                        <NewTransfer onAddTransfer={this.onAddTransfer} token={this.state.token}></NewTransfer>
                         {this.state.transfers.map((transfer) => 
                             ! this.state.isEditing[transfer._id] ?
                             <Transfer key={transfer._id} transfer={transfer} onEdit={this.handleEdit} onDelete={this.handleDelete}/>
