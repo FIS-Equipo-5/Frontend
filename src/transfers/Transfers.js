@@ -3,6 +3,7 @@ import Alert from '../Alert.js';
 import NewTransfer from './NewTransfer.js';
 import Transfer from './Transfer.js';
 import EditTransfer from './EditTransfer.js';
+import TransfersApi from './TransfersApi.js'
 
 class Transfers extends React.Component {
 
@@ -21,81 +22,17 @@ class Transfers extends React.Component {
     }
 
     componentDidMount(){
-        //TODO
-        const array = [{
-            _id: "5e0e23b0bfe3e284c18c7000",
-            origin_team_id: 1,
-            destiny_team_id: 2,
-            transfer_date: "2012-08-23T18:25:43.511Z",
-            contract_years: 3,
-            cost: 29000000.32,
-            player_id: "5e03798cdd55f57bb7cd7b10"
-        },
-        {
-            _id: "5e0e23b0bfe3e284c18c7001",
-            origin_team_id: 3,
-            destiny_team_id: 1,
-            transfer_date: "2014-08-29T16:45:43.511Z",
-            contract_years: 3,
-            cost: 29000000.32,
-            player_id: "5e03798cdd55f57bb7cd7b11"
-        },
-        {
-            _id: "5e0e23b0bfe3e284c18c7002",
-            origin_team_id: 3,
-            destiny_team_id: 2,
-            transfer_date: "2017-01-18T19:32:43.511Z",
-            contract_years: 4,
-            cost: 75055060.32,
-            player_id: "5e03798cdd55f57bb7cd7b11"
-        },
-        {
-            _id: "5e0e23b0bfe3e284c18c7003",
-            origin_team_id: 5,
-            destiny_team_id: 2,
-            transfer_date: "2019-01-22T22:15:43.511Z",
-            contract_years: 2,
-            cost: 12057450.32,
-            player_id: "5e03798cdd55f57bb7cd7b11"
-        },
-        {
-            _id: "5e0e23b0bfe3e284c18c7004",
-            origin_team_id: 4,
-            destiny_team_id: 2,
-            transfer_date: "2019-08-12T21:08:43.511Z",
-            contract_years: 1,
-            cost: 3204123.32,
-            player_id: "5e03798cdd55f57bb7cd7b11"
-        },
-        {
-            _id: "5e0e23b0bfe3e284c18c7005",
-            origin_team_id: 2,
-            destiny_team_id: 3,
-            transfer_date: "2015-07-28T23:04:43.511Z",
-            contract_years: 4,
-            cost: 75055060.32,
-            player_id: "5e03798cdd55f57bb7cd7b10"
-        },
-        {
-            _id: "5e0e23b0bfe3e284c18c7006",
-            origin_team_id: 4,
-            destiny_team_id: 5,
-            transfer_date: "2016-08-12T01:21:43.511Z",
-            contract_years: 2,
-            cost: 12057450.32,
-            player_id: "5e03798cdd55f57bb7cd7b10"
-        },
-        {
-            _id: "5e0e23b0bfe3e284c18c7007",
-            origin_team_id: 4,
-            destiny_team_id: 6,
-            transfer_date: "2018-07-04T11:35:43.511Z",
-            contract_years: 1,
-            cost: 3204123.32,
-            player_id: "5e03798cdd55f57bb7cd7b10"
-        }]
-
-        this.setState({transfers: array})
+        TransfersApi.getAllTransfers()
+            .then( 
+                (result) => {
+                    this.setState({transfers: result})
+                }
+                ,(error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server"
+                    })
+                }
+            );
     }
 
     handleEdit (transfer) {
