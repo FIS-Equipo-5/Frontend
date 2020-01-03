@@ -26,7 +26,13 @@ class Transfers extends React.Component {
         TransfersApi.getAllTransfers(this.state.token)
             .then( 
                 (result) => {
-                    this.setState({transfers: result})
+                    if(result.status==="error"){
+                        this.setState({ 
+                            transfers: [],
+                            errorInfo: result.message})
+                    }else{
+                        this.setState({transfers: result})
+                    }
                 }
                 ,(error) => {
                     this.setState({
