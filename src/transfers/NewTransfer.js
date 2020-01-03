@@ -1,16 +1,39 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
+import TeamsApi from '../teams/TeamsApi.js'
 import "react-datepicker/dist/react-datepicker.css";
 
 class NewTransfer extends React.Component {
 
     constructor(props){
         super(props);
+        this.token= props.token
         this.state = {_id:'', origin_team_id: '', destiny_team_id: '', transfer_date: new Date(), contract_years: '', cost: '', player_id: ''};
+        this.teams = [];
         this.changeTransfer = this.changeTransfer.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
         this.handleContractYearsChange = this.handleContractYearsChange.bind(this)
         this.handleCostChange = this.handleCostChange.bind(this)
+    }
+
+    componentDidMount(){
+        TeamsApi.getAllTeams(this.token)
+            .then( 
+                (result) => {
+                    if(result.status==="error"){
+                        this.setState({ 
+                            teams: [],
+                            errorInfo: result.message})
+                    }else{
+                        this.setState({teams: result})
+                    }
+                }
+                ,(error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server"
+                    })
+                }
+            );
     }
 
     changeTransfer(event){
