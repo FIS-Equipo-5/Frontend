@@ -7,6 +7,16 @@ function EditTransfer(props){
     const handleChange = event => {
         props.onChange({...props.transfer, [event.target.name]: event.target.value})
     }
+
+    const handleContractYearsChange = event => {
+        const number = (event.target.validity.valid) ? event.target.value : props.transfer.contract_years;
+        props.onChange({...props.transfer, contract_years: number})
+    }
+
+    const handleCostChange = event => {
+        const number = (event.target.validity.valid) ? event.target.value : props.transfer.cost;
+        props.onChange({...props.transfer, cost: number})
+    }
     
     return(
         <tr>
@@ -41,10 +51,10 @@ function EditTransfer(props){
                     <DatePicker name="transfer_date" selected={props.transfer.transfer_date} onChange={handleChange} value={props.transfer.transfer_date} dateFormat="yyyy-MM-dd" disabled/>
                 </td>
                 <td>
-                    <input className="form-control" name="contract_years" type="text" pattern="[0-9]*" value={props.transfer.contract_years} onChange={handleChange} maxLength="1" />
+                    <input className="form-control" name="contract_years" type="text" pattern="[0-9]*" value={props.transfer.contract_years} onChange={handleContractYearsChange} maxLength="1" />
                 </td>
                 <td>
-                    <input className="form-control" name="cost" type="text" pattern="[0-9]*" value={props.transfer.cost} onChange={handleChange} maxLength="9" />
+                    <input className="form-control" name="cost" type="text" pattern="[0-9]*" value={props.transfer.cost} onChange={handleCostChange} maxLength="9" />
                 </td>
                 <td>
                     <button className="btn btn-success" onClick={()=> props.onSave(props.transfer)}>Save</button>

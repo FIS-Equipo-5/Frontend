@@ -13,7 +13,7 @@ class Transfers extends React.Component {
             errorInfo: null,
             transfers: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGU4NWUyMWRmMjM4MDAxMDk2YWJiMCIsImlhdCI6MTU3ODAxMDA4NiwiZXhwIjoxNTc4MDEzNjg2fQ.JQv39wLc5YXuIv_I2IhfdXMc9gHYDIKOC8GfHuVracQ'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY0NjQzM2M3ZDQ1MDAxMGU1ODZhZCIsImlhdCI6MTU3ODA1OTU4NiwiZXhwIjoxNTc4MDYzMTg2fQ.9fpNokT1w0QHa9Pt2VeQgPwt-lfKH2Sln3OETxnhqwc'
         }
         
         this.handleEdit = this.handleEdit.bind(this);
@@ -75,7 +75,30 @@ class Transfers extends React.Component {
     }
 
     async handleSave(_id, transfer){
-        //TODO:
+        try{
+            await TransfersApi.putTransfer(transfer,this.state.token)
+            const isEditing = Object.assign({}, this.state.isEditing);
+            delete isEditing[_id];
+            this.setState({
+                isEditing: isEditing
+            })
+        }catch(err){
+            this.setState({
+                errorInfo: "Failed when updating the transfer!"
+            })
+        }
+
+        try{
+            let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
+            this.setState({
+                    transfers: allTransfers
+                }
+            )
+        }catch (err){
+            this.setState({
+                errorInfo: "Problem with connection to server"
+            })
+        }
     }
 
     async handleDelete(transfer){
