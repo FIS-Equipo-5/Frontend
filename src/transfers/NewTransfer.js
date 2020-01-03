@@ -9,6 +9,8 @@ class NewTransfer extends React.Component {
         this.state = {_id:'', origin_team_id: '', destiny_team_id: '', transfer_date: new Date(), contract_years: '', cost: '', player_id: ''};
         this.changeTransfer = this.changeTransfer.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
+        this.handleContractYearsChange = this.handleContractYearsChange.bind(this)
+        this.handleCostChange = this.handleCostChange.bind(this)
     }
 
     changeTransfer(event){
@@ -76,10 +78,10 @@ class NewTransfer extends React.Component {
                     <DatePicker name="transfer_date" selected={this.state.transfer_date} onChange={this.handleDateChange} value={this.state.transfer_date} dateFormat="yyyy-MM-dd"/>
                 </td>
                 <td>
-                    <input className="form-control" name="contract_years" type="text" pattern="[0-9]*" value={this.state.contract_years} onChange={this.handleContractYearsChange.bind(this)} maxLength="1" />
+                    <input className="form-control" name="contract_years" type="text" pattern="[0-9]*" value={this.state.contract_years} onChange={this.handleContractYearsChange} maxLength="1" />
                 </td>
                 <td>
-                    <input className="form-control" name="cost" type="text" pattern="[0-9]*" value={this.state.cost} onChange={this.handleCostChange.bind(this)} maxLength="9" />
+                    <input className="form-control" name="cost" type="text" pattern="[0-9]*" value={this.state.cost} onChange={this.handleCostChange} maxLength="9" />
                 </td>
                 <td>
                     <button className="btn btn-warning" onClick={this.clickAdd}>Add Transfer</button>
