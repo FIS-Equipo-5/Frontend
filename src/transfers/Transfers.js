@@ -4,6 +4,8 @@ import NewTransfer from './NewTransfer.js';
 import Transfer from './Transfer.js';
 import EditTransfer from './EditTransfer.js';
 import TransfersApi from './TransfersApi.js'
+import TeamsApi from '../teams/TeamsApi.js';
+import PlayersApi from '../players/PlayersApi.js';
 
 class Transfers extends React.Component {
 
@@ -13,13 +15,17 @@ class Transfers extends React.Component {
             errorInfo: null,
             transfers: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGZmNDNmYTVmN2UwMDAxMGFhZjkzYyIsImlhdCI6MTU3ODEwMzg3NiwiZXhwIjoxNTc4MTA3NDc2fQ.4Tk8LMJpZedN8ggwOBgf_MqGAtNO0tMFxaDFpZH2kCk'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMTA4MzNkYzYyZDU4MDAxMDIxODczZiIsImlhdCI6MTU3ODE0NTE1MywiZXhwIjoxNTc4MTQ4NzUzfQ.JELwCfj314MIojL-q9O7MyVZ7wVvxh435w6FA4Ba7i0'
         }
         
         this.handleEdit = this.handleEdit.bind(this);
         this.handleCloseError = this.handleCloseError.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.onAddTransfer = this.addTransfer.bind(this);
+        this.teams = []
+        this.players = []
+        this.getAllTeams();
+        this.getAllPlayers();
     }
 
 
@@ -56,7 +62,6 @@ class Transfers extends React.Component {
     }
 
     async addTransfer(transfer){
-        console.log("NEW TRANSFER ", transfer)
         if(transfer.origin_team_id==="" || transfer.destiny_team_id==="" || transfer.transfer_date==="" || transfer.contract_years==="" || transfer.cost==="" ){
             this.setState({
                 errorInfo: "You must write all the transfer fields"
@@ -153,7 +158,53 @@ class Transfers extends React.Component {
 
     }
 
+    getAllTeams(){
+        TeamsApi.getAllTeams(this.state.token)
+            .then( 
+                (result) => {
+                    if(result.status==="error"){
+                        this.setState({
+                            errorInfo: "Problem with connection to server",
+                        })
+                        this.teams = []
+                    }else{
+                        this.teams = result
+                    }
+                }
+                ,(error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server",
+                    })
+                    this.teams = []
+                }
+            );
+    }
+
+    getAllPlayers(){
+        PlayersApi.getAllPlayers(this.state.token)
+            .then( 
+                (result) => {
+                    if(result.status==="error"){
+                        this.setState({
+                            errorInfo: "Problem with connection to server",
+                        })
+                        this.players = []
+                    }else{
+                        this.players = result
+                    }
+                }
+                ,(error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server",
+                    })
+                    this.players = []
+                }
+            );
+
+    }
+
     render(){
+
         return(
             <div>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
@@ -173,9 +224,10 @@ class Transfers extends React.Component {
                         <NewTransfer onAddTransfer={this.onAddTransfer} token={this.state.token}></NewTransfer>
                         {this.state.transfers.map((transfer) => 
                             ! this.state.isEditing[transfer._id] ?
-                            <Transfer key={transfer._id} transfer={transfer} onEdit={this.handleEdit} onDelete={this.handleDelete}/>
+                            <Transfer key={transfer._id} transfer={transfer} teams={this.teams} players={this.players} onEdit={this.handleEdit} onDelete={this.handleDelete}/>
                             :
                             <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]} 
+                                teams={this.teams} players={this.players}
                                 onCancel={this.handleCancel.bind(this, transfer._id)}
                                 onChange={this.handleChange.bind(this, transfer._id)}
                                 onSave={this.handleSave.bind(this, transfer._id)}></EditTransfer>
