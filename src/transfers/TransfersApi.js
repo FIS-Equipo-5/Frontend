@@ -19,6 +19,32 @@ class TransfersApi{
         });
     }
 
+    static postTransfer(newTransfer, token){
+        console.log("post transfer", newTransfer)
+        const request = new Request(TransfersApi.API_BASE_URL+ "/transfer", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token,
+            },
+            body: JSON.stringify({
+                origin_team_id: newTransfer.origin_team_id,
+                destiny_team_id: newTransfer.destiny_team_id,
+                transfer_date: newTransfer.transfer_date,
+                contract_years: newTransfer.contract_years,
+                cost: newTransfer.cost,
+                player_id: newTransfer.player_id
+              })
+        });
+
+        return fetch(request).then(response => {
+            return response;
+        }).catch(error => {
+            return error;
+        });
+    }
+
     static putTransfer(updateTransfer, token){
         const request = new Request(TransfersApi.API_BASE_URL+ "/transfer/"+updateTransfer._id, {
             method: 'PUT',
