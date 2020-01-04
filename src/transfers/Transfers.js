@@ -62,7 +62,6 @@ class Transfers extends React.Component {
     }
 
     async addTransfer(transfer){
-        console.log("NEW TRANSFER ", transfer)
         if(transfer.origin_team_id==="" || transfer.destiny_team_id==="" || transfer.transfer_date==="" || transfer.contract_years==="" || transfer.cost==="" ){
             this.setState({
                 errorInfo: "You must write all the transfer fields"
@@ -228,6 +227,7 @@ class Transfers extends React.Component {
                             <Transfer key={transfer._id} transfer={transfer} teams={this.teams} players={this.players} onEdit={this.handleEdit} onDelete={this.handleDelete}/>
                             :
                             <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]} 
+                                teams={this.teams} players={this.players}
                                 onCancel={this.handleCancel.bind(this, transfer._id)}
                                 onChange={this.handleChange.bind(this, transfer._id)}
                                 onSave={this.handleSave.bind(this, transfer._id)}></EditTransfer>
