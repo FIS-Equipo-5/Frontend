@@ -13,7 +13,7 @@ class Transfers extends React.Component {
             errorInfo: null,
             transfers: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY2YzRiZDk3ODg0MDAxMDM1YTIwNyIsImlhdCI6MTU3ODA2OTA3NCwiZXhwIjoxNTc4MDcyNjc0fQ._NVKsv6qQgbwKcuFzKN_QPcvssoCIr3aFOKqgkdVlYY'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGZmNDNmYTVmN2UwMDAxMGFhZjkzYyIsImlhdCI6MTU3ODEwMzg3NiwiZXhwIjoxNTc4MTA3NDc2fQ.4Tk8LMJpZedN8ggwOBgf_MqGAtNO0tMFxaDFpZH2kCk'
         }
         
         this.handleEdit = this.handleEdit.bind(this);
@@ -21,6 +21,7 @@ class Transfers extends React.Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.onAddTransfer = this.addTransfer.bind(this);
     }
+
 
     componentDidMount(){
         TransfersApi.getAllTransfers(this.state.token)
@@ -55,7 +56,34 @@ class Transfers extends React.Component {
     }
 
     async addTransfer(transfer){
-        //TODO
+        console.log("NEW TRANSFER ", transfer)
+        if(transfer.origin_team_id==="" || transfer.destiny_team_id==="" || transfer.transfer_date==="" || transfer.contract_years==="" || transfer.cost==="" ){
+            this.setState({
+                errorInfo: "You must write all the transfer fields"
+            })
+        
+        }else{
+            try{
+                await TransfersApi.postTransfer(transfer, this.state.token)
+            }catch(err){
+                this.setState({
+                    errorInfo: "Failed when inserting the new transfer!"
+                })
+            }
+    
+            try{
+                let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
+                this.setState({
+                        transfers: allTransfers
+                    }
+                )
+            }catch (err){
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
+        }
+
     }
 
     handleCancel(_id, transfer) {
