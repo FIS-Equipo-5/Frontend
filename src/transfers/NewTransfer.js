@@ -88,6 +88,7 @@ class NewTransfer extends React.Component {
             <tr>
                 <td>
                     <select className="form-control" id="origin_team_id" name="origin_team_id" value={this.state.origin_team_id} onChange={this.changeTransfer}>
+                        <option label=" "></option>
                         {this.teams.map(team =>
                             <option key={team.team_id} value={team.team_id}>{team.name}</option>
                         )};
@@ -95,6 +96,7 @@ class NewTransfer extends React.Component {
                 </td>
                 <td>
                     <select className="form-control" id="destiny_team_id" name="destiny_team_id" value={this.state.destiny_team_id} onChange={this.changeTransfer}>
+                        <option label=" "></option>
                         {this.teams.map(team =>
                             <option key={team.team_id} value={team.team_id}>{team.name}</option>
                         )};
@@ -102,6 +104,7 @@ class NewTransfer extends React.Component {
                 </td>
                 <td>
                     <select className="form-control" id="player_id" name="player_id" value={this.state.player_id} onChange={this.changeTransfer}>
+                        <option label=" "></option>
                         {this.players.map(player =>
                             <option key={player._id} value={player._id}>{player.player_name}</option>
                         )};
