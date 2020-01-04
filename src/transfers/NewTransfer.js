@@ -1,7 +1,5 @@
 import React from 'react';
-import DatePicker from "react-datepicker";
 import TeamsApi from '../teams/TeamsApi.js'
-import "react-datepicker/dist/react-datepicker.css";
 
 class NewTransfer extends React.Component {
 
@@ -98,7 +96,7 @@ class NewTransfer extends React.Component {
                     </select>
                 </td>
                 <td>
-                    <DatePicker name="transfer_date" selected={this.state.transfer_date} onChange={this.handleDateChange} value={this.state.transfer_date} dateFormat="yyyy-MM-dd"/>
+                    <input type="date" className="form-control" name="transfer_date" value={this.state.transfer_date} onChange={this.changeTransfer}/>
                 </td>
                 <td>
                     <input className="form-control" name="contract_years" type="text" pattern="[0-9]*" value={this.state.contract_years} onChange={this.handleContractYearsChange} maxLength="1" />

@@ -6,7 +6,7 @@ function Transfer(props) {
             <td>{props.transfer.origin_team_id}</td>
             <td>{props.transfer.destiny_team_id}</td>
             <td>{props.transfer.player_id}</td>
-            <td>{props.transfer.transfer_date}</td>
+            <td><input type="date" className="form-control" name="transfer_date" value={props.transfer.transfer_date} disabled/></td>
             <td>{props.transfer.contract_years}</td>
             <td>{props.transfer.cost}</td>
             <td>
