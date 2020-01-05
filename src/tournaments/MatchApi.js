@@ -1,23 +1,27 @@
 class MatchsApi {
 
     static API_BASE_URL = "/api/v1"
+    
 
     static requestHeader() {
         return {}
     }
 
-    static getAllMatches(token) {
-        const request = new Request(MatchsApi.API_BASE_URL + "/matches", {
+    static getAllMatches(token, currentPage) {
+        const request = new Request(MatchsApi.API_BASE_URL + `/matches?page=${currentPage}`, {
             method: 'GET',
             headers: {
                 'x-access-token': token,
-            }
+            },
         });
 
         return fetch(request).then(response => {
+            // console.log('fetch all '+ response.json())
+
             return response.json();
         });
     }
+    
 
     static getMatchById(token) {
         const request = new Request(MatchsApi.API_BASE_URL + "/matches", {
