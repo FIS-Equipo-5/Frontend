@@ -10,10 +10,10 @@ import Footer from './common/Footer'
 
 
 function App() {
-  console.log('token', localStorage.getItem("authToken"));
-  if (localStorage.getItem("authToken") == "undefined") {
-    return (<Authenticate />);
-  } else {
+  if(localStorage.getItem("authToken") == "undefined" || localStorage.getItem("authToken") == null){
+return (<Authenticate/>);
+  }else{
+  console.log('token',localStorage.getItem("authToken"));
 
     return (
       <div id="app">

@@ -23,7 +23,8 @@ class AuthApi {
         });
 
         return fetch(request).then(response => {
-            localStorage.setItem('authToken', response.body.token);
+            console.log('response', response);
+            localStorage.setItem('authToken', response.body.data.token);
             window.location.reload(false);
         }).catch(error => {
             return error;
