@@ -3,19 +3,37 @@ import Team from './Team.js';
 import Alert from '../Alert.js';
 import NewTeam from './NewTeam.js';
 import EditTeam from './EditTeam';
+import TeamsApi from './TeamsApi';
 
 class Teams extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             errorInfo:null,
-            teams:this.props.teams,
-            isEditing: {}
+            teams:[],
+            isEditing: {},
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUyMzVjOWRmYzRkMDAwZmRiMDdiOCIsImlhdCI6MTU3ODIzMzExNSwiZXhwIjoxNTc4MjM2NzE1fQ.4BnBze0jovrxkv9TrKGDKF1bzqpuKs6yH7NYqL1AfKA'
         };
         this.handleEdit=this.handleEdit.bind(this);
         this.handleDelete=this.handleDelete.bind(this);
         this.handleCloseError=this.handleCloseError.bind(this);
         this.addTeam=this.addTeam.bind(this);
+    }
+
+    /*Método especial de React --> LLamado cuando el componente se instancia*/
+    componentDidMount(){
+        TeamsApi.getAllTeams(this.state.token).then(
+            (result)=>{
+                this.setState({
+                    teams: result
+                })
+            },
+            (error)=>{
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
+        )
     }
 
     handleEdit(team){

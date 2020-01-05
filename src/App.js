@@ -6,39 +6,6 @@ import './App.css';
 
 function App() {
 
-  const teams = [
-    {
-      "team_id": 541,
-      "name": "Real Madrid",
-      "code": 123,
-      "logo": "https://media.api-football.com/teams/541.png",
-      "country": "Spain",
-      "founded": 1902,
-      "venue_name": "Estadio Santiago Bernabéu",
-      "venue_surface": "grass",
-      "venue_address": "Avenida de Concha Espina 1, Chamartín",
-      "venue_city": "Madrid",
-      "venue_capacity": 85454,
-	    "budget": 14423432,
-	    "value": 9999999999999999999
-    },
-    {
-      "team_id": 444,
-      "name": "Real Betis",
-      "code": 333,
-      "logo": "https://media.api-football.com/teams/543.png",
-      "country": "Spain",
-      "founded": 1902,
-      "venue_name": "Benito Villamarín",
-      "venue_surface": "grass",
-      "venue_address": "Avenida de Concha Espina 1, Chamartín",
-      "venue_city": "Sevilla",
-      "venue_capacity": 63000,
-	    "budget": 14423432,
-	    "value": 9999999999999999999
-    }
-  ]
-
   return (
     <div id="app">
       <h1>Football App</h1>
@@ -48,7 +15,7 @@ function App() {
       </div> */}
       <div id="teams">
           <h2>Teams: </h2>
-          <Teams teams={teams}/>
+          <Teams/>
       </div> 
     </div>
   );
