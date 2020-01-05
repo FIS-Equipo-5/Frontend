@@ -15,7 +15,11 @@ function Team(props){
             <td>{props.team.venue_capacity}</td>
             <td>{props.team.budget}</td>
             <td>{props.team.value}</td>
-            <td><button className="btn btn-primary" onClick={()=>props.onEdit(props.team)}>Edit</button></td>
+
+            <td>
+                <button className="btn btn-info" onClick={()=>props.onEdit(props.team)}>Edit</button>
+                <button className="btn btn-danger" onClick={()=>props.onDelete(props.team)}>Delete</button>
+            </td>
         </tr>
     );
 }
