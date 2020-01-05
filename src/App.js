@@ -7,7 +7,7 @@ import './App.css';
 
 function App() {
   console.log('token',localStorage.getItem("authToken"));
-  if(localStorage.getItem("authToken") == "undefined"){
+  if(localStorage.getItem("authToken") == "undefined" || localStorage.getItem("authToken") == null){
 return (<Authenticate/>);
   }else{
   
