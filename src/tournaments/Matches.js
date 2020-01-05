@@ -11,7 +11,7 @@ class Matches extends React.Component {
             errorInfo: null,
             matches: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUwMjE3NmM2ZWYxMDAwZmRiMjY5OCIsImlhdCI6MTU3ODIyNzgxOSwiZXhwIjoxNTc4MjMxNDE5fQ.QIiooCtQtZQjiXKZ3XztQPI-0ApD12mUDlZYSjgEVpo'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUwMjE3NmM2ZWYxMDAwZmRiMjY5OCIsImlhdCI6MTU3ODI0MzY3MiwiZXhwIjoxNTc4MjQ3MjcyfQ.ikUJgC5BwIBkGopIJEXqQOO4v2btIqRHKju034bnVCs'
         }
 
         this.handleEdit = this.handleEdit.bind(this);
@@ -107,25 +107,25 @@ class Matches extends React.Component {
 
     async handleDelete(match) {
 
-        // try {
-        //     await MatchApi.deleteMatch(match._id, this.state.token);
-        // } catch (err) {
-        //     this.setState({
-        //         errorInfo: "Failed when deleting the match!"
-        //     })
-        // }
+        try {
+            await MatchApi.deleteMatch(match._id, this.state.token);
+        } catch (err) {
+            this.setState({
+                errorInfo: "Failed when deleting the match!"
+            })
+        }
 
-        // try {
-        //     let allMatches = await MatchApi.getAllMatches(this.state.token);
-        //     this.setState({
-        //         matches: allMatches
-        //     }
-        //     )
-        // } catch (err) {
-        //     this.setState({
-        //         errorInfo: "Problem with connection to server"
-        //     })
-        // }
+        try {
+            let allMatches = await MatchApi.getAllMatches(this.state.token);
+            this.setState({
+                matches: allMatches
+            }
+            )
+        } catch (err) {
+            this.setState({
+                errorInfo: "Problem with connection to server"
+            })
+        }
 
     }
 

@@ -24,9 +24,9 @@ function Match(props) {
 
             <td>
                 <button className="btn btn-primary" onClick={() => props.onEdit(props.transfer)}>Edit</button>
-                <button className="btn btn-danger" onClick={() => props.onDelete(props.transfer)}>Delete</button></td>
+                <button className="btn btn-danger" onClick={() => props.onDelete(props.transfer)}>Delete</button>
+            </td>
         </tr>
-
     );
 }
 
