@@ -14,7 +14,7 @@ module.exports = function(app) {
 
 
   // ========= TOURNAMENTS ============
-  app.use(proxy('/api/v1/matches', {target: API_TOURNAMENTS_URL}));
-  app.use(proxy('/api/v1/matches/', {target: API_TOURNAMENTS_URL}));
-  app.use(proxy('/api/v1/match/', {target: API_TOURNAMENTS_URL}));
+  app.use(proxy('/api/v1/matches', {target: API_TOURNAMENTS_URL, changeOrigin: true}));
+  app.use(proxy('/api/v1/matches/', {target: API_TOURNAMENTS_URL, changeOrigin: true}));
+  app.use(proxy('/api/v1/match/', {target: API_TOURNAMENTS_URL, changeOrigin: true}));
 };
