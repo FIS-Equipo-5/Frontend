@@ -9,10 +9,10 @@ function App() {
   return (
     <div id="app">
       <h1>Football App</h1>
-      {/* <div id="transfers">
+      <div id="transfers">
           <h2>Transfers: </h2>
           <Transfers/>
-      </div> */}
+      </div>
       <div id="teams">
           <h2>Teams: </h2>
           <Teams/>

@@ -12,7 +12,7 @@ class Teams extends React.Component{
             errorInfo:null,
             teams:[],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUyMzVjOWRmYzRkMDAwZmRiMDdiOCIsImlhdCI6MTU3ODIzMzExNSwiZXhwIjoxNTc4MjM2NzE1fQ.4BnBze0jovrxkv9TrKGDKF1bzqpuKs6yH7NYqL1AfKA'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUyMzVjOWRmYzRkMDAwZmRiMDdiOCIsImlhdCI6MTU3ODI0Nzc2OSwiZXhwIjoxNTc4MjUxMzY5fQ.B5pyAf8U-MocdtLUIXf663OXjVQv38prckli5Hr2mgk'
         };
         this.handleEdit=this.handleEdit.bind(this);
         this.handleDelete=this.handleDelete.bind(this);
@@ -43,9 +43,23 @@ class Teams extends React.Component{
     }
 
     handleDelete(team){
-        this.setState(prevState=>({
-            teams: prevState.teams.filter((t)=>t.team_id !== team.team_id)
-        }));
+        TeamsApi.deleteTeam(team.name, this.state.token).then((resultDelete)=>{
+            TeamsApi.getAllTeams(this.state.token).then((resultTeams)=>{
+                this.setState({
+                    teams: resultTeams
+                });
+            }, (error)=>{
+                console.log("Failed when updating the teams list without the deleted team");
+                this.setState({
+                    errorInfo: "Failed when removing the team!"
+                });
+            });
+        },(error)=>{
+            console.log("Failed when removing the team!");
+            this.setState({
+                errorInfo: "Failed when removing the team!"
+            });
+        });
     }
 
     handleCancel(team_id, team){
@@ -65,24 +79,32 @@ class Teams extends React.Component{
     }
 
     handleSave(team_id, name, code, team){
-        this.setState(prevState => {
-            const isEditing = Object.assign({}, prevState.isEditing);
-            delete isEditing[team_id];
-
-            if(team_id === team.team_id && name === team.name && code === team.code){
-                const teams = prevState.teams;
-                const pos = teams.findIndex(t => t.team_id === team_id);
-                return {
-                    teams: [...teams.slice(0,pos), Object.assign({},team), ...teams.slice(pos+1)],
-                    isEditing: isEditing
-                }
-            }
-
-            return({
-                errorInfo: "Cannot edit team_id, name or code",
+        const isEditing = Object.assign({}, this.state.isEditing);
+        delete isEditing[team_id];
+        if(team_id === team.team_id && name === team.name && code === team.code){
+            TeamsApi.updateTeam(team, this.state.token).then((resultUpdate)=>{
+                TeamsApi.getAllTeams(this.state.token).then((resultTeams)=>{
+                    this.setState({
+                        teams: resultTeams,
+                        isEditing: isEditing
+                    });
+                }, (error)=>{
+                    console.log("Error when updating the teams list with the updated team");
+                    this.setState({
+                        errorInfo: "Failed when updating the team!"
+                    })
+                });
+            },(error)=>{
+                console.log("Failed when updating the team!")
+                this.setState({
+                    errorInfo: "Failed when updating the team!"
+                });
             });
-
-        });
+        }else{
+            this.setState({
+                errorInfo: "Cannot edit team's name or code",
+            });
+        }
     }
 
     handleCloseError(){
@@ -92,20 +114,39 @@ class Teams extends React.Component{
     }
 
     addTeam(team){
-        this.setState(prevState =>{
-            const teams = prevState.teams;
-            if(!teams.find(t => (t.team_id === team.team_id || t.name === team.name || t.code === team.code))){
-                return ({
-                    teams: [...prevState.teams, team]
+        if(team.name === "" || team.code === "" || team.logo === "" || team.country === "" || team.founded === "" || team.venue_name === "" || team.venue_surface === ""
+            || team.venue_address === "" || team.venue_city === "" || team.venue_capacity === "" || team.budget === "" || team.value === ""){
+                this.setState({
+                    errorInfo: "You must fill in all the fields!"
                 });
+        }else{
+            const teams = this.state.teams;
+            if(!teams.find(t => (t.team_id === team.team_id || t.name === team.name || t.code === team.code))){
+                try{
+                    TeamsApi.getAllTeams(this.state.token).then((result)=>{
+                        team.team_id = result.length + 1;
+                        TeamsApi.addNewTeam(team, this.state.token).then(()=>{
+                            TeamsApi.getAllTeams(this.state.token).then((allTeams)=>{
+                                this.setState({
+                                    teams: allTeams
+                                });
+                            });
+                        });
+                    });
+                }catch(err){
+                    this.setState({
+                        errorInfo: "Failed when inserting the new team!"
+                    })
+                }
+
             }else{
-                return ({
-                    errorInfo: 'Team already exists'
+                this.setState({
+                    errorInfo: "Team already exists!"
                 });
             }
-        });
+        }
     }
-
+   
     render(){
         return(
             <div>
