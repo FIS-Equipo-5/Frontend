@@ -15,7 +15,7 @@ class NewTransfer extends React.Component {
             cost: '', 
             player_id: ''
         };
-        this.token = props.token
+        this.token = localStorage.getItem('authToken') != null ? localStorage.getItem('authToken') : ''
         this.teams = []
         this.players = []
         this.changeTransfer = this.changeTransfer.bind(this);
