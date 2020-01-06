@@ -15,7 +15,7 @@ class Transfers extends React.Component {
             errorInfo: null,
             transfers: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMTA4MzNkYzYyZDU4MDAxMDIxODczZiIsImlhdCI6MTU3ODE0NTE1MywiZXhwIjoxNTc4MTQ4NzUzfQ.JELwCfj314MIojL-q9O7MyVZ7wVvxh435w6FA4Ba7i0'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMTA2MTZhY2NhMWYwMDAwZjdmNTZmMCIsImlhdCI6MTU3ODE1NjIyNiwiZXhwIjoxNTc4MTU5ODI2fQ.twg80vUrctvltwafFjeLU4nBym1n3VAqiIshNXe4Ibc'
         }
         
         this.handleEdit = this.handleEdit.bind(this);
@@ -108,29 +108,36 @@ class Transfers extends React.Component {
     }
 
     async handleSave(_id,transfer){
-        try{
-            await TransfersApi.putTransfer(transfer,this.state.token)
-            const isEditing = Object.assign({}, this.state.isEditing);
-            delete isEditing[_id];
+        if (transfer.contract_years==="" || transfer.cost==="") {
             this.setState({
-                isEditing: isEditing
+                errorInfo: "You must write the cost and the contract years"
             })
-        }catch(err){
-            this.setState({
-                errorInfo: "Failed when updating the transfer!"
-            })
-        }
-
-        try{
-            let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
-            this.setState({
-                    transfers: allTransfers
-                }
-            )
-        }catch (err){
-            this.setState({
-                errorInfo: "Problem with connection to server"
-            })
+        
+        }else{
+            try{
+                await TransfersApi.putTransfer(transfer,this.state.token)
+                const isEditing = Object.assign({}, this.state.isEditing);
+                delete isEditing[_id];
+                this.setState({
+                    isEditing: isEditing
+                })
+            }catch(err){
+                this.setState({
+                    errorInfo: "Failed when updating the transfer!"
+                })
+            }
+    
+            try{
+                let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
+                this.setState({
+                        transfers: allTransfers
+                    }
+                )
+            }catch (err){
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
         }
     }
 
