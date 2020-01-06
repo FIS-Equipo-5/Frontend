@@ -1,6 +1,6 @@
 class MatchsApi {
 
-    static API_BASE_URL = "/api/v1"
+    static API_BASE_URL = (process.env.NODE_ENV==="production")? "https://fis-g5-tournaments.herokuapp.com//api/v1" : "/api/v1"
     
 
     static requestHeader() {
