@@ -2,6 +2,7 @@ import React from 'react';
 import Alert from '../Alert.js';
 import MatchApi from './MatchApi'
 import Match from './Match'
+import MatchInfo from './MatchInfo'
 
 class Matches extends React.Component {
 
@@ -13,13 +14,14 @@ class Matches extends React.Component {
             currentPage: 1,
             totalPages: 1,
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUwMjE3NmM2ZWYxMDAwZmRiMjY5OCIsImlhdCI6MTU3ODI2Nzg4NSwiZXhwIjoxNTc4MjcxNDg1fQ.JpP0x2q7LTkmbEp9OhiDHvGVJLWPNTTMvU8qzXqztTo'
+            token: localStorage.getItem("authToken")
         }
 
         this.handleEdit = this.handleEdit.bind(this);
         this.handleCloseError = this.handleCloseError.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-        // this.getAllMatches = this.getAllMatches.bind(this);
+        this.handleOpenInfo = this.handleOpenInfo.bind(this);
+        this.handleCloseInfo = this.handleCloseInfo.bind(this);
         this.totalPages = 1;
     }
 
@@ -32,6 +34,7 @@ class Matches extends React.Component {
         this.setState(prevState => ({
             isEditing: { ...prevState.isEditing, [match._id]: match }
         }));
+        this.setState({ matchSelected: match });
     }
 
     handleCloseError() {
@@ -54,6 +57,14 @@ class Matches extends React.Component {
         this.setState(prevState => ({
             isEditing: { ...prevState.isEditing, [_id]: match }
         }))
+    }
+
+    handleOpenInfo(match) {
+        this.setState({ matchSelected: match });
+    }
+
+    handleCloseInfo() {
+        this.setState({ matchSelected: null });
     }
 
     async handleSave(_id, match) {
@@ -138,43 +149,51 @@ class Matches extends React.Component {
     }
 
     render() {
+        if (this.state.matchSelected) {
+            return <MatchInfo key={this.state.matchSelected._id} match={this.state.matchSelected}
+                onCloseInfo={this.handleCloseInfo}
+                onEdit={this.handleEdit} onDelete={this.handleDelete} />
+        } else {
+            return (
+                <div>
+                    <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
 
-        return (
-            <div>
-                <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
-                <table className="table" align='center'>
-                    <thead>
-                        <tr>
-                            <th>Local</th>
-                            <th>Visitor</th>
-                            <th>Date</th>
-                            <th>Score</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
+                    <div id='matches'>
+                        <table className="table" align='center'>
+                            <thead>
+                                <tr>
+                                    <th>Local</th>
+                                    <th>Visitor</th>
+                                    <th>Date</th>
+                                    <th>Score</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
 
-                    <tbody>
-                        {/* <Match match={this.matches} token={this.state.token}></Match> */}
-                        {this.state.matches.map((match) =>
-                            // !this.state.isEditing[transfer._id] ?
-                            <Match key={match._id} match={match} onEdit={this.handleEdit} onDelete={this.handleDelete} />
-                            // :
-                            // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
-                            //     teams={this.teams} players={this.players}
-                            //     onCancel={this.handleCancel.bind(this, transfer._id)}
-                            //     onChange={this.handleChange.bind(this, transfer._id)}
-                            //     onSave={this.handleSave.bind(this, transfer._id)}></EditTransfer>
-                        )}
-                    </tbody>
-                </table>
-                <div className='row h-100 justify-content-center align-items-center'>
-                    <button className="btn btn-outline-dark" disabled={this.state.currentPage <= 1} onClick={() => this.getAllMatches(-1)}>Previous</button>
-                    <span style={{ padding: '0 0 0 15px' }}> Page: {this.state.currentPage} of {this.state.totalPages}</span>
-                    <button className="btn btn-outline-dark" disabled={this.state.currentPage >= this.state.totalPages} onClick={() => this.getAllMatches(1)}>Next</button>
+                            <tbody>
+                                {/* <Match match={this.matches} token={this.state.token}></Match> */}
+                                {this.state.matches.map((match) =>
+                                    // !this.state.isEditing[transfer._id] ?
+                                    <Match key={match._id} match={match} onOpenInfo={this.handleOpenInfo} onDelete={this.handleDelete} />
+                                    // :
+                                    // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
+                                    //     teams={this.teams} players={this.players}
+                                    //     onCancel={this.handleCancel.bind(this, transfer._id)}
+                                    //     onChange={this.handleChange.bind(this, transfer._id)}
+                                    //     onSave={this.handleSave.bind(this, transfer._id)}></EditTransfer>
+                                )}
+                            </tbody>
+                        </table>
+                        <div className='row h-100 justify-content-center align-items-center'>
+                            <button className="btn btn-outline-dark" disabled={this.state.currentPage <= 1} onClick={() => this.getAllMatches(-1)}>Previous</button>
+                            <span style={{ padding: '0 0 0 15px' }}> Page: {this.state.currentPage} of {this.state.totalPages}</span>
+                            <button className="btn btn-outline-dark" disabled={this.state.currentPage >= this.state.totalPages} onClick={() => this.getAllMatches(1)}>Next</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-        );
+            );
+        }
     }
 }
 
