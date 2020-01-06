@@ -3,7 +3,7 @@
 
 class AuthApi {
 
-    static API_BASE_URL = "/api/v1"
+    static API_BASE_URL = (process.env.NODE_ENV==="production")? "https://fis-gr5-auth.herokuapp.com/api/v1" : "/api/v1"
 
     static requestHeader() {
         return {}
