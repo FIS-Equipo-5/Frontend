@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'react-bootstrap/button'
+// import Button from 'react-bootstrap/button'
 import Modal from 'react-bootstrap/modal'
 
 class ModalComponent extends React.Component {
@@ -29,9 +29,9 @@ class ModalComponent extends React.Component {
     render() {
         return (
             <>
-                <Button variant={this.props.type} onClick={this.handleShow}>
+                {/* <Button variant={this.props.type} onClick={this.handleShow}>
                     {this.props.buttonMessage}
-                </Button>
+                </Button> */}
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
@@ -39,12 +39,12 @@ class ModalComponent extends React.Component {
                     </Modal.Header>
                     <Modal.Body>{this.props.message}</Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>
+                        {/* <Button variant="secondary" onClick={this.handleClose}>
                             Close
                         </Button>
                         <Button variant="primary" onClick={this.handleAccept}>
                             Accept
-                        </Button>
+                        </Button> */}
                     </Modal.Footer>
                 </Modal>
             </>
