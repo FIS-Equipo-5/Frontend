@@ -1,5 +1,6 @@
 import React from 'react';
 import Transfers from './transfers/Transfers.js';
+import Players from './players/Players.js';
 import Teams from './teams/Teams';
 import Matches from './tournaments/Matches'
 import Authenticate from './auth/Authenticate.js';
@@ -26,6 +27,11 @@ return (<Authenticate/>);
         <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
           <h2>Teams: </h2>
           <Teams/>
+        </div> 
+
+        <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
+          <h2>Players: </h2>
+          <Players/>
         </div> 
 
         <div id="tournamentsMS" className="row">
