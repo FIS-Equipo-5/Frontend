@@ -15,7 +15,7 @@ class Transfers extends React.Component {
             errorInfo: null,
             transfers: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMTA2MTZhY2NhMWYwMDAwZjdmNTZmMCIsImlhdCI6MTU3ODE1NjIyNiwiZXhwIjoxNTc4MTU5ODI2fQ.twg80vUrctvltwafFjeLU4nBym1n3VAqiIshNXe4Ibc'
+            token: localStorage.getItem('authToken') != null ? localStorage.getItem('authToken') : ''
         }
         
         this.handleEdit = this.handleEdit.bind(this);
