@@ -8,11 +8,12 @@ import TeamsApi from './TeamsApi';
 class Teams extends React.Component{
     constructor(props){
         super(props);
+        console.log("Token --> " + localStorage.getItem('authToken'));
         this.state = {
             errorInfo:null,
             teams:[],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUyMzVjOWRmYzRkMDAwZmRiMDdiOCIsImlhdCI6MTU3ODMwNzEzMSwiZXhwIjoxNTc4MzEwNzMxfQ.1d3eCRVNanTwM1SzSozX5NIcASyBJr7bZojvkhJ-KsA'
+            token: localStorage.getItem('authToken')
         };
         this.handleEdit=this.handleEdit.bind(this);
         this.handleDelete=this.handleDelete.bind(this);
@@ -24,11 +25,18 @@ class Teams extends React.Component{
     componentDidMount(){
         TeamsApi.getAllTeams(this.state.token).then(
             (result)=>{
-                this.setState({
-                    teams: result
-                })
+                if(result.status === "error"){
+                    this.setState({
+                        errorInfo: result.message
+                    }); 
+                }else{
+                    this.setState({
+                        teams: result
+                     })
+                }
             },
             (error)=>{
+                console.log("Error: " + error.message);
                 this.setState({
                     errorInfo: "Problem with connection to server"
                 })

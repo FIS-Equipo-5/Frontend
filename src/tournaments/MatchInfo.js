@@ -18,22 +18,16 @@ function MatchInfo(props) {
 
     return (
 
-        <div>
-            local: {props.match.localTeamName}
-            visitor: {props.match.visitorTeamName}
-            date: {formatDate}
-            score :{score}
-            venue: {props.match.venue_city}
-            <button className="btn btn-primary" onClick={() => props.onCloseInfo()}>Close</button>
-
+        <div className='row justify-content-center align-items-center'>
+            <h6>Local:</h6>{props.match.localTeamName} &nbsp;
+            <h6>visitor:</h6>{props.match.visitorTeamName} &nbsp;
+            <h6>date:</h6> {formatDate} &nbsp;
+            <h6>score:</h6>{score} &nbsp;
+            <h6>venue:</h6> {props.match.venue_city} &nbsp;
+            <button className="btn btn-sm btn-primary" style={{ width: "10%" }} onClick={() => props.onCloseInfo()}>Edit</button>
+            <button className="btn btn-danger btn-sm" style={{ width: "10%" }} onClick={() => props.onCloseInfo()}>Close</button>
+            &nbsp;
         </div>
-
-
-        // <td>
-        //     <ModalComponent type='danger' buttonMessage='delete' header='Delete Match??'
-        //         message='You are about to delete a match, ¿are you sure?' acceptCallback={() => props.onDelete(props.match)} />
-        //     <button className="btn btn-primary" onClick={() => props.onEdit(props.match)}>Edit</button>
-        // </td>
     );
 }
 
