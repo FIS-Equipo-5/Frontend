@@ -13,7 +13,7 @@ class Players extends React.Component {
             errorInfo: null,
             players: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY4MTU3NGVjM2IwMDAwZjdlZDUwYSIsImlhdCI6MTU3ODI4MDY0MCwiZXhwIjoxNTc4Mjg0MjQwfQ.4FDsXZknmjKpCpd3xi5IZPKbOADONjDgGcJPD0ld6TA'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY4MTU3NGVjM2IwMDAwZjdlZDUwYSIsImlhdCI6MTU3ODMzMzU5MiwiZXhwIjoxNTc4MzM3MTkyfQ.zgZSoEYUw_arl_ZLS6kOhMJvu6exMIfPbfQ7wJ1aQwA'
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
@@ -35,12 +35,35 @@ class Players extends React.Component {
     }
 
     handleEdit(player) {
+        player = {...player, 
+            total: player.goals.total,
+            assists: player.goals.assists,
+            yellow: player.cards.yellow,
+            red: player.cards.red
+        }
         this.setState(prevState => ({
             isEditing: {...prevState.isEditing, [player._id]: player}
         }));
     }
 
     handleDelete(player) {
+        PlayersApi.deletePlayer(player._id, this.state.token).then((result) => {
+            PlayersApi.getAllPlayers(this.state.token).then((result) => {
+                this.setState({
+                    players: result
+                });
+            }, 
+            (error) => {
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                });
+            })
+        }, 
+        (error) => {
+            this.setState({
+                errorInfo: "Cannot delete the player, try again"
+            });
+        })
         this.setState(prevState => ({
             players: prevState.players.filter((p) => p._id !== player._id)
         }));
@@ -67,13 +90,25 @@ class Players extends React.Component {
             const isEditing = Object.assign({}, prevState.isEditing);
             delete isEditing[_id];
 
-            const players = prevState.players;
-            const pos = players.findIndex(p => p._id === player._id);
             if(validatePlayer(player)){
-                return{
-                    players : [...players.slice(0, pos), Object.assign({}, player), ...players.slice(pos+1)],
-                    isEditing: isEditing
-                }
+                PlayersApi.putPlayer(player, this.state.token).then((result) => {
+                    PlayersApi.getAllPlayers(this.state.token).then((result) => {
+                        this.setState({
+                            players: result,
+                            isEditing: isEditing
+                        });
+                    }, 
+                    (error) => {
+                        this.setState({
+                            errorInfo: "Problem with connection to server"
+                        });
+                    })
+                }, 
+                (error) => {
+                    this.setState({
+                        errorInfo: "Cannot modify the player, try again"
+                    });
+                })
             } else {
                 return{
                     errorInfo: "Some values are empty"
@@ -92,9 +127,24 @@ class Players extends React.Component {
     addPlayer(player){
         this.setState(prevState => {
             if(validatePlayer(player)){
-                return({
-                    players: [...prevState.players, player]
-                });
+                PlayersApi.postPlayer(player, this.state.token).then((result) => {
+                    PlayersApi.getAllPlayers(this.state.token).then((result) => {
+                        this.setState({
+                            players: result
+                        });
+                    }, 
+                    (error) => {
+                        this.setState({
+                            errorInfo: "Problem with connection to server"
+                        });
+                    })
+                }, 
+                (error) => {
+                    //SI NO
+                    this.setState({
+                        errorInfo: "Cannot create the new player"
+                    });
+                })
             } else {
                 return({
                     errorInfo: 'Some info is empty'

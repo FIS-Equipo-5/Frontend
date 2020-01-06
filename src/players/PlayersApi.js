@@ -48,12 +48,12 @@ class PlayersApi{
                 value: newPlayer.value,
                 team_id: newPlayer.team_id,
                 goals: {
-                    total: newPlayer.goals.total,
-                    assists: newPlayer.goals.assists
+                    total: newPlayer.total,
+                    assists: newPlayer.assists
                 }, 
                 cards: {
-                    yellow: newPlayer.cards.yellow,
-                    red: newPlayer.cards.red
+                    yellow: newPlayer.yellow,
+                    red: newPlayer.red
                 }
               })
         });
@@ -83,12 +83,12 @@ class PlayersApi{
                 value: updatePlayer.value,
                 team_id: updatePlayer.team_id,
                 goals: {
-                    total: updatePlayer.goals.total,
-                    assists: updatePlayer.goals.assists
+                    total: updatePlayer.total,
+                    assists: updatePlayer.assists
                 }, 
                 cards: {
-                    yellow: updatePlayer.cards.yellow,
-                    red: updatePlayer.cards.red
+                    yellow: updatePlayer.yellow,
+                    red: updatePlayer.red
                 }
               })
         });
