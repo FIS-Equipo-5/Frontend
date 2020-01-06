@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from 'react-bootstrap/button'
-import Modal from 'react-bootstrap/modal'
+// import Button from 'react-bootstrap/button'
+// import Modal from 'react-bootstrap/modal'
 
 class ModalComponent extends React.Component {
     constructor(props, context) {
@@ -27,27 +27,27 @@ class ModalComponent extends React.Component {
     }
 
     render() {
-        return (
-            <>
-                <Button variant={this.props.type} onClick={this.handleShow}>
-                    {this.props.buttonMessage}
-                </Button>
+        return (''
+            // <>
+            //     <Button variant={this.props.type} onClick={this.handleShow}>
+            //         {this.props.buttonMessage}
+            //     </Button>
 
-                <Modal show={this.state.show} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.props.header}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>{this.props.message}</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.handleAccept}>
-                            Accept
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </>
+            //     <Modal show={this.state.show} onHide={this.handleClose}>
+            //         <Modal.Header closeButton>
+            //             <Modal.Title>{this.props.header}</Modal.Title>
+            //         </Modal.Header>
+            //         <Modal.Body>{this.props.message}</Modal.Body>
+            //         <Modal.Footer>
+            //             <Button variant="secondary" onClick={this.handleClose}>
+            //                 Close
+            //             </Button>
+            //             <Button variant="primary" onClick={this.handleAccept}>
+            //                 Accept
+            //             </Button>
+            //         </Modal.Footer>
+            //     </Modal>
+            // </>
         );
     }
 }
