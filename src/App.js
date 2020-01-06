@@ -1,58 +1,55 @@
 import React from 'react';
 import Transfers from './transfers/Transfers.js';
 import Players from './players/Players.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Teams from './teams/Teams';
+import Matches from './tournaments/Matches'
+import Authenticate from './auth/Authenticate.js';
+
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
+import Menu from './common/Menu';
+import Footer from './common/Footer'
+
+
 
 function App() {
+  if(localStorage.getItem("authToken") === "undefined" || localStorage.getItem("authToken") === null){
+return (<Authenticate/>);
+  }else{
+    return (
+      <div id="app">
+        <Menu />
+        <div id="transfers">
+          <h2>Transfers </h2>
+          <Transfers />
+        </div>
+        
+        <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
+          <h2>Teams: </h2>
+          <Teams/>
+        </div> 
 
-const players = [{
-  goals: {
-      total: 48,
-      assists: 51
-  },
-  cards: {
-      yellow: 1,
-      red: 0
-  },
-  _id: "5e1094f089977e00b0bd04bc",
-  player_name: "Sergio",
-  firstname: "Ramos",
-  lastname: "Rodriguez",
-  position: "Attacker",
-  nationality: "Spain",
-  value: 7000000,
-  team_id: 1313
-},
-{
-  goals: {
-      total: 48,
-      assists: 51
-  },
-  cards: {
-      yellow: 1,
-      red: 0
-  },
-  _id: "5e1094f089977e00b0bd04bc",
-  player_name: "Sergia",
-  firstname: "Ramas",
-  lastname: "Rodriguaz",
-  position: "Attackar",
-  nationality: "Spaan",
-  value: 7000000,
-  team_id: 1313
-}]
+        <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
+          <h2>Players: </h2>
+          <Players/>
+        </div> 
 
-  return (
-    <div id="app">
-      <h1>Football App</h1>
-      {/* <div id="transfers">
-          <h2>Transfers: </h2>
-          <Transfers/>
-      </div> */}
-      <Players players={players}/>
-    </div>
-  );
+        <div id="tournamentsMS" className="row">
+          <div id="tournamens" className="col-6">
+            <h2>Tournaments </h2>
+            {/* <Tournaments /> */}
+          </div>
+          <div id="matches" className="col-6">
+            <h2>Matches </h2>
+            <Matches />
+          </div>
+        </div>
+        <Footer />
+
+      </div>
+    );
+  }
+
 }
 
 export default App;

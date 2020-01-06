@@ -16,8 +16,8 @@ function Player(props) {
                 <td>{props.player.cards.yellow}</td>
                 <td>{props.player.cards.red}</td>
                 <td>
-                    <button className="btn btn-primary" onClick={() => props.onEdit(props.player)}>Edit</button>
-                    <button className="btn btn-danger" onClick={() => props.onDelete(props.player)}>Delete</button>
+                    <button className="btn btn-primary" onClick={() => props.onEdit(props.player)} style={{width: "42%"}}><i class="fa fa-pencil"></i></button>
+                    <button className="btn btn-danger" onClick={() => props.onDelete(props.player)} style={{width: "42%"}}><i class="fa fa-trash"></i></button>
                 </td>
             </tr>
     );

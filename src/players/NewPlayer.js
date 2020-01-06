@@ -16,7 +16,7 @@ class NewPlayer extends React.Component{
             assists: '', 
             yellow: '', 
             red: '',
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY4MTU3NGVjM2IwMDAwZjdlZDUwYSIsImlhdCI6MTU3ODMzMzU5MiwiZXhwIjoxNTc4MzM3MTkyfQ.zgZSoEYUw_arl_ZLS6kOhMJvu6exMIfPbfQ7wJ1aQwA'
+            token: localStorage.getItem('authToken')
         };
         this.changePlayer = this.changePlayer.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
@@ -75,7 +75,7 @@ class NewPlayer extends React.Component{
                 <td><input className="form-control" name="assists" value={this.state.assists} onChange={this.changePlayer}/></td>
                 <td><input className="form-control" name="yellow" value={this.state.yellow} onChange={this.changePlayer}/></td>
                 <td><input className="form-control" name="red" value={this.state.red} onChange={this.changePlayer}/></td>
-                <td><button className="btn btn-success" onClick={this.clickAdd}>Add</button></td>
+                <td><button className="btn btn-success" onClick={this.clickAdd}>Add Player</button></td>
             </tr>
         );
     }

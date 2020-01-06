@@ -13,7 +13,7 @@ class Players extends React.Component {
             errorInfo: null,
             players: [],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY4MTU3NGVjM2IwMDAwZjdlZDUwYSIsImlhdCI6MTU3ODMzMzU5MiwiZXhwIjoxNTc4MzM3MTkyfQ.zgZSoEYUw_arl_ZLS6kOhMJvu6exMIfPbfQ7wJ1aQwA'
+            token: localStorage.getItem('authToken')
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);

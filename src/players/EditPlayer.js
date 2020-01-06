@@ -20,8 +20,8 @@ function EditPlayer(props){
                 <td><input className="form-control" name="yellow" value={props.player.yellow} onChange={handleChange}/></td>
                 <td><input className="form-control" name="red" value={props.player.red} onChange={handleChange}/></td>
                 <td>
-                    <button className="btn btn-success" onClick={() => props.onSave(props.player)}>Save</button>
-                    <button className="btn btn-danger" onClick={() => props.onCancel(props.player)}>Cancel</button>
+                    <button className="btn btn-success" onClick={() => props.onSave(props.player)} style={{width: "42%"}}><i class="fa fa-save"/></button>
+                    <button className="btn btn-danger" onClick={() => props.onCancel(props.player)} style={{width: "42%"}}><i class="fa fa-close"/></button>
                 </td>
         </tr>
     );
