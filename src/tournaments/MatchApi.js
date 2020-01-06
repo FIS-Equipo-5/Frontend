@@ -1,7 +1,7 @@
 class MatchsApi {
 
     static API_BASE_URL = "/api/v1"
-    
+
 
     static requestHeader() {
         return {}
@@ -19,10 +19,10 @@ class MatchsApi {
             return response.json();
         });
     }
-    
 
-    static getMatchById(token) {
-        const request = new Request(MatchsApi.API_BASE_URL + "/matches", {
+
+    static getMatchById(token, match_id) {
+        const request = new Request(MatchsApi.API_BASE_URL + "/match/" + match_id, {
             method: 'GET',
             headers: {
                 'x-access-token': token,
