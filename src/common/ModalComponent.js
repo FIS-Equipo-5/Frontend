@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from 'react-bootstrap/button'
-import Modal from 'react-bootstrap/modal'
+import Button from 'react-bootstrap-buttons'
+import Modal from 'react-bootstrap-modal'
 
 class ModalComponent extends React.Component {
     constructor(props, context) {
