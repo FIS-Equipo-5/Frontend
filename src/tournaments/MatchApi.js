@@ -16,8 +16,6 @@ class MatchsApi {
         });
 
         return fetch(request).then(response => {
-            // console.log('fetch all '+ response.json())
-
             return response.json();
         });
     }
