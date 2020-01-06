@@ -1,6 +1,6 @@
 import React from 'react';
 import Transfers from './transfers/Transfers.js';
-import Teams from './teams/Teams';
+import MSTeams from './teams/MSTeams';
 import Matches from './tournaments/Matches'
 import Authenticate from './auth/Authenticate.js';
 
@@ -23,9 +23,9 @@ return (<Authenticate/>);
           <Transfers />
         </div>
         
+        
         <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
-          <h2>Teams: </h2>
-          <Teams/>
+          <MSTeams/>
         </div> 
 
         <div id="tournamentsMS" className="row">

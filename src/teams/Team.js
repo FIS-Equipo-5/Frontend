@@ -10,12 +10,12 @@ function Team(props){
             <td>{props.team.country}</td>
             <td>{props.team.founded}</td>
             <td>{props.team.venue_name}</td>
-            <td>{props.team.venue_surface}</td>
+            {/* <td>{props.team.venue_surface}</td>
             <td>{props.team.venue_address}</td>
             <td>{props.team.venue_city}</td>
             <td>{props.team.venue_capacity}</td>
             <td>{props.team.budget}</td>
-            <td>{props.team.value}</td>
+            <td>{props.team.value}</td> */}
 
             <td>
                 <div class="row">

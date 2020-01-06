@@ -9,8 +9,8 @@ function EditTeam(props){
     return(
         
         <tr>
-            <td><input className="form-control" name="name" value={props.team.name} onChange={handleChange}/></td>
-            <td><input className="form-control" name="code" value={props.team.code} onChange={handleChange}/></td>
+            <td><input className="form-control" name="name" value={props.team.name} disabled/></td>
+            <td><input className="form-control" name="code" value={props.team.code} disabled/></td>
             <td><input className="form-control" name="logo" value={props.team.logo} onChange={handleChange}/></td>
             <td><input className="form-control" name="country" value={props.team.country} onChange={handleChange}/></td>
             <td><input className="form-control" name="founded" value={props.team.founded} onChange={handleChange}/></td>
