@@ -22,20 +22,20 @@ class Authenticate extends React.Component {
   
 
             <form onSubmit={this.handleSubmit}>
-                <div class="box">
+                <div className="box">
                 <h1>Login</h1>
                
                     <div>
-                    <label for="email">Enter your email</label>
-                    <input id="email" name="email" type="email" class="email"/>
+                    <label htmlFor="email">Enter your email</label>
+                    <input id="email" name="email" type="email" className="email"/>
                     </div>
 
                     <div>
-                    <label for="password">Enter your password</label>
-                    <input id="password" name="password" type="password" class="password"/>
+                    <label htmlFor="password">Enter your password</label>
+                    <input id="password" name="password" type="password" className="password"/>
                     </div>
 
-                    <div class="btn"><button>Login</button></div>
+                    <div className="btn"><button>Login</button></div>
                     </div>
             </form>
 

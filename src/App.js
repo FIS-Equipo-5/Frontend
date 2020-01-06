@@ -13,8 +13,6 @@ function App() {
   if(localStorage.getItem("authToken") == "undefined" || localStorage.getItem("authToken") == null){
 return (<Authenticate/>);
   }else{
-  console.log('token',localStorage.getItem("authToken"));
-
     return (
       <div id="app">
         <Menu />

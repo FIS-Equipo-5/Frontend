@@ -22,9 +22,9 @@ class AuthApi {
             })
         });
 
-        return fetch(request).then(response => {
-            console.log('response', response);
-            localStorage.setItem('authToken', response.body.data.token);
+        return fetch(request).then(response => response.json()).then(data => {
+            localStorage.setItem('authToken', data.data.token);
+            localStorage.setItem('userName', data.data.user.name);
             window.location.reload(false);
         }).catch(error => {
             return error;
@@ -51,6 +51,13 @@ class AuthApi {
         }).catch(error => {
             return error;
         });
+    }
+
+    static logout(){
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userName');
+        window.location.href = "/";
+
     }
 
 }
