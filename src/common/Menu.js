@@ -2,8 +2,14 @@ import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import AuthApi from '../auth/AuthApi';
 
 class Menu extends React.Component {
+
+    handleClick(event) {
+    event.preventDefault();
+    AuthApi.logout();    
+    }
 
     render() {
 
@@ -21,10 +27,10 @@ class Menu extends React.Component {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="#deets">Log in</Nav.Link>
                         <Nav.Link eventKey={2} href="#memes">
-                           user name
+                           {localStorage.getItem('userName')}
                         </Nav.Link>
+                        <Nav.Link href="#deets" onClick={this.handleClick.bind(this)}>Log Out</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
