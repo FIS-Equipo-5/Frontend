@@ -3,6 +3,7 @@ import Player from './Player.js';
 import Alert from '../Alert.js';
 import NewPlayer from './NewPlayer.js';
 import EditPlayer from './EditPlayer.js';
+import PlayersApi from './PlayersApi.js';
 
 class Players extends React.Component {
 
@@ -10,13 +11,27 @@ class Players extends React.Component {
         super(props);
         this.state = {
             errorInfo: null,
-            players: this.props.players,
-            isEditing: {}
+            players: [],
+            isEditing: {},
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGY4MTU3NGVjM2IwMDAwZjdlZDUwYSIsImlhdCI6MTU3ODI4MDY0MCwiZXhwIjoxNTc4Mjg0MjQwfQ.4FDsXZknmjKpCpd3xi5IZPKbOADONjDgGcJPD0ld6TA'
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handeCloseError = this.handeCloseError.bind(this);
         this.addPlayer = this.addPlayer.bind(this);
+    }
+
+    componentDidMount() {
+        PlayersApi.getAllPlayers(this.state.token).then((result) => {
+            this.setState({
+                players: result
+            });
+        }, 
+        (error) => {
+            this.setState({
+                errorInfo: "Problem with connection to server"
+            });
+        })
     }
 
     handleEdit(player) {
