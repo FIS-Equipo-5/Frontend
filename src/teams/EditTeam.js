@@ -24,8 +24,8 @@ function EditTeam(props){
 
             <td>
                 <div class="row">
-                    <button className="btn btn-primary btn-sm" onClick={() => props.onSave(props.team)}><i class="fa fa-save"></i></button>
-                    <button className="btn btn-danger btn-sm" onClick={() => props.onCancel(props.team)}><i class="fa fa-close"></i></button>
+                    <button className="btn btn-primary btn-sm" onClick={() => props.onSave(props.team)} style={{width: "30%"}}><i class="fa fa-save"></i></button>
+                    <button className="btn btn-danger btn-sm" onClick={() => props.onCancel(props.team)} style={{width: "30%"}}><i class="fa fa-close"></i></button>
                 </div>
             </td>
         </tr>
