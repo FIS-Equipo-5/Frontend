@@ -1,7 +1,9 @@
 import React from 'react';
 import Transfers from './transfers/Transfers.js';
+import Teams from './teams/Teams';
 import Matches from './tournaments/Matches'
 import Authenticate from './auth/Authenticate.js';
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import Menu from './common/Menu';
@@ -20,7 +22,11 @@ return (<Authenticate/>);
           <h2>Transfers </h2>
           <Transfers />
         </div>
-
+        
+        <div id="teams">
+          <h2>Teams: </h2>
+          <Teams/>
+        </div> 
 
         <div id="tournamentsMS" className="row">
           <div id="tournamens" className="col-6">
@@ -37,6 +43,7 @@ return (<Authenticate/>);
       </div>
     );
   }
+
 }
 
 export default App;

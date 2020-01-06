@@ -9,38 +9,23 @@ class Matches extends React.Component {
         super(props);
         this.state = {
             errorInfo: null,
-            matches: [],
+            matches: props.matches ? props.matches : [],
+            currentPage: 1,
+            totalPages: 1,
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUwMjE3NmM2ZWYxMDAwZmRiMjY5OCIsImlhdCI6MTU3ODI0MzY3MiwiZXhwIjoxNTc4MjQ3MjcyfQ.ikUJgC5BwIBkGopIJEXqQOO4v2btIqRHKju034bnVCs'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUwMjE3NmM2ZWYxMDAwZmRiMjY5OCIsImlhdCI6MTU3ODI2Nzg4NSwiZXhwIjoxNTc4MjcxNDg1fQ.JpP0x2q7LTkmbEp9OhiDHvGVJLWPNTTMvU8qzXqztTo'
         }
 
         this.handleEdit = this.handleEdit.bind(this);
         this.handleCloseError = this.handleCloseError.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-        this.matches = []
-        this.getAllMatches();
+        // this.getAllMatches = this.getAllMatches.bind(this);
+        this.totalPages = 1;
     }
 
 
     componentDidMount() {
-        MatchApi.getAllMatches(this.state.token)
-            .then(
-                (result) => {
-                    if (result.status === "error") {
-                        this.setState({
-                            matches: [],
-                            errorInfo: result.message
-                        })
-                    } else {
-                        this.setState({ matches: result })
-                    }
-                },
-                (error) => {
-                    this.setState({
-                        errorInfo: "Problem with connection to server"
-                    })
-                }
-            );
+        this.getAllMatches(0);
     }
 
     handleEdit(match) {
@@ -116,40 +101,40 @@ class Matches extends React.Component {
         }
 
         try {
-            let allMatches = await MatchApi.getAllMatches(this.state.token);
-            this.setState({
-                matches: allMatches
-            }
-            )
+            this.getAllMatches(0);
         } catch (err) {
             this.setState({
                 errorInfo: "Problem with connection to server"
             })
         }
-
     }
 
-    getAllMatches() {
-        MatchApi.getAllMatches(this.state.token)
+    getAllMatches(type) {
+        let currentPage = this.state.currentPage + type;
+
+        MatchApi.getAllMatches(this.state.token, currentPage)
             .then(
                 (result) => {
                     if (result.status === "error") {
                         this.setState({
-                            errorInfo: "Problem with connection to server",
+                            errorInfo: "Problem with connection to server: " + result.message,
                         })
-                        this.matches = []
+                        this.setState({ matches: [] });
                     } else {
-                        this.matches = result
+                        this.setState({
+                            matches: result.matches,
+                            totalPages: result.totalPages,
+                            currentPage: currentPage
+                        });
                     }
                 }
                 , (error) => {
                     this.setState({
                         errorInfo: "Problem with connection to server",
                     })
-                    this.matches = []
+                    this.setState({ matches: [] });
                 }
             );
-
     }
 
     render() {
@@ -157,7 +142,7 @@ class Matches extends React.Component {
         return (
             <div>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
-                <table className="table">
+                <table className="table" align='center'>
                     <thead>
                         <tr>
                             <th>Local</th>
@@ -167,22 +152,26 @@ class Matches extends React.Component {
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    
-                        <tbody>
-                            {/* <Match match={this.matches} token={this.state.token}></Match> */}
-                            {this.state.matches.map((match) =>
-                                // !this.state.isEditing[transfer._id] ?
-                                <Match key={match._id} match={match} onEdit={this.handleEdit} onDelete={this.handleDelete} />
-                                // :
-                                // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
-                                //     teams={this.teams} players={this.players}
-                                //     onCancel={this.handleCancel.bind(this, transfer._id)}
-                                //     onChange={this.handleChange.bind(this, transfer._id)}
-                                //     onSave={this.handleSave.bind(this, transfer._id)}></EditTransfer>
-                            )}
-                        </tbody>
 
+                    <tbody>
+                        {/* <Match match={this.matches} token={this.state.token}></Match> */}
+                        {this.state.matches.map((match) =>
+                            // !this.state.isEditing[transfer._id] ?
+                            <Match key={match._id} match={match} onEdit={this.handleEdit} onDelete={this.handleDelete} />
+                            // :
+                            // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
+                            //     teams={this.teams} players={this.players}
+                            //     onCancel={this.handleCancel.bind(this, transfer._id)}
+                            //     onChange={this.handleChange.bind(this, transfer._id)}
+                            //     onSave={this.handleSave.bind(this, transfer._id)}></EditTransfer>
+                        )}
+                    </tbody>
                 </table>
+                <div className='row h-100 justify-content-center align-items-center'>
+                    <button className="btn btn-outline-dark" disabled={this.state.currentPage <= 1} onClick={() => this.getAllMatches(-1)}>Previous</button>
+                    <span style={{ padding: '0 0 0 15px' }}> Page: {this.state.currentPage} of {this.state.totalPages}</span>
+                    <button className="btn btn-outline-dark" disabled={this.state.currentPage >= this.state.totalPages} onClick={() => this.getAllMatches(1)}>Next</button>
+                </div>
             </div>
 
         );
