@@ -2,10 +2,11 @@ import React from 'react';
 
 function Team(props){
     return(
+        
         <tr>
             <td>{props.team.name}</td>
             <td>{props.team.code}</td>
-            <td><a href={props.team.logo}>{props.team.logo}</a></td>
+            <td><a href={props.team.logo}>{props.team.name}</a></td>
             <td>{props.team.country}</td>
             <td>{props.team.founded}</td>
             <td>{props.team.venue_name}</td>
@@ -17,8 +18,10 @@ function Team(props){
             <td>{props.team.value}</td>
 
             <td>
-                <button className="btn btn-info" onClick={()=>props.onEdit(props.team)}>Edit</button>
-                <button className="btn btn-danger" onClick={()=>props.onDelete(props.team)}>Delete</button>
+                <div class="row">
+                    <button className="btn btn-info btn-sm" onClick={()=>props.onEdit(props.team)}><i class="fa fa-pencil"></i></button>
+                    <button className="btn btn-danger btn-sm" onClick={()=>props.onDelete(props.team)}><i class="fa fa-trash"></i></button>
+                </div>
             </td>
         </tr>
     );

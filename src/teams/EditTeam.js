@@ -23,8 +23,10 @@ function EditTeam(props){
             <td><input className="form-control" name="value" value={props.team.value} onChange={handleChange}/></td>
 
             <td>
-                <button className="btn btn-primary" onClick={() => props.onSave(props.team)}>Save</button>
-                <button className="btn btn-danger" onClick={() => props.onCancel(props.team)}>Cancel</button>
+                <div class="row">
+                    <button className="btn btn-primary btn-sm" onClick={() => props.onSave(props.team)}><i class="fa fa-save"></i></button>
+                    <button className="btn btn-danger btn-sm" onClick={() => props.onCancel(props.team)}><i class="fa fa-close"></i></button>
+                </div>
             </td>
         </tr>
 

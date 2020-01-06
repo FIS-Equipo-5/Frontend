@@ -12,7 +12,7 @@ class Teams extends React.Component{
             errorInfo:null,
             teams:[],
             isEditing: {},
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUyMzVjOWRmYzRkMDAwZmRiMDdiOCIsImlhdCI6MTU3ODI0Nzc2OSwiZXhwIjoxNTc4MjUxMzY5fQ.B5pyAf8U-MocdtLUIXf663OXjVQv38prckli5Hr2mgk'
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMGUyMzVjOWRmYzRkMDAwZmRiMDdiOCIsImlhdCI6MTU3ODMwNzEzMSwiZXhwIjoxNTc4MzEwNzMxfQ.1d3eCRVNanTwM1SzSozX5NIcASyBJr7bZojvkhJ-KsA'
         };
         this.handleEdit=this.handleEdit.bind(this);
         this.handleDelete=this.handleDelete.bind(this);
