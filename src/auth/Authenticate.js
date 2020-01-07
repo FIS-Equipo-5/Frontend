@@ -25,7 +25,7 @@ class Authenticate extends React.Component {
                 <div className="box">
                 <h1>Login</h1>
                
-                    <div>
+                    <div className="authBody">
                     <label htmlFor="email">Enter your email</label>
                     <input id="email" name="email" type="email" className="email"/>
                     </div>
