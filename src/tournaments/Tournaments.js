@@ -17,7 +17,10 @@ class Tournaments extends React.Component {
             isEditing: {},
             token: localStorage.getItem("authToken")
         }
-
+        console.log('props:'+ JSON.stringify(this.props));
+        this.var = props.selectedTournamentCB;
+        this.var = this.var.bind(this);
+        console.log('this var: '+ this.var);
         // this.handleEdit = this.handleEdit.bind(this);
         // this.handleCloseError = this.handleCloseError.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
@@ -147,12 +150,15 @@ class Tournaments extends React.Component {
             );
     }
 
+    
+
     render() {
         // if (this.state.matchSelected) {
         //     return <MatchInfo key={this.state.matchSelected._id} match={this.state.matchSelected}
         //         onCloseInfo={this.handleCloseInfo}
         //         onEdit={this.handleEdit} onDelete={this.handleDelete} />
         // } else {
+            console.log('this.props.handleSelect: '+ this.props.handleSelect);
             return (
                 <div>
                     <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
@@ -174,7 +180,7 @@ class Tournaments extends React.Component {
                                 {this.state.tournaments.map((tournament) =>
                                     
                                     // !this.state.isEditing[transfer._id] ?
-                                    <Tournament key={tournament._id} tournament={tournament} onDelete={this.handleDelete} onClick={() =>{}}/>
+                                    <Tournament key={tournament._id} tournament={tournament} onDelete={this.handleDelete} onSelect={this.var}/>
                                     // :
                                     // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
                                     //     teams={this.teams} players={this.players}

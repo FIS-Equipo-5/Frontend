@@ -82,6 +82,35 @@ class Matches extends React.Component {
 
     }
 
+    handleGetByTournament(selectedTournament, type) {
+        let currentPage = this.state.currentPage + type;
+
+        MatchApi.getMatchesByTournament(this.state.token, selectedTournament, currentPage)
+            .then(
+                (result) => {
+                    if (result.status === "error") {
+                        this.setState({
+                            errorInfo: "Problem with connection to server: " + result.message,
+                        })
+                        this.setState({ matchSelected: null });
+                    } else {
+                        this.setState({
+                            matches: result.matches,
+                            totalPages: result.totalPages,
+                            currentPage: currentPage
+                        });
+                    }
+                }
+                , (error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server",
+                    })
+                    this.setState({ matches: [] });
+                }
+            );
+
+    }
+
     handleCloseInfo() {
         this.setState({ matchSelected: null });
     }
@@ -140,34 +169,43 @@ class Matches extends React.Component {
     }
 
     getAllMatches(type) {
-        let currentPage = this.state.currentPage + type;
 
-        MatchApi.getAllMatches(this.state.token, currentPage)
-            .then(
-                (result) => {
-                    if (result.status === "error") {
+        if (this.props.selectedTournament && !this.state.matchSelected) {
+            console.log('changed');
+            this.handleGetByTournament(this.props.selectedTournament, 0);
+        } else {
+
+            let currentPage = this.state.currentPage + type;
+
+            MatchApi.getAllMatches(this.state.token, currentPage)
+                .then(
+                    (result) => {
+                        if (result.status === "error") {
+                            this.setState({
+                                errorInfo: "Problem with connection to server: " + result.message,
+                            })
+                            this.setState({ matches: [] });
+                        } else {
+                            this.setState({
+                                matches: result.matches,
+                                totalPages: result.totalPages,
+                                currentPage: currentPage
+                            });
+                        }
+                    }
+                    , (error) => {
                         this.setState({
-                            errorInfo: "Problem with connection to server: " + result.message,
+                            errorInfo: "Problem with connection to server",
                         })
                         this.setState({ matches: [] });
-                    } else {
-                        this.setState({
-                            matches: result.matches,
-                            totalPages: result.totalPages,
-                            currentPage: currentPage
-                        });
                     }
-                }
-                , (error) => {
-                    this.setState({
-                        errorInfo: "Problem with connection to server",
-                    })
-                    this.setState({ matches: [] });
-                }
-            );
+                );
+        }
+
     }
 
     render() {
+
         if (this.state.matchSelected) {
             return <MatchInfo key={this.state.matchSelected._id} match={this.state.matchSelected}
                 onCloseInfo={this.handleCloseInfo}

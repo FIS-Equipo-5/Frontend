@@ -33,6 +33,19 @@ class MatchsApi {
         });
     }
 
+    static getMatchesByTournament(token, tournament_id, currentPage) {
+        const request = new Request(MatchsApi.API_BASE_URL + `/matches/${tournament_id}?page=${currentPage}`, {
+            method: 'GET',
+            headers: {
+                'x-access-token': token,
+            }
+        });
+
+        return fetch(request).then(response => {
+            return response.json();
+        });
+    }
+
     static putMatchById(updateMatch, token) {
         const request = new Request(MatchsApi.API_BASE_URL + "/match/" + updateMatch._id, {
             method: 'PUT',

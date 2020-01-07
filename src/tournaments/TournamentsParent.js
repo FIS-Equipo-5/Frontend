@@ -13,11 +13,15 @@ class TournamentsParent extends React.Component {
             selectedTournament: null,
             token: localStorage.getItem("authToken")
         }
-        this.totalPages = 1;
+        this.handleSelectTournament = this.handleSelectTournament.bind(this);
+
     }
 
     componentDidMount() {
         // this.getAllMatches(0);
+    }
+    handleSelectTournament(tournamentId) {
+        this.setState({ selectedTournament: tournamentId });
     }
 
     render() {
@@ -25,7 +29,7 @@ class TournamentsParent extends React.Component {
             <div id="tournamentsMS" className="row">
                 <div id="tournamens" className="col-6">
                     <h2>Tournaments </h2>
-                    <Tournaments selectedTournament={this.state.selectedTournament} />
+                    <Tournaments selectedTournamentCB={this.handleSelectTournament} />
                 </div>
                 <div id="matches" className="col-6">
                     <h2>Matches </h2>

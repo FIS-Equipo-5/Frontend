@@ -11,12 +11,14 @@ function Tournament(props) {
     enddate = enddate.substring(8, 10) + "/"
         + enddate.substring(5, 7) + "/"
         + enddate.substring(0, 4)
+
     return (
         <tr>
             <td>{props.tournament.name}</td>
             <td>{startdate}</td>
             <td>{enddate}</td>
             <button className="btn btn-danger" onClick={() => props.onDelete(props.tournament)}>Delete</button>
+            <button className="btn btn-primary" onClick={() => props.onSelect(props.tournament._id)}>View Matches</button>
         </tr>
     );
 }
