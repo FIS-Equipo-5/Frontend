@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalComponent from '../common/ModalComponent'
+// import ModalComponent from '../common/ModalComponent'
 
 function Tournament(props) {
 

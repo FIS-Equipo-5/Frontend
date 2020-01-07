@@ -174,7 +174,7 @@ class Tournaments extends React.Component {
                                 {this.state.tournaments.map((tournament) =>
                                     
                                     // !this.state.isEditing[transfer._id] ?
-                                    <Tournament key={tournament._id} tournament={tournament} />
+                                    <Tournament key={tournament._id} tournament={tournament} onClick={() => this.getAllMatches(-1)}/>
                                     // :
                                     // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
                                     //     teams={this.teams} players={this.players}
