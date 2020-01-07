@@ -14,7 +14,13 @@ function EditPlayer(props){
                 <td><input className="form-control" name="position" value={props.player.position} onChange={handleChange}/></td>
                 <td><input className="form-control" name="nationality" value={props.player.nationality} onChange={handleChange}/></td>
                 <td><input className="form-control" name="value" value={props.player.value} onChange={handleChange}/></td>
-                <td><input className="form-control" name="team_id" value={props.player.team_id} onChange={handleChange}/></td>
+                <td>
+                    <select className="form-control" name="team_id" value={props.player.team_id} onChange={handleChange}>
+                        {props.teams.map(team =>
+                            <option key={team.team_id} value={team.team_id}>{team.name}</option>
+                        )};
+                    </select>
+                </td>
                 <td><input className="form-control" name="total" value={props.player.total} onChange={handleChange}/></td>
                 <td><input className="form-control" name="assists" value={props.player.assists} onChange={handleChange}/></td>
                 <td><input className="form-control" name="yellow" value={props.player.yellow} onChange={handleChange}/></td>
