@@ -3,6 +3,7 @@ import Transfers from './transfers/Transfers.js';
 import Players from './players/Players.js';
 import Teams from './teams/Teams';
 import Matches from './tournaments/Matches'
+import Tournaments from './tournaments/Tournaments'
 import Authenticate from './auth/Authenticate.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -37,7 +38,7 @@ return (<Authenticate/>);
         <div id="tournamentsMS" className="row">
           <div id="tournamens" className="col-6">
             <h2>Tournaments </h2>
-            {/* <Tournaments /> */}
+            <Tournaments />
           </div>
           <div id="matches" className="col-6">
             <h2>Matches </h2>

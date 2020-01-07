@@ -43,17 +43,17 @@ class Tournaments extends React.Component {
                 })
             }
     
-            // try{
-            //     let allTournaments = this.getAllTournaments(0);
-            //     this.setState({
-            //         tournaments: allTournaments
-            //         }
-            //     )
-            // }catch (err){
-            //     this.setState({
-            //         errorInfo: "Problem with connection to server"
-            //     })
-            // }
+            try{
+                let allTournaments = this.getAllTournaments(0);
+                // this.setState({
+                //     tournaments: allTournaments
+                //     }
+                // )
+            }catch (err){
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
         }
 
     }
