@@ -60,7 +60,26 @@ class Matches extends React.Component {
     }
 
     handleOpenInfo(match) {
-        this.setState({ matchSelected: match });
+        MatchApi.getMatchById(this.state.token, match._id)
+            .then(
+                (result) => {
+                    if (result.status === "error") {
+                        this.setState({
+                            errorInfo: "Problem with connection to server: " + result.message,
+                        })
+                        this.setState({ matchSelected: null });
+                    } else {
+                        this.setState({ matchSelected: result });
+                    }
+                }
+                , (error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server",
+                    })
+                    this.setState({ matchSelected: null });
+                }
+            );
+
     }
 
     handleCloseInfo() {

@@ -20,7 +20,7 @@ class NewPlayer extends React.Component{
         };
         this.changePlayer = this.changePlayer.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
-        this.teams = []
+         this.teams = [];
     }
 
     componentDidMount(){
