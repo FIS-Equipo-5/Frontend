@@ -3,6 +3,7 @@ import Alert from '../Alert.js';
 import TournamentApi from './TournamentApi'
 import Tournament from './Tournament'
 import { registerLocale } from 'react-datepicker';
+import NewTournament from './NewTournament.js';
 
 class Tournaments extends React.Component {
 
@@ -23,6 +24,38 @@ class Tournaments extends React.Component {
         // this.handleOpenInfo = this.handleOpenInfo.bind(this);
         // this.handleCloseInfo = this.handleCloseInfo.bind(this);
         // this.totalPages = 1;
+        this.onAddTournament = this.addTournament.bind(this);
+    }
+
+
+    async addTournament(tournament){
+        if(tournament.name==="" || tournament.startDate==="" || tournament.endDate===""  ){
+            this.setState({
+                errorInfo: "You must write all the tournament fields"
+            })
+        
+        }else{
+            try{
+                await TournamentApi.postTournament(tournament, this.state.token)
+            }catch(err){
+                this.setState({
+                    errorInfo: "Failed when inserting the new transfer!"
+                })
+            }
+    
+            // try{
+            //     let allTournaments = this.getAllTournaments(0);
+            //     this.setState({
+            //         tournaments: allTournaments
+            //         }
+            //     )
+            // }catch (err){
+            //     this.setState({
+            //         errorInfo: "Problem with connection to server"
+            //     })
+            // }
+        }
+
     }
 
 
@@ -65,40 +98,6 @@ class Tournaments extends React.Component {
 
     handleCloseInfo() {
         this.setState({ matchSelected: null });
-    }
-
-    async handleSave(_id, match) {
-        // // if (transfer.contract_years === "" || transfer.cost === "") {
-        // //     this.setState({
-        // //         errorInfo: "You must write the cost and the contract years"
-        // //     })
-
-        // // } else {
-        // try {
-        //     await TournamentApi.putMatchById(match, this.state.token)
-        //     const isEditing = Object.assign({}, this.state.isEditing);
-        //     delete isEditing[_id];
-        //     this.setState({
-        //         isEditing: isEditing
-        //     })
-        // } catch (err) {
-        //     this.setState({
-        //         errorInfo: "Failed when updating the transfer!"
-        //     })
-        // }
-
-        // try {
-        //     let allMatches = await TournamentApi.getAllMatches(this.state.token);
-        //     this.setState({
-        //         transfers: allTransfers
-        //     }
-        //     )
-        // } catch (err) {
-        //     this.setState({
-        //         errorInfo: "Problem with connection to server"
-        //     })
-        // }
-        // // }
     }
 
     async handleDelete(match) {
@@ -170,6 +169,7 @@ class Tournaments extends React.Component {
                             </thead>
 
                             <tbody>
+                            <NewTournament onAddTournament={this.onAddTournament} token={this.state.token}/>
                                 {/* <Match match={this.matches} token={this.state.token}></Match>*/}
                                 {this.state.tournaments.map((tournament) =>
                                     
