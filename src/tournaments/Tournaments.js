@@ -20,7 +20,7 @@ class Tournaments extends React.Component {
 
         // this.handleEdit = this.handleEdit.bind(this);
         // this.handleCloseError = this.handleCloseError.bind(this);
-        // this.handleDelete = this.handleDelete.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         // this.handleOpenInfo = this.handleOpenInfo.bind(this);
         // this.handleCloseInfo = this.handleCloseInfo.bind(this);
         // this.totalPages = 1;
@@ -100,10 +100,10 @@ class Tournaments extends React.Component {
         this.setState({ matchSelected: null });
     }
 
-    async handleDelete(match) {
+    async handleDelete(tournament) {
 
         try {
-            await TournamentApi.deleteMatch(match._id, this.state.token);
+            await TournamentApi.deleteTournament(tournament._id, this.state.token);
         } catch (err) {
             this.setState({
                 errorInfo: "Failed when deleting the match!"
@@ -111,7 +111,7 @@ class Tournaments extends React.Component {
         }
 
         try {
-            this.getAllMatches(0);
+            this.getAllTournaments(0);
         } catch (err) {
             this.setState({
                 errorInfo: "Problem with connection to server"
@@ -174,7 +174,7 @@ class Tournaments extends React.Component {
                                 {this.state.tournaments.map((tournament) =>
                                     
                                     // !this.state.isEditing[transfer._id] ?
-                                    <Tournament key={tournament._id} tournament={tournament} />
+                                    <Tournament key={tournament._id} tournament={tournament} onDelete={this.handleDelete}/>
                                     // :
                                     // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
                                     //     teams={this.teams} players={this.players}

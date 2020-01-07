@@ -16,6 +16,7 @@ function Tournament(props) {
             <td>{props.tournament.name}</td>
             <td>{startdate}</td>
             <td>{enddate}</td>
+            <button className="btn btn-danger" onClick={() => props.onDelete(props.tournament)}>Delete</button>
         </tr>
     );
 }
