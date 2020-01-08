@@ -33,7 +33,7 @@ class Authenticate extends React.Component {
                     </form>
 
                     <div id="formFooter">
-                        <a class="underlineHover" href="#">Forgot Password?</a>
+                        <a class="underlineHover" href="#">Sign up now!</a>
                     </div>
                 </div>
             </div>
