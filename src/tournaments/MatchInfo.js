@@ -11,12 +11,14 @@ class MatchInfo extends React.Component {
         super(props);
         this.state = {
             visible: false,
-            teams: []
+            teams: [],
+            token: localStorage.getItem("authToken")
         }
         this.stats = props.match.stats;
         if (typeof this.stats === 'undefined') {
             this.stats = { localScore: "0", visitorScore: "0" }
         }
+        
         this.score = this.stats.localScore + ' - ' + this.stats.visitorScore;
         this.date = props.match.matchDate;
         this.formatDate = this.date.substring(8, 10) + "/"
@@ -25,6 +27,7 @@ class MatchInfo extends React.Component {
 
         this.weather = '';
         this.icon = '';
+       
         if (props.match.weather === 'no weather data') {
             this.weather = props.match.weather;
         } else {
@@ -40,10 +43,15 @@ class MatchInfo extends React.Component {
         // this.totalPages = 1;
     }
 
+    // componentDidMount(){
+    //     this.getTeams();
+    // }
+
     openModal() {
         this.setState({
             visible: true
         });
+        this.getTeams();
     }
 
     closeModal() {
