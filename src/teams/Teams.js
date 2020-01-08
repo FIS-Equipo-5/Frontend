@@ -136,11 +136,14 @@ class Teams extends React.Component{
                 try{
                     TeamsApi.getAllTeams(this.state.token).then((result)=>{
                         team.team_id = result.length + 1;
+                        team.name = team.name.trim();
                         TeamsApi.addNewTeam(team, this.state.token).then(()=>{
                             TeamsApi.getAllTeams(this.state.token).then((allTeams)=>{
                                 this.setState({
                                     teams: allTeams
                                 });
+                                this.closeModal();
+                                return;
                             });
                         });
                     });
@@ -196,7 +199,7 @@ class Teams extends React.Component{
                     </div>
                 </Modal>
                 
-                <h2>Teams: </h2>
+                <h2>Teams</h2>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
                 <table className="table">
                     <thead>

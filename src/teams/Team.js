@@ -6,7 +6,7 @@ function Team(props){
         <tr>
             <td>{props.team.name}</td>
             <td>{props.team.code}</td>
-            <td><a href={props.team.logo}>{props.team.name}</a></td>
+            <td><img src={props.team.logo} alt="Logo" style={{width:"30px", height:"30px"}}/></td>
             <td>{props.team.country}</td>
             <td>{props.team.founded}</td>
             <td>{props.team.venue_name}</td>
