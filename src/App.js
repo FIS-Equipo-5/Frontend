@@ -29,7 +29,7 @@ return (<Authenticate/>);
           <Teams/>
         </div> 
 
-        <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
+        <div id="players" style={{marginBottom: "5%", marginTop: "5%"}}>
           <h2>Players: </h2>
           <Players/>
         </div> 
