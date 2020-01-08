@@ -1,6 +1,4 @@
 import React from 'react';
-import TeamsApi from '../teams/TeamsApi.js';
-import PlayersApi from '../players/PlayersApi.js';
 
 class NewTransfer extends React.Component {
 
@@ -13,54 +11,21 @@ class NewTransfer extends React.Component {
             transfer_date: '', 
             contract_years: '', 
             cost: '', 
-            player_id: ''
+            player_id: '',
+            loaded: false
         };
         this.token = localStorage.getItem('authToken') != null ? localStorage.getItem('authToken') : ''
-        this.teams = []
-        this.players = []
+        this.teams = props.teams
+        this.players = props.players
         this.changeTransfer = this.changeTransfer.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
         this.handleContractYearsChange = this.handleContractYearsChange.bind(this)
         this.handleCostChange = this.handleCostChange.bind(this)
     }
 
-    
-    componentDidMount(){
-        TeamsApi.getAllTeams(this.token)
-            .then( 
-                (result) => {
-                    if(result.status==="error"){
-                        this.teams = []
-                    }else{
-                        this.teams = result
-                    }
-                }
-                ,(error) => {
-                    this.teams = []
-                }
-            );
-
-            PlayersApi.getAllPlayers(this.token)
-            .then( 
-                (result) => {
-                    if(result.status==="error"){
-                        this.players = []
-                    }else{
-                        this.players = result
-                    }
-                }
-                ,(error) => {
-                    this.players = []
-                }
-            );
-    }
-
     changeTransfer(event){
         const name = event.target.name;
         const value = event.target.value;
-        console.log("event", event)
-        console.log("name", name)
-        console.log("value", value)
         this.setState({
             [name] : value
         });
@@ -83,14 +48,15 @@ class NewTransfer extends React.Component {
         })
     }
 
-    render(){
+    render (){
         return(
             <tr>
                 <td>
                     <select className="form-control" id="origin_team_id" name="origin_team_id" value={this.state.origin_team_id} onChange={this.changeTransfer}>
                         <option label=" "></option>
-                        {this.teams.map(team =>
-                            <option key={team.team_id} value={team.team_id}>{team.name}</option>
+                        {this.teams.map(team => {
+                            return <option key={team.team_id} value={team.team_id}>{team.name}</option>
+                        }
                         )};
                     </select>
                 </td>
@@ -106,7 +72,7 @@ class NewTransfer extends React.Component {
                     <select className="form-control" id="player_id" name="player_id" value={this.state.player_id} onChange={this.changeTransfer}>
                         <option label=" "></option>
                         {this.players.map(player =>
-                            <option key={player._id} value={player._id}>{player.player_name}</option>
+                            <option key={player._id} value={player._id}>{player.player_name} {player.firstname} {player.lastname}</option>
                         )};
                     </select>
                 </td>
@@ -123,8 +89,9 @@ class NewTransfer extends React.Component {
                     <button className="btn btn-warning" onClick={this.clickAdd}>Add Transfer</button>
                 </td>
             </tr>
-        );
+        )
     }
+
 }
 
 export default NewTransfer;
