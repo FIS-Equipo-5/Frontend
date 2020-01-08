@@ -25,11 +25,12 @@ return (<Authenticate/>);
         </div>
         
         <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
+          <h2>Teams </h2>
           <Teams/>
         </div> 
 
         <div id="players" style={{marginBottom: "5%", marginTop: "5%"}}>
-          <h2>Players: </h2>
+          <h2>Players </h2>
           <Players/>
         </div> 
         <TournamentsParent/>

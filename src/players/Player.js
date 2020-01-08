@@ -2,6 +2,8 @@ import React from 'react';
 
 function Player(props) {
 
+    let team = props.teams.filter(team => team.team_id == props.player.team_id);
+
     return (
             <tr>
                 <td>{props.player.player_name}</td>
@@ -10,7 +12,7 @@ function Player(props) {
                 <td>{props.player.position}</td>
                 <td>{props.player.nationality}</td>
                 <td>{props.player.value}</td>
-                <td>{props.player.team_id}</td>
+                <td>{team[0].name}</td>
                 <td>{props.player.goals.total}</td>
                 <td>{props.player.goals.assists}</td>
                 <td>{props.player.cards.yellow}</td>

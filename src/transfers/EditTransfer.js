@@ -41,7 +41,7 @@ function EditTransfer(props){
                 <select className="form-control" id="player_id" name="player_id" value={props.transfer.player_id} onChange={handleChange} disabled>
                     <option label=" "></option>
                     {players.map(player =>
-                        <option key={player._id} value={player._id}>{player.player_name}</option>
+                        <option key={player._id} value={player._id}>{player.player_name} {player.firstname} {player.lastname}</option>
                     )};
                 </select>
             </td>
