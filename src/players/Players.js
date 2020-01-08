@@ -317,36 +317,7 @@ function validatePlayer(player) {
 }
 
 function objectToHtml(player, teams) {
-    // LA API DE TRANSFER NO ME DA INFORMACIÓN (NO SE QUE ID TIENE REGISTRADO), ASI QUE ESTO ES PARA PROBAR
-    player.transfer = [
-        {
-            _id: "5e10bf0791492f5897e6c233",
-            origin_team_id: 2,
-            destiny_team_id: 1,
-            transfer_date: "2012-04-23",
-            contract_years: 0,
-            cost: 0,
-            player_id: "5e10afa6f39caf015a654799"
-        },
-        {
-            _id: "5e10bf0791492f5897e6c234",
-            origin_team_id: 1,
-            destiny_team_id: 2,
-            transfer_date: "2015-07-28",
-            contract_years: 4,
-            cost: 60000000,
-            player_id: "5e10afa6f39caf015a654799"
-        },
-        {
-            _id: "5e10bf0791492f5897e6c235",
-            origin_team_id: 1,
-            destiny_team_id: 2,
-            transfer_date: "2016-08-12",
-            contract_years: 5,
-            cost: 50000000,
-            player_id: "5e10afa6f39caf015a654799"
-        }
-    ];
+
     var html = "<div style='padding: 30px'> <h2>Team</h2>";
     html += "<table class='table'><thead><tr>"
         html += "<th>Name</th>";
