@@ -7,7 +7,8 @@ class Register extends React.Component {
     constructor() {
         super();
         this.state = {
-            errorInfo: null
+            errorInfo: null,
+            successInfo:null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -19,10 +20,11 @@ class Register extends React.Component {
             AuthApi.register(data.get('name'), data.get('email'), data.get('password')).then((response) => {
                 console.log(response.status);
                 if (response.status != "200") {
-                    this.setState({
-                        errorInfo: response.statusText
-                    });
+                    
                 } else {
+                    this.setState({
+                        successInfo: response.statusText
+                    });
                     window.location.href = '/login';
                 }
             });
