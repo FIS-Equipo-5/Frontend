@@ -27,11 +27,11 @@ class TournamentsParent extends React.Component {
     render() {
         return (
             <div id="tournamentsMS" className="row">
-                <div id="tournamens" className="col-8">
+                <div id="tournamens" className="col-8 component">
                     <h2>Tournaments </h2>
                     <Tournaments selectedTournamentCB={this.handleSelectTournament} />
                 </div>
-                <div id="matches" className="col-4">
+                <div id="matches" className="col-4 col-md-offset-2 component">
                     <h2>Matches </h2>
                     {this.state.selectedTournament ?
                         <button className="btn btn-outline-dark" onClick={() => this.handleSelectTournament(null)}>All matches</button>

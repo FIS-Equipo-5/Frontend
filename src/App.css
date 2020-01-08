@@ -45,3 +45,14 @@
     transform: rotate(360deg);
   }
 }
+
+.component{
+  border-radius: 15px;
+  background: #FFFF;
+  padding: 5px;
+  margin:5px
+}
+
+.root{
+  background-color: #6c757d;
+}
