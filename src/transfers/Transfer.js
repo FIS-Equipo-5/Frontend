@@ -2,6 +2,7 @@ import React from 'react';
 
 function Transfer(props) {
 
+    console.log("PLAYERS ", props.players)
     let teams = props.teams;
     let players = props.players;
 
@@ -30,14 +31,14 @@ function Transfer(props) {
     }
 
     if(typeof playerObj==='undefined'){
-        playerObj = {player_name: ""}
+        playerObj = {player_name: "", firstname:"", lastname:""}
     }
 
     return(
         <tr>
             <td>{originTeam.name}</td>
             <td>{destinyTeam.name}</td>
-            <td>{playerObj.player_name}</td>
+            <td>{playerObj.player_name} {playerObj.firstname} {playerObj.lastname}</td>
             <td>{formatDate}</td>
             <td>{props.transfer.contract_years}</td>
             <td>{props.transfer.cost}</td>

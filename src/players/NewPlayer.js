@@ -62,7 +62,7 @@ class NewPlayer extends React.Component{
                 <td><input className="form-control" name="lastname" value={this.state.lastname} onChange={this.changePlayer}/></td>
                 <td><input className="form-control" name="position" value={this.state.position} onChange={this.changePlayer}/></td>
                 <td><input className="form-control" name="nationality" value={this.state.nationality} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="value" value={this.state.value} onChange={this.changePlayer}/></td>
+                <td><input className="form-control" name="value" type="number" value={this.state.value} onChange={this.changePlayer}/></td>
                 <td>
                     <select className="form-control" name="team_id" value={this.state.team_id} onChange={this.changePlayer}>
                         <option label=" "></option>
@@ -71,10 +71,10 @@ class NewPlayer extends React.Component{
                         )};
                     </select>
                 </td>
-                <td><input className="form-control" name="total" value={this.state.total} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="assists" value={this.state.assists} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="yellow" value={this.state.yellow} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="red" value={this.state.red} onChange={this.changePlayer}/></td>
+                <td><input className="form-control" name="total" type="number" value={this.state.total} onChange={this.changePlayer}/></td>
+                <td><input className="form-control" name="assists" type="number" value={this.state.assists} onChange={this.changePlayer}/></td>
+                <td><input className="form-control" name="yellow" type="number" value={this.state.yellow} onChange={this.changePlayer}/></td>
+                <td><input className="form-control" name="red" type="number" value={this.state.red} onChange={this.changePlayer}/></td>
                 <td><button className="btn btn-success" onClick={this.clickAdd}>Add Player</button></td>
             </tr>
         );
