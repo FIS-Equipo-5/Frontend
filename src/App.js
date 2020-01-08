@@ -13,26 +13,27 @@ import Footer from './common/Footer'
 
 
 function App() {
-  if(localStorage.getItem("authToken") === "undefined" || localStorage.getItem("authToken") === null){
-    return (<Authenticate/>);
-  }else{
+  if (localStorage.getItem("authToken") === "undefined" || localStorage.getItem("authToken") === null) {
+    return (<Authenticate />);
+  } else {
     return (
-      <div id="app">
+      <div id="app" className='root'>
         <Menu />
-        <div id="transfers">
+        <div id="teams" className='component'>
+          <h2>Teams: </h2>
+          <Teams />
+        </div>
+        <div id="players" className='component' >
+          <h2>Players: </h2>
+          <Players />
+        </div>
+        <TournamentsParent />
+        <div id="transfers" className='component'>
           <h2>Transfers </h2>
           <Transfers />
         </div>
-        
-        <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
-          <Teams/>
-        </div> 
 
-        <div id="players" style={{marginBottom: "5%", marginTop: "5%"}}>
-          <h2>Players </h2>
-          <Players/>
-        </div> 
-        <TournamentsParent/>
+
         <Footer />
 
       </div>

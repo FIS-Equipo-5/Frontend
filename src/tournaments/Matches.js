@@ -149,7 +149,6 @@ class Matches extends React.Component {
     }
 
     getMatchetsByTournament(type) {
-        console.log('getMatchetsByTournament: ' + type);
         let currentPage = this.state.currentPage + type;
         if (this.props.selectedTournament) {
 
@@ -187,8 +186,6 @@ class Matches extends React.Component {
         }
     }
     getAllMatches(type) {
-        // this.setState({ selectedTournament: null });
-        console.log('getAllMatches: ' + type);
 
         let currentPage = this.state.currentPage + type;
 
