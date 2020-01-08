@@ -5,6 +5,9 @@ import NewTeam from './NewTeam.js';
 import EditTeam from './EditTeam';
 import TeamsApi from './TeamsApi';
 
+import Modal from 'react-awesome-modal';
+import InfoTeam from './InfoTeam.js';
+
 class Teams extends React.Component{
     constructor(props){
         super(props);
@@ -13,16 +16,23 @@ class Teams extends React.Component{
             errorInfo:null,
             teams:[],
             isEditing: {},
-            token: localStorage.getItem('authToken')
+            token: localStorage.getItem('authToken'),
+            visible : false,
+            infoModal : ""
+
         };
         this.handleEdit=this.handleEdit.bind(this);
         this.handleDelete=this.handleDelete.bind(this);
         this.handleCloseError=this.handleCloseError.bind(this);
         this.addTeam=this.addTeam.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     /*Método especial de React --> LLamado cuando el componente se instancia*/
     componentDidMount(){
+        console.log("********************************************************************");
         TeamsApi.getAllTeams(this.state.token).then(
             (result)=>{
                 if(result.status === "error"){
@@ -154,12 +164,39 @@ class Teams extends React.Component{
             }
         }
     }
+
+    openModal(team, show) {
+        var info = objectToHtml(team, show);
+        this.setState({
+            infoModal: info,
+            visible : true
+        });
+        
+    }
+
+    closeModal() {
+        this.setState({
+            visible : false,
+            infoModal: ""
+        });
+        this.componentDidMount();
+    }
    
     render(){
         return(
             <div>
+                <Modal 
+                    visible={this.state.visible}
+                    width="50%"
+                    effect="fadeInUp"
+                    onClickAway={() => this.closeModal()}>
+                    <div>
+                        {this.state.infoModal}
+                        <button className="btn btn-primary" onClick={() => this.closeModal()} style={{float:"right", marginRight:"2%"}}>Close</button>
+                    </div>
+                </Modal>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
-                <table class="table">
+                <table className="table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -167,7 +204,7 @@ class Teams extends React.Component{
                             <th>Logo</th>
                             <th>Country</th>
                             <th>Founded</th>
-                            <th>Venue</th>
+                            <th>Stadium</th>
                             <th>Surface</th>
                             <th>Address</th>
                             <th>City</th>
@@ -180,7 +217,7 @@ class Teams extends React.Component{
                     <NewTeam onAddTeam={this.addTeam}/>
                     {this.state.teams.map((team)=>
                         ! this.state.isEditing[team.team_id] ?
-                        <Team key={team.team_id} team = {team} onEdit={this.handleEdit} onDelete={this.handleDelete}/>
+                        <Team key={team.team_id} team = {team} onEdit={this.handleEdit} onDelete={this.handleDelete} onView={this.openModal}/>
                         :
                         <EditTeam key={team.team_id} team={this.state.isEditing[team.team_id]} 
                                   onCancel={this.handleCancel.bind(this,team.team_id)}
@@ -194,4 +231,12 @@ class Teams extends React.Component{
     }
 }
 
+function objectToHtml(team,show) {
+    if(show === "info"){
+        return <InfoTeam team={team}/>;
+    }
+}
+
 export default Teams;
+
+

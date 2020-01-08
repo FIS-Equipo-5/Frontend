@@ -63,7 +63,7 @@ class NewTeam extends React.Component{
                 <td><input className="form-control" name="venue_capacity" value={this.state.venue_capacity} type="number" onChange={this.changeTeam} ></input></td>
                 <td><input className="form-control" name="budget" value={this.state.budget} type="number" onChange={this.changeTeam} ></input></td>
                 <td><input className="form-control" name="value" value={this.state.value} type="number" onChange={this.changeTeam} ></input></td>
-                <td><button className="btn btn-primary" onClick={this.addTeam}><i class="fa fa-plus">  Add Team</i></button></td>
+                <td><button className="btn btn-primary" onClick={this.addTeam}><i className="fa fa-plus">  Add Team</i></button></td>
             </tr>
         );
     }
