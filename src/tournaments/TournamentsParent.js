@@ -33,8 +33,8 @@ class TournamentsParent extends React.Component {
                 </div>
                 <div id="matches" className="col-4">
                     <h2>Matches </h2>
-                    {this.state.selectedTournamentCB ?
-                        <button className="btn btn-outline-dark" onClick={() => this.setState({ selectedTournament: null })}>All matches</button>
+                    {this.state.selectedTournament ?
+                        <button className="btn btn-outline-dark" onClick={() => this.handleSelectTournament(null)}>All matches</button>
                         :
                         ''
                     }

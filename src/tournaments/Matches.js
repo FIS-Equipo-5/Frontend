@@ -32,8 +32,11 @@ class Matches extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.selectedTournament !== this.props.selectedTournament) {
-            console.log(`componentDidUpdate --- prev:${prevProps.selectedTournament} ---- next:${this.props.selectedTournament}`);
+
+        if (prevProps.selectedTournament !== this.props.selectedTournament && !this.props.selectedTournament) {
+            this.setState({ selectedTournament: null, currentPage: this.state.currentPage });
+            this.getAllMatches(0);
+        } else if (prevProps.selectedTournament !== this.props.selectedTournament) {
             this.setState({ selectedTournament: this.props.selectedTournament });
             this.getMatchetsByTournament(0);
         }
@@ -60,12 +63,6 @@ class Matches extends React.Component {
                 isEditing: isEditing
             }
         });
-    }
-
-    handleChange(_id, match) {
-        this.setState(prevState => ({
-            isEditing: { ...prevState.isEditing, [_id]: match }
-        }))
     }
 
     handleOpenInfo(match) {
@@ -138,9 +135,12 @@ class Matches extends React.Component {
                 errorInfo: "Failed when deleting the match!"
             })
         }
-
         try {
-            this.getAllMatches(0);
+            if (this.state.selectedTournament) {
+                this.getMatchetsByTournament(0);
+            } else {
+                this.getAllMatches(0);
+            }
         } catch (err) {
             this.setState({
                 errorInfo: "Problem with connection to server"
@@ -162,12 +162,13 @@ class Matches extends React.Component {
                             })
                             this.setState({ matchSelected: null });
                         } else {
-                            if(!result.matches){
-                                this.setState({ 
+                            if (!result.matches) {
+                                this.setState({
                                     matches: [],
                                     totalPages: 1,
-                                    currentPage: 1});
-                            }else{
+                                    currentPage: 1
+                                });
+                            } else {
                                 this.setState({
                                     matches: result.matches,
                                     totalPages: result.totalPages,
@@ -186,6 +187,7 @@ class Matches extends React.Component {
         }
     }
     getAllMatches(type) {
+        // this.setState({ selectedTournament: null });
         console.log('getAllMatches: ' + type);
 
         let currentPage = this.state.currentPage + type;
