@@ -2,7 +2,7 @@ import React from 'react';
 import Transfers from './transfers/Transfers.js';
 import Players from './players/Players.js';
 import Teams from './teams/Teams';
-import Matches from './tournaments/Matches'
+import TournamentsParent from './tournaments/TournamentsParent';
 import Authenticate from './auth/Authenticate.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -33,17 +33,7 @@ return (<Authenticate/>);
           <h2>Players: </h2>
           <Players/>
         </div> 
-
-        <div id="tournamentsMS" className="row">
-          <div id="tournamens" className="col-6">
-            <h2>Tournaments </h2>
-            {/* <Tournaments /> */}
-          </div>
-          <div id="matches" className="col-6">
-            <h2>Matches </h2>
-            <Matches />
-          </div>
-        </div>
+        <TournamentsParent/>
         <Footer />
 
       </div>
