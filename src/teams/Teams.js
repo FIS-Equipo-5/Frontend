@@ -201,7 +201,6 @@ class Teams extends React.Component{
                     </div>
                 </Modal>
                 
-                <h2>Teams: </h2>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
                 <table className="table">
                     <thead>
