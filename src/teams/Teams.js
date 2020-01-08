@@ -200,8 +200,9 @@ class Teams extends React.Component{
                         {this.state.infoModal}
                     </div>
                 </Modal>
+                
+                <h2>Teams: </h2>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
-                <button className="btn btn-primary" onClick={()=>this.openModal({}, "add")} style={{float:"right"}}><i className="fa fa-plus">  Add Team</i></button>
                 <table className="table">
                     <thead>
                         <tr>
@@ -217,7 +218,7 @@ class Teams extends React.Component{
                             <th>Capacity</th>
                             <th>Budget</th>
                             <th>Value</th>
-                            <th>&nbsp;</th>
+                            <th><button className="btn btn-primary" onClick={()=>this.openModal({}, "add")}><i className="fa fa-plus">  Add Team</i></button></th>
                         </tr>
                     </thead>
                     {/* <NewTeam onAddTeam={this.addTeam}/> */}
