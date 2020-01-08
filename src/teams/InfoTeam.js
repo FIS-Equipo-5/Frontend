@@ -72,6 +72,7 @@ function InfoTeam(props){
                 </div>
 
             </form>  
+            <button className="btn btn-danger" onClick={() => props.onCloseModal()} style={{float:"right", marginRight:"2%"}}>Close</button>
         </div>
 
     );

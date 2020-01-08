@@ -163,10 +163,16 @@ class Teams extends React.Component{
                 });
             }
         }
+        this.closeModal();
     }
 
     openModal(team, show) {
-        var info = objectToHtml(team, show);
+        var info;
+        if(show === "info"){
+            info = <InfoTeam team={team} onCloseModal={this.closeModal}/>;
+        }else if(show === "add"){
+            info = <NewTeam  onCloseModal={this.closeModal} onAddTeam={this.addTeam}/>;
+        }
         this.setState({
             infoModal: info,
             visible : true
@@ -192,10 +198,10 @@ class Teams extends React.Component{
                     onClickAway={() => this.closeModal()}>
                     <div>
                         {this.state.infoModal}
-                        <button className="btn btn-primary" onClick={() => this.closeModal()} style={{float:"right", marginRight:"2%"}}>Close</button>
                     </div>
                 </Modal>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
+                <button className="btn btn-primary" onClick={()=>this.openModal({}, "add")} style={{float:"right"}}><i className="fa fa-plus">  Add Team</i></button>
                 <table className="table">
                     <thead>
                         <tr>
@@ -214,7 +220,7 @@ class Teams extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <NewTeam onAddTeam={this.addTeam}/>
+                    {/* <NewTeam onAddTeam={this.addTeam}/> */}
                     {this.state.teams.map((team)=>
                         ! this.state.isEditing[team.team_id] ?
                         <Team key={team.team_id} team = {team} onEdit={this.handleEdit} onDelete={this.handleDelete} onView={this.openModal}/>
@@ -231,11 +237,7 @@ class Teams extends React.Component{
     }
 }
 
-function objectToHtml(team,show) {
-    if(show === "info"){
-        return <InfoTeam team={team}/>;
-    }
-}
+
 
 export default Teams;
 
