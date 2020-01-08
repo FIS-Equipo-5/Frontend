@@ -118,9 +118,9 @@ class NewTeam extends React.Component{
                         </div>
                     </div>
                 </form>
-                <div className="row" style={{float:"right"}}>
+                <div style={{float:"right"}}>
                     <button className="btn btn-danger" onClick={() => this.props.onCloseModal()}>Close</button>
-                    <button className="btn btn-primary" onClick={this.addTeam} ><i class="fa fa-plus">  Add Team</i></button>
+                    <button className="btn btn-primary" onClick={this.addTeam} ><i class="fa fa-plus"></i>   Add Team</button>
                 </div>
             </div>
         );

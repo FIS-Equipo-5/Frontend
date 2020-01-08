@@ -14,7 +14,7 @@ import Footer from './common/Footer'
 
 function App() {
   if(localStorage.getItem("authToken") === "undefined" || localStorage.getItem("authToken") === null){
-return (<Authenticate/>);
+    return (<Authenticate/>);
   }else{
     return (
       <div id="app">
@@ -25,7 +25,6 @@ return (<Authenticate/>);
         </div>
         
         <div id="teams" style={{marginBottom: "5%", marginTop: "5%"}}>
-          <h2>Teams </h2>
           <Teams/>
         </div> 
 
