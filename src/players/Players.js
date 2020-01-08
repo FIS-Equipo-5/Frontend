@@ -360,7 +360,7 @@ function objectToHtml(player, teams) {
         html += "<th>Capacity</th>";
         html += "<th>Budget</th>";
         html += "<th>Value</th>";
-    html += "</tr></thead><tr>";
+    html += "</tr></thead><tbody><tr>";
         html += "<td>" + player.team.name + "</td>";
         html += "<td>" + player.team.code + "</td>";
         html += "<td>" + player.team.country + "</td>";
@@ -372,7 +372,7 @@ function objectToHtml(player, teams) {
         html += "<td>" + player.team.budget + "</td>";
         html += "<td>" + player.team.value + "</td>";
         html += "<td>" + player.team.team_id + "</td>";
-    html += "</tr></table><br>";
+    html += "</tr></tbody></table><br>";
 
     html += "<h2>Transfers</h2>";
     html += "<table class='table'><thead><tr>"
@@ -382,7 +382,7 @@ function objectToHtml(player, teams) {
         html += "<th>Transfer Date</th>";
         html += "<th>Contract Years</th>";
         html += "<th>Cost</th>";
-    html += "</tr></thead>";
+    html += "</tr></thead><tbody>";
     if(player.transfer.length > 0){
         player.transfer.forEach(transfer => {
             var origin = teams.filter(team => transfer.origin_team_id === team.team_id);
@@ -398,7 +398,7 @@ function objectToHtml(player, teams) {
             html += "</tr>";
         });
     }
-    html += "</table></div>";
+    html += "</tbody></table></div>";
 
     return ReactHtmlParser(html);
 }
