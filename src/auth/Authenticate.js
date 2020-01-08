@@ -18,28 +18,25 @@ class Authenticate extends React.Component {
 
     render() {
         return (
-    
-  
 
-            <form onSubmit={this.handleSubmit}>
-                <div className="box">
-                <h1>Login</h1>
-               
-                    <div className="authBody">
-                    <label htmlFor="email">Enter your email</label>
-                    <input id="email" name="email" type="email" className="email"/>
+            <div class="wrapper fadeInDown">
+                <div id="formContent">
+
+                    <div class="fadeIn first">
+                        <img src='https://image.freepik.com/vector-gratis/logotipo-futbol-american-logo-sports_1366-100.jpg' id="icon" alt="User Icon" />
                     </div>
 
-                    <div>
-                    <label htmlFor="password">Enter your password</label>
-                    <input id="password" name="password" type="password" className="password"/>
+                    <form onSubmit={this.handleSubmit}>
+                        <input type="text" id="email" class="fadeIn second" name="email" placeholder="email" />
+                        <input type="password" id="password" class="fadeIn third" name="login" placeholder="password" />
+                        <input type="submit" class="fadeIn fourth" value="Log In" />
+                    </form>
+
+                    <div id="formFooter">
+                        <a class="underlineHover" href="#">Forgot Password?</a>
                     </div>
-
-                    <div className="btn"><button>Login</button></div>
-                    </div>
-            </form>
-
-
+                </div>
+            </div>
 
         );
     }
