@@ -18,8 +18,8 @@ function Team(props){
             <td>{props.team.value}</td>
 
             <td>
-                <div className="row">
-                    <button className="btn btn-info btn-sm" onClick={()=>props.onEdit(props.team)} style={{width: "20%"}}><i class="fa fa-pencil"></i></button>
+                <div className="row"> 
+                    <button className="btn btn-info btn-sm" onClick={()=>props.onView(props.team, "edit")} style={{width: "20%"}}><i class="fa fa-pencil"></i></button>
                     <button className="btn btn-secondary btn-sm" onClick={()=>props.onView(props.team, "info")} style={{width: "20%"}}><i class="fa fa-eye"></i></button>
                     <button className="btn btn-danger btn-sm" onClick={()=>props.onDelete(props.team)} style={{width: "20%"}}><i class="fa fa-trash"></i></button>
                 </div>

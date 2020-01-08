@@ -15,7 +15,6 @@ class Teams extends React.Component{
         this.state = {
             errorInfo:null,
             teams:[],
-            isEditing: {},
             token: localStorage.getItem('authToken'),
             visible : false,
             infoModal : ""
@@ -32,7 +31,6 @@ class Teams extends React.Component{
 
     /*Método especial de React --> LLamado cuando el componente se instancia*/
     componentDidMount(){
-        console.log("********************************************************************");
         TeamsApi.getAllTeams(this.state.token).then(
             (result)=>{
                 if(result.status === "error"){
@@ -62,16 +60,22 @@ class Teams extends React.Component{
 
     handleDelete(team){
         TeamsApi.deleteTeam(team.name, this.state.token).then((resultDelete)=>{
-            TeamsApi.getAllTeams(this.state.token).then((resultTeams)=>{
-                this.setState({
-                    teams: resultTeams
+            if(resultDelete.status === 204){
+                TeamsApi.getAllTeams(this.state.token).then((resultTeams)=>{
+                    this.setState({
+                        teams: resultTeams
+                    });
+                }, (error)=>{
+                    console.log("Failed when updating the teams list without the deleted team");
+                    this.setState({
+                        errorInfo: "Failed when removing the team!"
+                    });
                 });
-            }, (error)=>{
-                console.log("Failed when updating the teams list without the deleted team");
+            }else{
                 this.setState({
-                    errorInfo: "Failed when removing the team!"
+                    errorInfo: "Error removing the team"
                 });
-            });
+            }
         },(error)=>{
             console.log("Failed when removing the team!");
             this.setState({
@@ -80,49 +84,39 @@ class Teams extends React.Component{
         });
     }
 
-    handleCancel(team_id, team){
-        this.setState(prevState=>{
-            const isEditing = Object.assign({}, prevState.isEditing);
-            delete isEditing[team_id];
-            return {
-                isEditing: isEditing
-            };
-        });
-    }
-
-    handleChange(team_id, team){
-        this.setState(prevState => ({
-            isEditing: {...prevState.isEditing, [team_id]: team}
-        }));
-    }
-
     handleSave(team_id, name, code, team){
-        const isEditing = Object.assign({}, this.state.isEditing);
-        delete isEditing[team_id];
-        if(team_id === team.team_id && name === team.name && code === team.code){
-            TeamsApi.updateTeam(team, this.state.token).then((resultUpdate)=>{
-                TeamsApi.getAllTeams(this.state.token).then((resultTeams)=>{
-                    this.setState({
-                        teams: resultTeams,
-                        isEditing: isEditing
+        if(validateTeam(team)){
+            if(team_id === team.team_id && name === team.name && code === team.code){
+                TeamsApi.updateTeam(team, this.state.token).then((resultUpdate)=>{
+                    TeamsApi.getAllTeams(this.state.token).then((resultTeams)=>{
+                        this.setState({
+                            teams: resultTeams
+                        });
+                        this.closeModal();
+                        return;
+                    }, (error)=>{
+                        console.log("Error when updating the teams list with the updated team");
+                        this.setState({
+                            errorInfo: "Failed when updating the team!"
+                        });
                     });
-                }, (error)=>{
-                    console.log("Error when updating the teams list with the updated team");
+                },(error)=>{
+                    console.log("Failed when updating the team!")
                     this.setState({
                         errorInfo: "Failed when updating the team!"
-                    })
+                    });
                 });
-            },(error)=>{
-                console.log("Failed when updating the team!")
+            }else{
                 this.setState({
-                    errorInfo: "Failed when updating the team!"
+                    errorInfo: "Cannot edit team's name or code",
                 });
-            });
+            }
         }else{
             this.setState({
-                errorInfo: "Cannot edit team's name or code",
+                errorInfo: "You must fill in all the fields!"
             });
         }
+        this.closeModal();
     }
 
     handleCloseError(){
@@ -132,8 +126,7 @@ class Teams extends React.Component{
     }
 
     addTeam(team){
-        if(team.name === "" || team.code === "" || team.logo === "" || team.country === "" || team.founded === "" || team.venue_name === "" || team.venue_surface === ""
-            || team.venue_address === "" || team.venue_city === "" || team.venue_capacity === "" || team.budget === "" || team.value === ""){
+        if(!validateTeam(team)){
                 this.setState({
                     errorInfo: "You must fill in all the fields!"
                 });
@@ -172,6 +165,8 @@ class Teams extends React.Component{
             info = <InfoTeam team={team} onCloseModal={this.closeModal}/>;
         }else if(show === "add"){
             info = <NewTeam  onCloseModal={this.closeModal} onAddTeam={this.addTeam}/>;
+        }else{
+            info = <EditTeam team={team} onCloseModal={this.closeModal} onSave={this.handleSave.bind(this, team.team_id, team.name, team.code)}/>
         }
         this.setState({
             infoModal: info,
@@ -218,18 +213,11 @@ class Teams extends React.Component{
                             <th>Capacity</th>
                             <th>Budget</th>
                             <th>Value</th>
-                            <th><button className="btn btn-primary" onClick={()=>this.openModal({}, "add")}><i className="fa fa-plus">  Add Team</i></button></th>
+                            <th><button className="btn btn-primary" onClick={()=>this.openModal({}, "add")}><i className="fa fa-plus"></i>   Add Team</button></th>
                         </tr>
                     </thead>
-                    {/* <NewTeam onAddTeam={this.addTeam}/> */}
                     {this.state.teams.map((team)=>
-                        ! this.state.isEditing[team.team_id] ?
                         <Team key={team.team_id} team = {team} onEdit={this.handleEdit} onDelete={this.handleDelete} onView={this.openModal}/>
-                        :
-                        <EditTeam key={team.team_id} team={this.state.isEditing[team.team_id]} 
-                                  onCancel={this.handleCancel.bind(this,team.team_id)}
-                                  onChange={this.handleChange.bind(this, team.team_id)}
-                                  onSave={this.handleSave.bind(this, team.team_id, team.name, team.code)}/>
                     )}
                 </table>
             </div>
@@ -240,6 +228,12 @@ class Teams extends React.Component{
 
 
 
+function validateTeam(team){
+    console.log(JSON.stringify(team))
+    if(team.name === '' || team.code === '' || team.logo === '' || team.country === '' || team.founded === '' || team.venue_name === '' || team.venue_surface === '' || team.venue_address === '' || team.venue_address === '' || team.venue_city === '' || team.venue_capacity === '' || team.budget === '' || team.value === ''){
+        return false;
+    }
+    return true;
+}
+
 export default Teams;
-
-

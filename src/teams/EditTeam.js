@@ -1,36 +1,101 @@
 import React from 'react';  
 
-function EditTeam(props){
-
-    const handleChange = event => {
-        props.onChange({...props.team, [event.target.name]: event.target.value});
+class EditTeam extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = 
+        {
+            team: this.props.team
+        };
+        this.handleChange=this.handleChange.bind(this);
     }
 
-    return(
-        
-        <tr>
-            <td><input className="form-control" name="name" value={props.team.name} onChange={handleChange} disabled/></td>
-            <td><input className="form-control" name="code" value={props.team.code} onChange={handleChange} disabled/></td>
-            <td><input className="form-control" name="logo" value={props.team.logo} onChange={handleChange}/></td>
-            <td><input className="form-control" name="country" value={props.team.country} onChange={handleChange}/></td>
-            <td><input className="form-control" name="founded" value={props.team.founded} onChange={handleChange}/></td>
-            <td><input className="form-control" name="venue_name" value={props.team.venue_name} onChange={handleChange}/></td>
-            <td><input className="form-control" name="venue_surface" value={props.team.venue_surface} onChange={handleChange}/></td>
-            <td><input className="form-control" name="venue_address" value={props.team.venue_address} onChange={handleChange}/></td>
-            <td><input className="form-control" name="venue_city" value={props.team.venue_city} onChange={handleChange}/></td>
-            <td><input className="form-control" name="venue_capacity" value={props.team.venue_capacity} onChange={handleChange}/></td>
-            <td><input className="form-control" name="budget" value={props.team.budget} onChange={handleChange}/></td>
-            <td><input className="form-control" name="value" value={props.team.value} onChange={handleChange}/></td>
+    handleChange(event){
+        var teamEdited = {...this.state.team, [event.target.name]: event.target.value};
+        this.setState({
+            team: teamEdited
+        });
+    }
 
-            <td>
-                <div className="row">
-                    <button className="btn btn-primary btn-sm" onClick={() => props.onSave(props.team)} style={{width: "30%"}}><i class="fa fa-save"></i></button>
-                    <button className="btn btn-danger btn-sm" onClick={() => props.onCancel(props.team)} style={{width: "30%"}}><i class="fa fa-close"></i></button>
+    render(){
+        return(<div>
+            <h1 style={{margin:"2%"}}>Edit Team</h1>
+            <form style={{marginTop: "3%"}}>
+                <div className="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="name" name="name" value={this.state.team.name} disabled></input>
+                    </div>
+                    <label for="code" class="col-sm-2 col-form-label">Code:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="code" name="code" value={this.state.team.code} disabled></input>
+                    </div>
                 </div>
-            </td>
-        </tr>
 
-    );
+                <div className="form-group row">
+                    <label for="logo" class="col-sm-2 col-form-label">Logo:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="logo" name="logo" value={this.state.team.logo} onChange={this.handleChange}></input>
+                    </div>
+                    <label for="country" class="col-sm-2 col-form-label">Country:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="country" name="country" value={this.state.team.country} onChange={this.handleChange}></input>
+                    </div>
+                </div>
+
+                <div className="form-group row">
+                    <label for="founded" class="col-sm-2 col-form-label">Founded:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="founded" name="founded" value={this.state.team.founded} onChange={this.handleChange}></input>
+                    </div>
+                    <label for="stadium" class="col-sm-2 col-form-label">Stadium Name:</label>
+                    <div className="col-sm-4">
+                    <input className="form-control" id="stadium" name="venue_name" value={this.state.team.venue_name} onChange={this.handleChange}></input>
+                    </div>
+                </div>
+
+                <div className="form-group row">
+                    <label for="surface" className="col-sm-2 col-form-label">Surface:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="surface" name="venue_surface" value={this.state.team.venue_surface} onChange={this.handleChange}></input>
+                    </div>
+                    <label for="address" className="col-sm-2 col-form-label">Address:</label>
+                    <div className="col-sm-4">
+                    <input className="form-control" id="address" name="venue_address" value={this.state.team.venue_address} onChange={this.handleChange}></input>
+                    </div>
+                </div>
+
+                <div className="form-group row">
+                    <label for="city" className="col-sm-2 col-form-label">City:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="city" name="venue_city" value={this.state.team.venue_city} onChange={this.handleChange}></input>
+                    </div>
+                    <label for="capacity" className="col-sm-2 col-form-label">Capacity:</label>
+                    <div class="col-sm-4">
+                        <input className="form-control" id="capacity" name="venue_capacity" value={this.state.team.venue_capacity} onChange={this.handleChange}></input>
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label for="budget" className="col-sm-2 col-form-label">Budget:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="budget" name="budget" value={this.state.team.budget} onChange={this.handleChange}></input>
+                    </div>
+                    <label for="value" className="col-sm-2 col-form-label">Value:</label>
+                    <div className="col-sm-4">
+                        <input className="form-control" id="value" name="value" value={this.state.team.value} onChange={this.handleChange}></input>
+                    </div>
+                </div>
+
+            </form> 
+            <div className="row" style={{float:"right"}}>
+                <button className="btn btn-danger" onClick={() => this.props.onCloseModal()}>Close</button>
+                <button className="btn btn-primary" onClick={() => this.props.onSave(this.state.team)} >Edit Team</button>
+            </div>
+        </div>);
+    }
+
 }
+
+
 
 export default EditTeam;
