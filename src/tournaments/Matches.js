@@ -11,6 +11,7 @@ class Matches extends React.Component {
         this.state = {
             errorInfo: null,
             matches: props.matches ? props.matches : [],
+            selectedTournament: props.selectedTournament ? props.selectedTournament : null,
             currentPage: 1,
             totalPages: 1,
             isEditing: {},
@@ -28,6 +29,14 @@ class Matches extends React.Component {
 
     componentDidMount() {
         this.getAllMatches(0);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.selectedTournament !== this.props.selectedTournament) {
+            console.log(`componentDidUpdate --- prev:${prevProps.selectedTournament} ---- next:${this.props.selectedTournament}`);
+            this.setState({ selectedTournament: this.props.selectedTournament });
+            this.getMatchetsByTournament(0);
+        }
     }
 
     handleEdit(match) {
@@ -77,35 +86,6 @@ class Matches extends React.Component {
                         errorInfo: "Problem with connection to server",
                     })
                     this.setState({ matchSelected: null });
-                }
-            );
-
-    }
-
-    handleGetByTournament(selectedTournament, type) {
-        let currentPage = this.state.currentPage + type;
-
-        MatchApi.getMatchesByTournament(this.state.token, selectedTournament, currentPage)
-            .then(
-                (result) => {
-                    if (result.status === "error") {
-                        this.setState({
-                            errorInfo: "Problem with connection to server: " + result.message,
-                        })
-                        this.setState({ matchSelected: null });
-                    } else {
-                        this.setState({
-                            matches: result.matches,
-                            totalPages: result.totalPages,
-                            currentPage: currentPage
-                        });
-                    }
-                }
-                , (error) => {
-                    this.setState({
-                        errorInfo: "Problem with connection to server",
-                    })
-                    this.setState({ matches: [] });
                 }
             );
 
@@ -168,29 +148,32 @@ class Matches extends React.Component {
         }
     }
 
-    getAllMatches(type) {
+    getMatchetsByTournament(type) {
+        console.log('getMatchetsByTournament: ' + type);
+        let currentPage = this.state.currentPage + type;
+        if (this.props.selectedTournament) {
 
-        if (this.props.selectedTournament && !this.state.matchSelected) {
-            console.log('changed');
-            this.handleGetByTournament(this.props.selectedTournament, 0);
-        } else {
-
-            let currentPage = this.state.currentPage + type;
-
-            MatchApi.getAllMatches(this.state.token, currentPage)
+            MatchApi.getMatchesByTournament(this.state.token, this.props.selectedTournament, currentPage)
                 .then(
                     (result) => {
                         if (result.status === "error") {
                             this.setState({
                                 errorInfo: "Problem with connection to server: " + result.message,
                             })
-                            this.setState({ matches: [] });
+                            this.setState({ matchSelected: null });
                         } else {
-                            this.setState({
-                                matches: result.matches,
-                                totalPages: result.totalPages,
-                                currentPage: currentPage
-                            });
+                            if(!result.matches){
+                                this.setState({ 
+                                    matches: [],
+                                    totalPages: 1,
+                                    currentPage: 1});
+                            }else{
+                                this.setState({
+                                    matches: result.matches,
+                                    totalPages: result.totalPages,
+                                    currentPage: currentPage
+                                });
+                            }
                         }
                     }
                     , (error) => {
@@ -201,6 +184,36 @@ class Matches extends React.Component {
                     }
                 );
         }
+    }
+    getAllMatches(type) {
+        console.log('getAllMatches: ' + type);
+
+        let currentPage = this.state.currentPage + type;
+
+        MatchApi.getAllMatches(this.state.token, currentPage)
+            .then(
+                (result) => {
+                    if (result.status === "error") {
+                        this.setState({
+                            errorInfo: "Problem with connection to server: " + result.message,
+                        })
+                        this.setState({ matches: [] });
+                    } else {
+                        this.setState({
+                            matches: result.matches,
+                            totalPages: result.totalPages,
+                            currentPage: currentPage
+                        });
+                    }
+                }
+                , (error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server",
+                    })
+                    this.setState({ matches: [] });
+                }
+            );
+
 
     }
 
@@ -241,11 +254,20 @@ class Matches extends React.Component {
                                 )}
                             </tbody>
                         </table>
-                        <div className='row h-100 justify-content-center align-items-center'>
-                            <button className="btn btn-outline-dark" disabled={this.state.currentPage <= 1} onClick={() => this.getAllMatches(-1)}>Previous</button>
-                            <span style={{ padding: '0 0 0 15px' }}> Page: {this.state.currentPage} of {this.state.totalPages}</span>
-                            <button className="btn btn-outline-dark" disabled={this.state.currentPage >= this.state.totalPages} onClick={() => this.getAllMatches(1)}>Next</button>
-                        </div>
+                        {this.state.selectedTournament ?
+
+                            <div className='row h-100 justify-content-center align-items-center'>
+                                <button className="btn btn-outline-dark" disabled={this.state.currentPage <= 1} onClick={() => this.getMatchetsByTournament(-1)}>Previous</button>
+                                <span style={{ padding: '0 0 0 15px' }}> Page: {this.state.currentPage} of {this.state.totalPages}</span>
+                                <button className="btn btn-outline-dark" disabled={this.state.currentPage >= this.state.totalPages} onClick={() => this.getMatchetsByTournament(1)}>Next</button>
+                            </div>
+                            :
+                            <div className='row h-100 justify-content-center align-items-center'>
+                                <button className="btn btn-outline-dark" disabled={this.state.currentPage <= 1} onClick={() => this.getAllMatches(-1)}>Previous</button>
+                                <span style={{ padding: '0 0 0 15px' }}> Page: {this.state.currentPage} of {this.state.totalPages}</span>
+                                <button className="btn btn-outline-dark" disabled={this.state.currentPage >= this.state.totalPages} onClick={() => this.getAllMatches(1)}>Next</button>
+                            </div>
+                        }
                     </div>
                 </div>
 

@@ -23,8 +23,8 @@ function Match(props) {
             <td>{score}</td>
 
             <td>
-                <button className="btn btn-primary" onClick={() => props.onOpenInfo(props.match)}>Info</button>
-                <button className="btn btn-danger" onClick={() => props.onDelete(props.match)}>Delete</button>
+                <button className="btn btn-sm btn-primary"  style={{width: "30%"}} onClick={() => props.onOpenInfo(props.match)}>Info</button>
+                <button className="btn btn-sm btn-danger"  style={{width: "40%"}} onClick={() => props.onDelete(props.match)}>Delete</button>
                 {/* <ModalComponent type='danger' buttonMessage='delete' header='Delete Match??'
                     message='You are about to delete a match, ¿are you sure?' acceptCallback={() => props.onDelete(props.match)} /> */}
             </td>

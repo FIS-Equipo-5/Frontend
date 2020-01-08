@@ -17,8 +17,12 @@ function Tournament(props) {
             <td>{props.tournament.name}</td>
             <td>{startdate}</td>
             <td>{enddate}</td>
-            <button className="btn btn-danger" onClick={() => props.onDelete(props.tournament)}>Delete</button>
-            <button className="btn btn-primary" onClick={() => props.onSelect(props.tournament._id)}>View Matches</button>
+            <td>
+                <button className=" btn btn-sm btn-outline-dark" style={{width: "20%"}} onClick={() => props.onDelete(props.tournament)}>Delete</button>
+                <button className=" btn btn-sm btn-outline-dark" style={{width: "10%"}} onClick={() => props.onDelete(props.tournament)}>Init</button>
+                <button className=" btn btn-sm btn-outline-dark" style={{width: "20%"}} onClick={() => props.onDelete(props.tournament)}>Update</button>
+                <button className=" btn btn-sm btn-outline-dark"  onClick={() => props.onSelect(props.tournament._id)}>View Matches</button>
+            </td>
         </tr>
     );
 }

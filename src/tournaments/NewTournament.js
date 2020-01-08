@@ -79,18 +79,18 @@ class NewTournament extends React.Component {
     render(){
         return(
             <tr>
-                <td>
-                     <input className="form-control" name="name" type="text"  value={this.state.name} onChange={this.changeTournament} />
+                <td style={{width: "20%"}}>
+                     <input className="form-control" name="name"  type="text"  value={this.state.name} onChange={this.changeTournament} />
                  </td>
-                <td>
-                    <input type="date" className="form-control" name="startDate" value={this.state.startDate} onChange={this.changeTournament}/>
+                <td style={{width: "5%"}}>
+                    <input type="date" className="form-control"  name="startDate" value={this.state.startDate} onChange={this.changeTournament}/>
                 </td>
-                <td>
-                    <input type="date" className="form-control" name="endDate" value={this.state.endDate} onChange={this.changeTournament}/>
+                <td style={{width: "5%"}}>
+                    <input type="date" className="form-control"  name="endDate" value={this.state.endDate} onChange={this.changeTournament}/>
                 </td>
 
                 <td>
-                     <button className="btn btn-info" onClick={this.clickAdd}>Add Tournament</button>
+                     <button className="btn btn-sm btn-info" onClick={this.clickAdd}>Add Tournament</button>
                 </td>
             </tr>
             // <tr>
