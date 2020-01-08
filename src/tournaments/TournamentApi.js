@@ -1,13 +1,17 @@
-class MatchsApi {
+import Tournament from "./Tournament";
+
+
+class TournamentApi {
 
     static API_BASE_URL = (process.env.NODE_ENV==="production")? "https://fis-g5-tournaments.herokuapp.com/api/v1" : "/api/v1"
     
+
     static requestHeader() {
         return {}
     }
 
-    static getAllMatches(token, currentPage) {
-        const request = new Request(MatchsApi.API_BASE_URL + `/matches?page=${currentPage}`, {
+    static getAllTournaments(token, currentPage) {
+        const request = new Request(TournamentApi.API_BASE_URL + `/tournaments/?page=${currentPage}`, {
             method: 'GET',
             headers: {
                 'x-access-token': token,
@@ -18,10 +22,10 @@ class MatchsApi {
             return response.json();
         });
     }
+    
 
-
-    static getMatchById(token, match_id) {
-        const request = new Request(MatchsApi.API_BASE_URL + "/match/" + match_id, {
+    static getTournamentById(token) {
+        const request = new Request(TournamentApi.API_BASE_URL + "/matches", {
             method: 'GET',
             headers: {
                 'x-access-token': token,
@@ -33,21 +37,8 @@ class MatchsApi {
         });
     }
 
-    static getMatchesByTournament(token, tournament_id, currentPage) {
-        const request = new Request(MatchsApi.API_BASE_URL + `/matches/${tournament_id}?page=${currentPage}`, {
-            method: 'GET',
-            headers: {
-                'x-access-token': token,
-            }
-        });
-
-        return fetch(request).then(response => {
-            return response.json();
-        });
-    }
-
-    static putMatchById(updateMatch, token) {
-        const request = new Request(MatchsApi.API_BASE_URL + "/match/" + updateMatch._id, {
+    static putTournamentById(updateMatch, token) {
+        const request = new Request(TournamentApi.API_BASE_URL + "/match/" + updateMatch._id, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -71,10 +62,12 @@ class MatchsApi {
         });
     }
 
-    static deleteMatch(id, token) {
-        const request = new Request(MatchsApi.API_BASE_URL + "/match/" + id, {
+    static deleteTournament(id, token) {
+        const request = new Request(TournamentApi.API_BASE_URL + "/tournament/" + id, {
             method: 'DELETE',
             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'x-access-token': token,
             }
         });
@@ -86,6 +79,33 @@ class MatchsApi {
         });
     }
 
+    static postTournament(tournament, token) {
+        let obejcttoAdd =JSON.stringify({
+            name: tournament.name,
+            type: "clasification",
+            clasification: [],
+            endDate: tournament.endDate,
+            startDate: tournament.startDate,
+        })
+
+        const request = new Request(TournamentApi.API_BASE_URL + "/tournament/", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token,
+            },
+            body: obejcttoAdd
+        });
+
+       
+        return fetch(request).then(response => {
+            return response;
+        }).catch(error => {
+            return error;
+        });
+    }
+
 }
 
-export default MatchsApi;
+export default TournamentApi;
