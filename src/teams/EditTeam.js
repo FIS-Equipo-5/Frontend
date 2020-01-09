@@ -22,33 +22,33 @@ class EditTeam extends React.Component{
             <h1 style={{margin:"2%"}}>Edit Team</h1>
             <form style={{marginTop: "3%"}}>
                 <div className="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                    <label for="name" className="col-sm-2 col-form-label">Name:</label>
                     <div className="col-sm-4">
                         <input className="form-control" id="name" name="name" value={this.state.team.name} disabled></input>
                     </div>
-                    <label for="code" class="col-sm-2 col-form-label">Code:</label>
+                    <label for="code" className="col-sm-2 col-form-label">Code:</label>
                     <div className="col-sm-4">
                         <input className="form-control" id="code" name="code" value={this.state.team.code} disabled></input>
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label for="logo" class="col-sm-2 col-form-label">Logo:</label>
+                    <label for="logo" className="col-sm-2 col-form-label">Logo:</label>
                     <div className="col-sm-4">
                         <input className="form-control" id="logo" name="logo" value={this.state.team.logo} onChange={this.handleChange}></input>
                     </div>
-                    <label for="country" class="col-sm-2 col-form-label">Country:</label>
+                    <label for="country" className="col-sm-2 col-form-label">Country:</label>
                     <div className="col-sm-4">
                         <input className="form-control" id="country" name="country" value={this.state.team.country} onChange={this.handleChange}></input>
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label for="founded" class="col-sm-2 col-form-label">Founded:</label>
+                    <label for="founded" className="col-sm-2 col-form-label">Founded:</label>
                     <div className="col-sm-4">
                         <input className="form-control" id="founded" name="founded" value={this.state.team.founded} onChange={this.handleChange}></input>
                     </div>
-                    <label for="stadium" class="col-sm-2 col-form-label">Stadium Name:</label>
+                    <label for="stadium" className="col-sm-2 col-form-label">Stadium Name:</label>
                     <div className="col-sm-4">
                     <input className="form-control" id="stadium" name="venue_name" value={this.state.team.venue_name} onChange={this.handleChange}></input>
                     </div>
@@ -71,7 +71,7 @@ class EditTeam extends React.Component{
                         <input className="form-control" id="city" name="venue_city" value={this.state.team.venue_city} onChange={this.handleChange}></input>
                     </div>
                     <label for="capacity" className="col-sm-2 col-form-label">Capacity:</label>
-                    <div class="col-sm-4">
+                    <div className="col-sm-4">
                         <input className="form-control" id="capacity" name="venue_capacity" value={this.state.team.venue_capacity} onChange={this.handleChange}></input>
                     </div>
                 </div>

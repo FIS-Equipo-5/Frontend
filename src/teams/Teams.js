@@ -218,9 +218,11 @@ class Teams extends React.Component{
                             <th><button className="btn btn-primary" onClick={()=>this.openModal({}, "add")}><i className="fa fa-plus"></i>   Add Team</button></th>
                         </tr>
                     </thead>
-                    {this.state.teams.map((team)=>
-                        <Team key={team.team_id} team = {team} onEdit={this.handleEdit} onDelete={this.handleDelete} onView={this.openModal}/>
-                    )}
+                    <tbody>
+                        {this.state.teams.map((team)=>
+                            <Team key={team.team_id} team = {team} onEdit={this.handleEdit} onDelete={this.handleDelete} onView={this.openModal}/>
+                        )}
+                    </tbody>
                 </table>
             </div>
 
