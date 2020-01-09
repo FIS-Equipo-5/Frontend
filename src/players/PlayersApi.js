@@ -32,7 +32,6 @@ class PlayersApi{
     }
 
     static postPlayer(newPlayer, token){
-        console.log("post player", newPlayer)
         const request = new Request(PlayersApi.API_BASE_URL+ "/players", {
             method: 'POST',
             headers: {

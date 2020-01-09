@@ -20,23 +20,7 @@ class NewPlayer extends React.Component{
         };
         this.changePlayer = this.changePlayer.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
-         this.teams = [];
-    }
-
-    componentDidMount(){
-        TeamsApi.getAllTeams(this.state.token)
-            .then( 
-                (result) => {
-                    if(result.status==="error"){
-                        this.teams = []
-                    }else{
-                        this.teams = result
-                    }
-                }
-                ,(error) => {
-                    this.teams = []
-                }
-            );
+        this.teams = props.teams;
     }
 
     changePlayer(event) {
@@ -56,27 +40,72 @@ class NewPlayer extends React.Component{
 
     render() {
         return(
-            <tr>
-                <td><input className="form-control" name="player_name" value={this.state.player_name} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="firstname" value={this.state.firstname} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="lastname" value={this.state.lastname} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="position" value={this.state.position} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="nationality" value={this.state.nationality} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="value" type="number" value={this.state.value} onChange={this.changePlayer}/></td>
-                <td>
-                    <select className="form-control" name="team_id" value={this.state.team_id} onChange={this.changePlayer}>
-                        <option label=" "></option>
-                        {this.teams.map(team =>
-                            <option key={team.team_id} value={team.team_id}>{team.name}</option>
-                        )};
-                    </select>
-                </td>
-                <td><input className="form-control" name="total" type="number" value={this.state.total} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="assists" type="number" value={this.state.assists} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="yellow" type="number" value={this.state.yellow} onChange={this.changePlayer}/></td>
-                <td><input className="form-control" name="red" type="number" value={this.state.red} onChange={this.changePlayer}/></td>
-                <td><button className="btn btn-success" onClick={this.clickAdd}>Add Player</button></td>
-            </tr>
+            <div style={{padding: "30px"}}>
+                <h1>New Player</h1>
+                <form>
+                    <div className="form-group row">
+                        <label className="col-sm-1 col-form-label">Name:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="player_name" value={this.state.player_name} onChange={this.changePlayer}/>
+                        </div>
+                        <label className="col-sm-1 col-form-label">Firstname:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="firstname" value={this.state.firstname} onChange={this.changePlayer}/>
+                        </div>
+                        <label className="col-sm-1 col-form-label">Lastname:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="lastname" value={this.state.lastname} onChange={this.changePlayer}/>
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-sm-1 col-form-label">Position:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="position" value={this.state.position} onChange={this.changePlayer}/>
+                        </div>
+                        <label className="col-sm-1 col-form-label">Nationality:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="nationality" value={this.state.nationality} onChange={this.changePlayer}/>
+                        </div>
+                        <label className="col-sm-1 col-form-label">Value:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="value" type="number" value={this.state.value} onChange={this.changePlayer}/>
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-sm-1 col-form-label">Team:</label>
+                        <div className="col-sm-3">
+                            <select className="form-control" name="team_id" value={this.state.team_id} onChange={this.changePlayer}>
+                                <option key="" value=""></option>
+                                {this.teams.map(team =>
+                                    <option key={team.team_id} value={team.team_id}>{team.name}</option>
+                                )};
+                            </select>
+                        </div>
+                        <label className="col-sm-1 col-form-label">Goals:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="total" type="number" value={this.state.total} onChange={this.changePlayer}/>
+                        </div>
+                        <label className="col-sm-1 col-form-label">Assisted goals:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="assists" type="number" value={this.state.assists} onChange={this.changePlayer}/>
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-sm-1 col-form-label">Total yellow cards:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="yellow" type="number" value={this.state.yellow} onChange={this.changePlayer}/>
+                        </div>
+                        <label className="col-sm-1 col-form-label">Total red cards:</label>
+                        <div className="col-sm-3">
+                            <input className="form-control" name="red" type="number" value={this.state.red} onChange={this.changePlayer}/>
+                        </div>
+                    </div>
+                </form>
+                <div className="row" style={{float:"right"}}>
+                    <button className="btn btn-success" onClick={this.clickAdd}>Save</button>
+                    <button className="btn btn-danger" onClick={() => this.props.onCloseModal()}>Close</button>        
+                </div>
+            </div>
         );
     }
 }

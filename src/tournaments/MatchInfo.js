@@ -136,7 +136,7 @@ class MatchInfo extends React.Component {
                     />
 
                     <div className='row h-100 justify-content-center align-items-center'>
-                        <button className="btn btn-sm btn-primary" style={{ width: "10%" }} onClick={() => this.closeModal()}><i class="fa fa-save" /></button>
+                        <button className="btn btn-sm btn-primary" style={{ width: "10%" }} onClick={() => this.closeModal()}><i className="fa fa-save" /></button>
                         <button className="btn btn-danger btn-sm" style={{ width: "10%" }} onClick={() => this.closeModal()}>Close</button>
                     </div>
                 </Modal>
