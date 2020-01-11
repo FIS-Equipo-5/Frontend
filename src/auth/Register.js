@@ -11,6 +11,14 @@ class Register extends React.Component {
             successInfo:null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCloseError = this.handleCloseError.bind(this);
+    }
+
+    handleCloseError(){
+        this.setState({
+            errorInfo: null,
+            successInfo: null
+        });
     }
 
     handleSubmit(event) {
@@ -18,18 +26,22 @@ class Register extends React.Component {
         const data = new FormData(event.target);
         try {
             AuthApi.register(data.get('name'), data.get('email'), data.get('password')).then((response) => {
-                console.log(response.status);
-                if (response.status != "200") {
-                    
+                if (response.status != "201") {
+                    this.setState({
+                        errorInfo: "Failed when registering the user"
+                    });
                 } else {
                     this.setState({
-                        successInfo: response.statusText
+                        success: true,
+                        errorInfo: "User successfully registered"
                     });
-                    window.location.href = '/login';
+                    window.location.href='/';
                 }
             });
         } catch (error) {
-            this.errorInfo = error;
+            this.setState({
+                errorInfo: "Failed when registering the user"
+            });
         }
 
 
@@ -44,7 +56,7 @@ class Register extends React.Component {
                     </div>
                     <form onSubmit={this.handleSubmit}>
                         <div>
-                            <Alert message={this.state.errorInfo} />
+                            <Alert message={this.state.errorInfo} success={this.state.success} onClose={this.handleCloseError}/>
                         </div>
                         <input type="text" id="name" class="fadeIn second" name="name" type="text" placeholder="Enter your name" />
                         <input type="password" id="email" class="fadeIn third" name="email" type="text" placeholder="Enter your email" />
