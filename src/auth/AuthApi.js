@@ -40,9 +40,9 @@ class AuthApi {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                'name': name,
-                'email': email,
-                'password': password,
+                name: name,
+                email: email,
+                password: password,
             })
         });
 
