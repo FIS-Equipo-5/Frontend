@@ -288,12 +288,12 @@ class Transfers extends React.Component {
 
     render(){
         const mystyle = {
-            width: 90,
-            height: 90,
+            width: 160,
+            height: 160,
             resizeMode: 'stretch',
             marginTop: "5%",
-            marginLeft: "45%",
-            marginBottom: "5%"
+            marginLeft: "44%",
+            marginBottom: "6%"
         };
           
         return(
