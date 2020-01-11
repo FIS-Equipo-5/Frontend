@@ -93,7 +93,6 @@ class Transfers extends React.Component {
                 }
             );
 
-            await this.sleep(6000);
             this.setState({loaded: true})
     }
 
@@ -236,10 +235,6 @@ class Transfers extends React.Component {
             visible : false,
             infoModal: ""
         });
-    }
-
-    sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     content(){
