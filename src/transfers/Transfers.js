@@ -97,6 +97,35 @@ class Transfers extends React.Component {
             this.setState({loaded: true})
     }
 
+    componentWillMount(){
+        //Se suscribe al pubsub 'NewTeam' para actualizar el desplegable de equipos
+        this.pubsub_event = pubsub.subscribe('NewTeam', function(topic, items){
+            if(items){
+                TeamsApi.getAllTeams(this.state.token)
+            .then( 
+                (result) => {
+                    if(result.status==="error"){
+                        this.setState({ 
+                            teams: [],
+                            errorInfo: result.message})
+                    }else{
+                        this.setState({teams: result})
+                    }
+                }
+                ,(error) => {
+                    this.setState({
+                        teams: [],
+                        errorInfo: "Problem with connection to server"
+                    })
+                }
+            )}
+        }.bind(this))
+    }
+
+    componentWillUnmount(){
+        pubsub.unsubscribe(this.pubsub_event);
+    }
+
     async handleDelete(transfer){
 
         try{
