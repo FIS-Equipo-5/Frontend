@@ -120,6 +120,29 @@ class Transfers extends React.Component {
                 }
             )}
         }.bind(this))
+
+        //Se suscribe al pubsub 'NewPlayer' para actualizar el desplegable de jugadores
+        this.pubsub_event = pubsub.subscribe('NewPlayer', function(topic, items){
+            if(items){
+                PlayersApi.getAllPlayers(this.state.token)
+                .then( 
+                    (result) => {
+                        if(result.status==="error"){
+                            this.setState({ 
+                                players: [],
+                                errorInfo: result.message})
+                        }else{
+                            this.setState({players: result})
+                        }
+                    }
+                    ,(error) => {
+                        this.setState({
+                            players: [],
+                            errorInfo: "Problem with connection to server"
+                        })
+                    }
+            )}
+        }.bind(this))
     }
 
     componentWillUnmount(){

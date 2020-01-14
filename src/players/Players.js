@@ -179,6 +179,8 @@ class Players extends React.Component {
                             infoModal: "",
                             errorInfo: "Player added"
                         });
+                        //Publica el cambio para el componente de Transfer
+                        pubsub.publish('NewPlayer', true);
                     }, 
                     (error) => {
                         this.setState({

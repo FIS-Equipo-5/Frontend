@@ -196,7 +196,7 @@ class Teams extends React.Component{
                                     teams: allTeams
                                 });
                                 this.closeModal();
-                                //Publica el cambio para los componentes de Transfer
+                                //Publica el cambio para el componente de Transfer
                                 pubsub.publish('NewTeam', true);
                                 return;
                             });
