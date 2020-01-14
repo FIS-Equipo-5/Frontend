@@ -10,6 +10,7 @@ import InfoTransfer from './InfoTransfer.js'
 import TransfersApi from './TransfersApi.js'
 import TeamsApi from '../teams/TeamsApi.js';
 import PlayersApi from '../players/PlayersApi.js';
+import pubsub from 'pubsub-js';
 
 class Transfers extends React.Component {
 
@@ -181,6 +182,10 @@ class Transfers extends React.Component {
                     infoModal: "",
                     errorInfo: "Transfer added"
                 });
+
+                //Publica el cambio para los componentes de Teams y Transfers
+                pubsub.publish('NewTransfer', true);
+
             }catch(err){
                 this.setState({
                     errorInfo: "Failed when inserting the new transfer!"
