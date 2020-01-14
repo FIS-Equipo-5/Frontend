@@ -9,8 +9,8 @@ class NewTransfer extends React.Component {
             origin_team_id: '', 
             destiny_team_id: '', 
             transfer_date: '', 
-            contract_years: '', 
-            cost: '', 
+            contract_years: 0, 
+            cost: 0, 
             player_id: '',
             loaded: false
         };
@@ -33,12 +33,14 @@ class NewTransfer extends React.Component {
     }
 
     handleContractYearsChange(event) {
-        const number = (event.target.validity.valid) ? event.target.value : this.state.contract_years;
+        let string = (event.target.validity.valid) ? event.target.value : this.state.contract_years;
+        let number = Number(string);
         this.setState({ contract_years: number });
     }
 
     handleCostChange(event) {
-        const number = (event.target.validity.valid) ? event.target.value : this.state.cost;
+        let string = (event.target.validity.valid) ? event.target.value : this.state.cost;
+        let number = Number(string);
         this.setState({ cost: number });
     }
 
