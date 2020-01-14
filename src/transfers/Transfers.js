@@ -140,6 +140,9 @@ class Transfers extends React.Component {
                     success: true,
                     errorInfo: "Update success"
                 })
+
+                //Publica el cambio para el componente de Teams
+                pubsub.publish('EditTransfer', true);
             }catch(err){
                 this.setState({
                     errorInfo: "Failed when updating the transfer!"
@@ -183,7 +186,7 @@ class Transfers extends React.Component {
                     errorInfo: "Transfer added"
                 });
 
-                //Publica el cambio para los componentes de Teams y Transfers
+                //Publica el cambio para los componentes de Teams y Players
                 pubsub.publish('NewTransfer', true);
 
             }catch(err){

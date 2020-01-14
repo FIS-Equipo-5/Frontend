@@ -76,6 +76,33 @@ class Teams extends React.Component{
                     })
             }
         }.bind(this))
+
+        //Se suscribe al pubsub 'EditTransfer' para actualizar el estado
+        this.pubsub_event = pubsub.subscribe('EditTransfer', function(topic, items){
+            if(items){
+                TeamsApi.getAllTeams(this.state.token).then(
+                    (result)=>{
+                        if(result.status === "error"){
+                            this.setState({
+                                errorInfo: result.message
+                            }); 
+                        }else{
+                            this.setState({
+                                teams: result
+                             })
+                        }
+                    },
+                    (error)=>{
+                            this.setState({
+                                errorInfo: "Problem with connection to server"
+                        })
+                    })
+            }
+        }.bind(this))
+    }
+
+    componentWillUnmount(){
+        pubsub.unsubscribe(this.pubsub_event);
     }
 
     handleEdit(team){
