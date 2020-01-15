@@ -1,9 +1,10 @@
 import React from 'react';
 import Alert from '../Alert.js';
 import TournamentApi from './TournamentApi'
+import TeamsApi from '../teams/TeamsApi'
 import Tournament from './Tournament'
-import { registerLocale } from 'react-datepicker';
 import NewTournament from './NewTournament.js';
+import Modal from 'react-awesome-modal';
 
 class Tournaments extends React.Component {
 
@@ -15,6 +16,8 @@ class Tournaments extends React.Component {
             currentPage: 1,
             totalPages: 1,
             isEditing: {},
+            visible : false,
+            infoModal:"",
             token: localStorage.getItem("authToken")
         }
         this.selectedTournamentCB = props.selectedTournamentCB;
@@ -22,6 +25,10 @@ class Tournaments extends React.Component {
         // this.handleEdit = this.handleEdit.bind(this);
         // this.handleCloseError = this.handleCloseError.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleInit = this.handleInit.bind(this);
+        this.handleInit = this.handleInit.bind(this);
+        this.closeModal = this.closeModal.bind(this);   
+        //this.openModal = this.openModal.bind(this);   
         // this.handleOpenInfo = this.handleOpenInfo.bind(this);
         // this.handleCloseInfo = this.handleCloseInfo.bind(this);
         // this.totalPages = 1;
@@ -45,7 +52,7 @@ class Tournaments extends React.Component {
             }
     
             try{
-                let allTournaments = this.getAllTournaments(0);
+                this.getAllTournaments(0);
                 // this.setState({
                 //     tournaments: allTournaments
                 //     }
@@ -69,6 +76,14 @@ class Tournaments extends React.Component {
             isEditing: { ...prevState.isEditing, [match._id]: match }
         }));
         this.setState({ matchSelected: match });
+    }
+
+
+    _handleInit(tournament) {
+        this.setState(prevState => ({
+            isEditing: { ...prevState.isEditing, [tournament._id]: tournament }
+        }));
+        this.setState({ matchSelected: tournament });
     }
 
     handleCloseError() {
@@ -148,7 +163,46 @@ class Tournaments extends React.Component {
             );
     }
 
-    
+
+    closeModal() {
+        this.setState({
+            visible : false,
+            infoModal: ""
+        });
+    }
+
+ handleInit(tournament) {
+     console.log("entra")
+        TeamsApi.getAllTeams(this.state.token).then((result) => {
+                console.log(result)
+                const information = 
+                <div style={{ padding: "30px" }}>
+                <table class='table'>
+                    <thead>
+                        <th>
+                            Select Teams
+                        </th>
+                    </thead>
+                    <tr>
+                    <select multiple name="tournament_teams">
+                    {result.map((a) =>
+                              <option value={a._id}>{a.name}</option>      
+                        )} 
+                    </select>
+                    </tr>
+                </table>
+            </div>
+                    this.setState({
+                        infoModal: information,
+                        visible : true
+                    });
+        }, 
+        (error) => {
+            this.setState({
+                errorInfo: "Cannot get information, try again later"
+            });
+        })
+    }
 
     render() {
         // if (this.state.matchSelected) {
@@ -158,6 +212,8 @@ class Tournaments extends React.Component {
         // } else {
             return (
                 <div>
+
+
                     <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
 
                     <div id='tournaments'>
@@ -177,7 +233,7 @@ class Tournaments extends React.Component {
                                 {this.state.tournaments.map((tournament) =>
                                     
                                     // !this.state.isEditing[transfer._id] ?
-                                    <Tournament key={tournament._id} tournament={tournament} onDelete={this.handleDelete} onSelect={this.selectedTournamentCB}/>
+                                    <Tournament key={tournament._id} tournament={tournament} onDelete={this.handleDelete} onInit={this.handleInit} onSelect={this.selectedTournamentCB}/>
                                     // :
                                     // <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]}
                                     //     teams={this.teams} players={this.players}

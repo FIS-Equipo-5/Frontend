@@ -9,14 +9,7 @@ function Player(props) {
                 <td>{props.player.player_name}</td>
                 <td>{props.player.firstname}</td>
                 <td>{props.player.lastname}</td>
-                <td>{props.player.position}</td>
-                <td>{props.player.nationality}</td>
-                <td>{props.player.value}</td>
                 <td>{team[0] !== undefined ? team[0].name : ""}</td>
-                <td>{props.player.goals.total}</td>
-                <td>{props.player.goals.assists}</td>
-                <td>{props.player.cards.yellow}</td>
-                <td>{props.player.cards.red}</td>
                 <td>
                     <div className="row"> 
                         <button className="btn btn-primary btn-sm" onClick={() => props.onView(props.player, "edit")} style={{width: "20%"}}><i className="fa fa-pencil"></i></button>
