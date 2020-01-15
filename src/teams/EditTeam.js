@@ -20,6 +20,7 @@ class EditTeam extends React.Component{
     render(){
         return(<div>
             <h1 style={{margin:"2%"}}>Edit Team</h1>
+            <hr/>
             <form style={{marginTop: "3%"}}>
                 <div className="form-group row">
                     <label for="name" class="col-sm-2 col-form-label">Name:</label>
@@ -46,7 +47,7 @@ class EditTeam extends React.Component{
                 <div className="form-group row">
                     <label for="founded" class="col-sm-2 col-form-label">Founded:</label>
                     <div className="col-sm-4">
-                        <input className="form-control" id="founded" name="founded" value={this.state.team.founded} onChange={this.handleChange}></input>
+                        <input className="form-control" id="founded" name="founded" type="number" min="1857" minLength="4" maxLength="4" value={this.state.team.founded} onChange={this.handleChange}></input>
                     </div>
                     <label for="stadium" class="col-sm-2 col-form-label">Stadium Name:</label>
                     <div className="col-sm-4">
@@ -72,22 +73,22 @@ class EditTeam extends React.Component{
                     </div>
                     <label for="capacity" className="col-sm-2 col-form-label">Capacity:</label>
                     <div class="col-sm-4">
-                        <input className="form-control" id="capacity" name="venue_capacity" value={this.state.team.venue_capacity} onChange={this.handleChange}></input>
+                        <input className="form-control" id="capacity" name="venue_capacity" type="number" value={this.state.team.venue_capacity} onChange={this.handleChange}></input>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label for="budget" className="col-sm-2 col-form-label">Budget:</label>
                     <div className="col-sm-4">
-                        <input className="form-control" id="budget" name="budget" value={this.state.team.budget} onChange={this.handleChange}></input>
+                        <input className="form-control" id="budget" name="budget" type="number" value={this.state.team.budget} onChange={this.handleChange}></input>
                     </div>
                     <label for="value" className="col-sm-2 col-form-label">Value:</label>
                     <div className="col-sm-4">
-                        <input className="form-control" id="value" name="value" value={this.state.team.value} onChange={this.handleChange}></input>
+                        <input className="form-control" id="value" name="value" type="number" value={this.state.team.value} onChange={this.handleChange}></input>
                     </div>
                 </div>
 
             </form> 
-            <div className="row" style={{float:"right"}}>
+            <div style={{float:"right", marginRight:"2%"}}>
                 <button className="btn btn-danger" onClick={() => this.props.onCloseModal()}>Close</button>
                 <button className="btn btn-primary" onClick={() => this.props.onSave(this.state.team)} >Edit Team</button>
             </div>

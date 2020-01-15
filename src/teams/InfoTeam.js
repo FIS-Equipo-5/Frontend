@@ -4,7 +4,13 @@ function InfoTeam(props){
 
     return(
         <div>
-            <h1 style={{margin:"2%"}}>{props.team.name}</h1>
+            <div className="row">
+                <h1 style={{margin:"2%"}}>{props.team.name}</h1>
+                <div style={{float:"right"}}>
+                <img src={props.team.logo} alt="Logo" style={{width:"50%", height:"80%"}}/>
+                </div>
+            </div>
+            <hr/>
             <form style={{marginTop: "3%"}}>
                 <div className="form-group row">
                     <label for="name" class="col-sm-2 col-form-label">Name:</label>
@@ -56,7 +62,7 @@ function InfoTeam(props){
                         <input className="form-control" id="city" name="venue_city" value={props.team.venue_city} disabled></input>
                     </div>
                     <label for="capacity" className="col-sm-2 col-form-label">Capacity:</label>
-                    <div class="col-sm-4">
+                    <div className="col-sm-4">
                         <input className="form-control" id="capacity" name="venue_capacity" value={props.team.venue_capacity} disabled></input>
                     </div>
                 </div>
