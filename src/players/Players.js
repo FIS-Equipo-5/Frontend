@@ -247,14 +247,7 @@ class Players extends React.Component {
                             <th>Name</th>
                             <th>Firstname</th>
                             <th>Lastname</th>
-                            <th>Position</th>
-                            <th>Nationality</th>
-                            <th>Value</th>
                             <th>Team</th>
-                            <th>Total goals</th>
-                            <th>Assisted goals</th>
-                            <th>Yellow cards</th>
-                            <th>Red cards</th>
                             <th><button className="btn btn-success" onClick={() => this.openModal("", "create")}>Add Player</button></th>
                         </tr>
                     </thead>
