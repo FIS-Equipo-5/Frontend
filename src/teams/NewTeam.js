@@ -52,8 +52,10 @@ class NewTeam extends React.Component{
         return(
             <div>
                 <h1 style={{margin:"2%"}}>New Team</h1>
+                <hr/>
                 <form style={{marginTop: "3%"}}>
                     <div className="form-group row">
+
                         <label for="name" className="col-sm-2 col-form-label">Name:</label>
                         <div className="col-sm-4">
                             <input className="form-control" id="name" name="name" value={this.state.name} onChange={this.changeTeam} ></input>
@@ -91,6 +93,7 @@ class NewTeam extends React.Component{
                         <div className="col-sm-4">
                             <input className="form-control" id="surface" name="venue_surface" value={this.state.venue_surface} onChange={this.changeTeam} ></input>
                         </div>
+
                         <label for="address" className="col-sm-2 col-form-label">Address:</label>
                         <div className="col-sm-4">
                         <input className="form-control" id="address" name="venue_address" value={this.state.venue_address} onChange={this.changeTeam} ></input>
@@ -118,9 +121,9 @@ class NewTeam extends React.Component{
                         </div>
                     </div>
                 </form>
-                <div style={{float:"right"}}>
+                <div style={{float:"right", marginRight:"2%"}}>
                     <button className="btn btn-danger" onClick={() => this.props.onCloseModal()}>Close</button>
-                    <button className="btn btn-primary" onClick={this.addTeam} ><i className="fa fa-plus"></i>   Add Team</button>
+                    <button className="btn btn-primary" onClick={this.addTeam} >Add Team</button>
                 </div>
             </div>
         );
