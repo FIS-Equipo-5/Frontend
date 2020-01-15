@@ -154,7 +154,7 @@ class Players extends React.Component {
         }));
     }
 
-    handleSave(player) {
+    handleSave(id,player) {
         if(validatePlayer(player)){
             PlayersApi.putPlayer(player, this.state.token).then((result) => {
                 PlayersApi.getAllPlayers(this.state.token).then((result) => {
