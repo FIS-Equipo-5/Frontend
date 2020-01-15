@@ -2,7 +2,7 @@ import React from 'react';
 
 function Player(props) {
 
-    let team = props.teams.filter(team => team.team_id == props.player.team_id);
+    let team = props.teams.filter(team => team.team_id === props.player.team_id);
 
     return (
             <tr>
@@ -12,15 +12,17 @@ function Player(props) {
                 <td>{props.player.position}</td>
                 <td>{props.player.nationality}</td>
                 <td>{props.player.value}</td>
-                <td>{team[0].name}</td>
+                <td>{team[0] !== undefined ? team[0].name : ""}</td>
                 <td>{props.player.goals.total}</td>
                 <td>{props.player.goals.assists}</td>
                 <td>{props.player.cards.yellow}</td>
                 <td>{props.player.cards.red}</td>
                 <td>
-                    <button className="btn btn-primary" onClick={() => props.onEdit(props.player)} style={{width: "42%", marginBottom: "5px"}}><i class="fa fa-pencil"></i></button>
-                    <button className="btn btn-danger" onClick={() => props.onDelete(props.player)} style={{width: "42%", marginBottom: "5px"}}><i class="fa fa-trash"></i></button>
-                    <button className="btn btn-primary" onClick={() => props.onView(props.player)} style={{width: "88%", marginTop: "5px"}}><i class="fa fa-eye"></i></button>
+                    <div className="row"> 
+                        <button className="btn btn-primary btn-sm" onClick={() => props.onView(props.player, "edit")} style={{width: "20%"}}><i className="fa fa-pencil"></i></button>
+                        <button className="btn btn-danger btn-sm" onClick={() => props.onDelete(props.player)} style={{width: "20%"}}><i className="fa fa-trash"></i></button>
+                        <button className="btn btn-primary btn-sm" onClick={() => props.onView(props.player, "info")} style={{width: "20%"}}><i className="fa fa-eye"></i></button>
+                    </div>
                 </td>
             </tr>
             

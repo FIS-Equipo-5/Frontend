@@ -55,7 +55,8 @@ class NewTeam extends React.Component{
                 <hr/>
                 <form style={{marginTop: "3%"}}>
                     <div className="form-group row">
-                        <label for="name" class="col-sm-2 col-form-label">Name:</label>
+
+                        <label for="name" className="col-sm-2 col-form-label">Name:</label>
                         <div className="col-sm-4">
                             <input className="form-control" id="name" name="name" value={this.state.name} onChange={this.changeTeam} ></input>
                         </div>
@@ -92,7 +93,8 @@ class NewTeam extends React.Component{
                         <div className="col-sm-4">
                             <input className="form-control" id="surface" name="venue_surface" value={this.state.venue_surface} onChange={this.changeTeam} ></input>
                         </div>
-                        <label for="address" class="col-sm-2 col-form-label">Address:</label>
+
+                        <label for="address" className="col-sm-2 col-form-label">Address:</label>
                         <div className="col-sm-4">
                         <input className="form-control" id="address" name="venue_address" value={this.state.venue_address} onChange={this.changeTeam} ></input>
                         </div>

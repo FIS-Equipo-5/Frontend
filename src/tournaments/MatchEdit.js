@@ -7,14 +7,56 @@ function MatchEdit(props) {
     }
     console.log('MatchEdit:' + JSON.stringify(props));
     return (
-        <div>
-
-            <select className="form-control" name="localTeam_id" value={props.localTeamUuid} onChange={handleChange}>
-                {props.teams.map(team =>
-                    <option key={team.team_id} value={team.team_id}>{team.name}</option>
-                )};
+        <div className='container'>
+            <div className='row mb-3'>
+                <div className='col-2'>
+                    Local team:
+                </div>
+                <div className='col-8'>
+                    <select className="form-control" name="localTeam_id" value={props.localTeamUuid} onChange={handleChange}>
+                        {props.teams.map(team =>
+                            <option key={team.team_id} value={team.team_id}>{team.name}</option>
+                        )};
                     </select>
-            <input className="form-control" name="localTeamName" value={props.match.local} onChange={handleChange} />
+                </div>
+            </div>
+            <div className='row mb-3'>
+                <div className='col-2'>
+                    Visitor team:
+                </div>
+                <div className='col-8'>
+                    <select className="form-control" name="visitorTeam_id" value={props.visitorTeamUuid} onChange={handleChange}>
+                        {props.teams.map(team =>
+                            <option key={team.team_id} value={team.team_id}>{team.name}</option>
+                        )};
+                    </select>
+                </div>
+            </div>
+            <div className='row mb-3'>
+                <div className='col-2'>
+                    Venue:
+                </div>
+                <div className='col-8'>
+                    <input className="form-control" name="venue" value={props.match.venue_city} onChange={handleChange} />
+
+                </div>
+            </div>
+            <div className='row mb-3'>
+                <div className='col-2'>
+                    Venue:
+                </div>
+                <div className='col-8'>
+                    <input className="form-control" name="localTeamName" value={props.match.venue_city} onChange={handleChange} />
+                </div>
+            </div>
+            <div className='row mb-3'>
+                <div className='col-2'>
+                    Tournament:
+                </div>
+                <div className='col-8'>
+                    <input className="form-control" name="tournament_id" value={props.match.tournamentUuid} onChange={handleChange} />
+                </div>
+            </div>
         </div>
 
     );

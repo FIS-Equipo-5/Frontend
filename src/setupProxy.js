@@ -2,9 +2,9 @@ const proxy = require('http-proxy-middleware');
 
 
 const API_TRANSFERS_URL = (process.env.TRANSFERS_URL || 'http://localhost:3000');
-const API_TEAMS_PLAYER_URL = (process.env.TEAMS_URL || 'http://localhost:3000');
-const API_TOURNAMENTS_URL = (process.env.TOURNAMENT_URL || 'http://localhost:3001');
-const API_AUTH_URL = (process.env.AUTH_URL || 'https://fis-gr5-auth.herokuapp.com');
+const API_TEAMS_PLAYER_URL = (process.env.TEAMS_URL || 'http://localhost:3001');
+const API_TOURNAMENTS_URL = (process.env.TOURNAMENT_URL || 'http://localhost:3002');
+const API_AUTH_URL = (process.env.AUTH_URL || 'http://localhost:3003');
 
 
 module.exports = function(app) {
@@ -32,4 +32,5 @@ module.exports = function(app) {
 
   // ========= AUTH ============
   app.use(proxy('/api/v1/users/authenticate', {target: API_AUTH_URL, changeOrigin: true}));
+  app.use(proxy('/api/v1/users/register', {target: API_AUTH_URL, changeOrigin: true}));
 };

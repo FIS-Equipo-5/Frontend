@@ -2,7 +2,6 @@ import React from 'react';
 
 function Transfer(props) {
 
-    console.log("PLAYERS ", props.players)
     let teams = props.teams;
     let players = props.players;
 
@@ -23,15 +22,15 @@ function Transfer(props) {
         + props.transfer.transfer_date.substring(0,4)
 
     if(typeof originTeam==='undefined'){
-        originTeam = {name: ""}
+        originTeam = {name: "team was deleted"}
     }
 
     if(typeof destinyTeam==='undefined'){
-        destinyTeam = {name: ""}
+        destinyTeam = {name: "team was deleted"}
     }
 
     if(typeof playerObj==='undefined'){
-        playerObj = {player_name: "", firstname:"", lastname:""}
+        playerObj = {player_name: "player was deleted", firstname:"", lastname:""}
     }
 
     return(
@@ -43,8 +42,12 @@ function Transfer(props) {
             <td>{props.transfer.contract_years}</td>
             <td>{props.transfer.cost}</td>
             <td>
-                <button className="btn btn-primary" onClick={() => props.onEdit(props.transfer)}>Edit</button>
-                <button className="btn btn-danger" onClick={() => props.onDelete(props.transfer)}>Delete</button></td>
+                <div className="row"> 
+                    <button className="btn btn-primary btn-sm" onClick={() => props.onView(props.transfer, "edit")} style={{width: "20%"}}><i className="fa fa-pencil"></i></button>
+                    <button className="btn btn-danger btn-sm" onClick={() => props.onDelete(props.transfer)} style={{width: "20%"}}><i className="fa fa-trash"></i></button>
+                    <button className="btn btn-primary btn-sm" onClick={() => props.onView(props.transfer, "info")} style={{width: "20%"}}><i className="fa fa-eye"></i></button>
+                </div>
+            </td>
         </tr>
         
     );

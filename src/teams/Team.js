@@ -19,9 +19,9 @@ function Team(props){
 
             <td>
                 <div className="row"> 
-                    <button className="btn btn-info btn-sm" onClick={()=>props.onView(props.team, "edit")} style={{width: "20%"}}><i class="fa fa-pencil"></i></button>
-                    <button className="btn btn-secondary btn-sm" onClick={()=>props.onView(props.team, "info")} style={{width: "20%"}}><i class="fa fa-eye"></i></button>
-                    <button className="btn btn-danger btn-sm" onClick={()=>props.onDelete(props.team)} style={{width: "20%"}}><i class="fa fa-trash"></i></button>
+                    <button className="btn btn-info btn-sm" onClick={()=>props.onView(props.team, "edit")} style={{width: "20%"}}><i className="fa fa-pencil"></i></button>
+                    <button className="btn btn-secondary btn-sm" onClick={()=>props.onView(props.team, "info")} style={{width: "20%"}}><i className="fa fa-eye"></i></button>
+                    <button className="btn btn-danger btn-sm" onClick={()=>props.onDelete(props.team)} style={{width: "20%"}}><i className="fa fa-trash"></i></button>
                 </div>
             </td>
         </tr>
