@@ -4,7 +4,13 @@ function InfoTeam(props){
 
     return(
         <div>
-            <h1 style={{margin:"2%"}}>{props.team.name}</h1>
+            <div className="row">
+                <h1 style={{margin:"2%"}}>{props.team.name}</h1>
+                <div style={{float:"right"}}>
+                <img src={props.team.logo} alt="Logo" style={{width:"50%", height:"80%"}}/>
+                </div>
+            </div>
+            <hr/>
             <form style={{marginTop: "3%"}}>
                 <div className="form-group row">
                     <label for="name" className="col-sm-2 col-form-label">Name:</label>

@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.4.1",
     "http-proxy-middleware": "^0.20.0",
+    "pubsub-js": "^1.8.0",
     "react": "^16.12.0",
     "react-awesome-modal": "^2.0.5",
     "react-bootstrap": "^1.0.0-beta.16",

@@ -7,6 +7,7 @@ import TeamsApi from './TeamsApi';
 
 import Modal from 'react-awesome-modal';
 import InfoTeam from './InfoTeam.js';
+import pubsub from 'pubsub-js';
 
 class Teams extends React.Component{
     constructor(props){
@@ -50,6 +51,58 @@ class Teams extends React.Component{
                 })
             }
         )
+    }
+
+    componentWillMount(){
+        //Se suscribe al pubsub 'NewTransfer' para actualizar el estado
+        this.pubsub_event = pubsub.subscribe('NewTransfer', function(topic, items){
+            if(items){
+                TeamsApi.getAllTeams(this.state.token).then(
+                    (result)=>{
+                        if(result.status === "error"){
+                            this.setState({
+                                errorInfo: result.message
+                            }); 
+                        }else{
+                            this.setState({
+                                teams: result
+                             })
+                        }
+                    },
+                    (error)=>{
+                            this.setState({
+                                errorInfo: "Problem with connection to server"
+                        })
+                    })
+            }
+        }.bind(this))
+
+        //Se suscribe al pubsub 'EditTransfer' para actualizar el estado
+        this.pubsub_event = pubsub.subscribe('EditTransfer', function(topic, items){
+            if(items){
+                TeamsApi.getAllTeams(this.state.token).then(
+                    (result)=>{
+                        if(result.status === "error"){
+                            this.setState({
+                                errorInfo: result.message
+                            }); 
+                        }else{
+                            this.setState({
+                                teams: result
+                             })
+                        }
+                    },
+                    (error)=>{
+                            this.setState({
+                                errorInfo: "Problem with connection to server"
+                        })
+                    })
+            }
+        }.bind(this))
+    }
+
+    componentWillUnmount(){
+        pubsub.unsubscribe(this.pubsub_event);
     }
 
     handleEdit(team){
@@ -143,6 +196,8 @@ class Teams extends React.Component{
                                     teams: allTeams
                                 });
                                 this.closeModal();
+                                //Publica el cambio para el componente de Transfer
+                                pubsub.publish('NewTeam', true);
                                 return;
                             });
                         });

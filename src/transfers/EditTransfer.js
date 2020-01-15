@@ -20,12 +20,8 @@ class EditTransfer extends React.Component {
     }
     
     handleCostChange = event => {
-        console.log("Event ", event)
-        console.log("Event validity", event.target.validity)
-        console.log("Event value", event.target.value)
-        console.log("Name name", event.target.name)
-        console.log("Last value", this.state.transfer.contract_years)
-        var number = (event.target.validity.valid) ? event.target.value : this.state.transfer.cost;
+        var string = (event.target.validity.valid) ? event.target.value : this.state.transfer.cost;
+        let number = Number(string);
         var transferEdited = {...this.state.transfer, [event.target.name]: number};
         this.setState({
             transfer: transferEdited
@@ -33,12 +29,8 @@ class EditTransfer extends React.Component {
     }
 
     handleContractYearsChange = event => {
-        console.log("Event ", event)
-        console.log("Event validity", event.target.validity)
-        console.log("Event value", event.target.value)
-        console.log("Name name", event.target.name)
-        console.log("Last value", this.state.transfer.contract_years)
-        var number = (event.target.validity.valid) ? event.target.value : this.state.transfer.cost;
+        var string = (event.target.validity.valid) ? event.target.value : this.state.transfer.cost;
+        let number = Number(string);
         var transferEdited = {...this.state.transfer, [event.target.name]: number};
         this.setState({
             transfer: transferEdited
