@@ -9,6 +9,7 @@ import AuthApi from '../auth/AuthApi.js';
 import Modal from 'react-awesome-modal';
 import TeamsApi from '../teams/TeamsApi.js';
 import InfoPlayer from './InfoPlayer.js';
+import pubsub from 'pubsub-js';
 
 class Players extends React.Component {
 
@@ -65,6 +66,61 @@ class Players extends React.Component {
                 errorInfo: "Problem with connection to server"
             });
         })
+    }
+
+    componentWillMount(){
+        //Se suscribe al pubsub 'NewTransfer' para actualizar el estado
+        this.pubsub_event = pubsub.subscribe('NewTransfer', function(topic, items){
+            if(items){
+                PlayersApi.getAllPlayers(this.state.token).then((result) => {
+                    const players = result;
+                    if(result.status === "error"){
+                        if(result.message === "jwt expired"){
+                            AuthApi.logout();
+                        } else {
+                            this.setState({
+                                errorInfo: result.message
+                            }); 
+                        }
+                    }else{
+                        this.setState({players: players});
+                    }
+                }, 
+                (error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server"
+                    });
+                })
+            }
+        }.bind(this))
+
+        //Se suscribe al pubsub 'NewTeam' para actualizar el estado
+        this.pubsub_event = pubsub.subscribe('NewTeam', function(topic, items){
+            if(items){
+                TeamsApi.getAllTeams(this.state.token).then((result) => {
+                    if(result.status === "error"){
+                        if(result.message === "jwt expired"){
+                            AuthApi.logout();
+                        } else {
+                            this.setState({
+                                errorInfo: result.message
+                            }); 
+                        }
+                    }else{
+                        this.setState({teams: result});
+                    }
+                }, 
+                (error) => {
+                    this.setState({
+                        errorInfo: "Problem with connection to server"
+                    });
+                })
+            }
+        }.bind(this))
+    }
+
+    componentWillUnmount(){
+        pubsub.unsubscribe(this.pubsub_event);
     }
 
     handleDelete(player) {
@@ -147,6 +203,8 @@ class Players extends React.Component {
                             infoModal: "",
                             errorInfo: "Player added"
                         });
+                        //Publica el cambio para el componente de Transfer
+                        pubsub.publish('NewPlayer', true);
                     }, 
                     (error) => {
                         this.setState({

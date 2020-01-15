@@ -20,7 +20,6 @@ class TransfersApi{
     }
 
     static postTransfer(newTransfer, token){
-        console.log("post transfer", newTransfer)
         const request = new Request(TransfersApi.API_BASE_URL+ "/transfer", {
             method: 'POST',
             headers: {

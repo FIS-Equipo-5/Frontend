@@ -1,12 +1,16 @@
 import React from 'react';
+import Modal from 'react-awesome-modal';
+import loading from './loading.svg';
+
 import Alert from '../Alert.js';
 import NewTransfer from './NewTransfer.js';
 import Transfer from './Transfer.js';
 import EditTransfer from './EditTransfer.js';
+import InfoTransfer from './InfoTransfer.js'
 import TransfersApi from './TransfersApi.js'
 import TeamsApi from '../teams/TeamsApi.js';
 import PlayersApi from '../players/PlayersApi.js';
-import loading from './loading.svg';
+import pubsub from 'pubsub-js';
 
 class Transfers extends React.Component {
 
@@ -18,15 +22,17 @@ class Transfers extends React.Component {
             teams: [],
             players: [],
             loaded: false,
-            isEditing: {},
+            visible : false,
+            infoModal : "",
+            success : null,
             token: localStorage.getItem('authToken') != null ? localStorage.getItem('authToken') : ''
         }
-        
-        console.log(this.state.loaded)
-        this.handleEdit = this.handleEdit.bind(this);
-        this.handleCloseError = this.handleCloseError.bind(this);
+
         this.handleDelete = this.handleDelete.bind(this);
-        this.onAddTransfer = this.addTransfer.bind(this);
+        this.handleCloseError = this.handleCloseError.bind(this);
+        this.addTransfer = this.addTransfer.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
 
@@ -88,19 +94,131 @@ class Transfers extends React.Component {
                 }
             );
 
-            await this.sleep(6000);
             this.setState({loaded: true})
     }
 
-    handleEdit (transfer) {
-        this.setState( prevState => ({
-            isEditing: {...prevState.isEditing, [transfer._id]: transfer}
-        }));
+    componentWillMount(){
+        //Se suscribe al pubsub 'NewTeam' para actualizar el desplegable de equipos
+        this.pubsub_event = pubsub.subscribe('NewTeam', function(topic, items){
+            if(items){
+                TeamsApi.getAllTeams(this.state.token)
+            .then( 
+                (result) => {
+                    if(result.status==="error"){
+                        this.setState({ 
+                            teams: [],
+                            errorInfo: result.message})
+                    }else{
+                        this.setState({teams: result})
+                    }
+                }
+                ,(error) => {
+                    this.setState({
+                        teams: [],
+                        errorInfo: "Problem with connection to server"
+                    })
+                }
+            )}
+        }.bind(this))
+
+        //Se suscribe al pubsub 'NewPlayer' para actualizar el desplegable de jugadores
+        this.pubsub_event = pubsub.subscribe('NewPlayer', function(topic, items){
+            if(items){
+                PlayersApi.getAllPlayers(this.state.token)
+                .then( 
+                    (result) => {
+                        if(result.status==="error"){
+                            this.setState({ 
+                                players: [],
+                                errorInfo: result.message})
+                        }else{
+                            this.setState({players: result})
+                        }
+                    }
+                    ,(error) => {
+                        this.setState({
+                            players: [],
+                            errorInfo: "Problem with connection to server"
+                        })
+                    }
+            )}
+        }.bind(this))
+    }
+
+    componentWillUnmount(){
+        pubsub.unsubscribe(this.pubsub_event);
+    }
+
+    async handleDelete(transfer){
+
+        try{
+            await TransfersApi.deleteTransfer(transfer._id, this.state.token);
+            this.setState({
+                success: true,
+                errorInfo: "Delete success"
+            });
+        }catch(err){
+            this.setState({
+                errorInfo: "Failed when deleting the transfer!"
+            })
+        }
+
+        try{
+            let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
+            this.setState({
+                    transfers: allTransfers
+                }
+            )
+        }catch (err){
+            this.setState({
+                errorInfo: "Problem with connection to server"
+            })
+        }
+
+    }
+
+    async handleSave(_id,transfer){
+        if (transfer.contract_years==="" || transfer.cost==="") {
+            this.setState({
+                errorInfo: "You must write the cost and the contract years"
+            })
+        
+        }else{
+            try{
+                await TransfersApi.putTransfer(transfer,this.state.token)
+                this.setState({
+                    visible: false,
+                    infoModal: "",
+                    success: true,
+                    errorInfo: "Update success"
+                })
+
+                //Publica el cambio para el componente de Teams
+                pubsub.publish('EditTransfer', true);
+            }catch(err){
+                this.setState({
+                    errorInfo: "Failed when updating the transfer!"
+                })
+            }
+    
+            try{
+                let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
+                this.setState({
+                        transfers: allTransfers
+                    }
+                )
+            }catch (err){
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
+        }
     }
 
     handleCloseError(){
         this.setState({
-            errorInfo: null
+            errorInfo: null,
+            success: null
         });
     }
 
@@ -113,6 +231,16 @@ class Transfers extends React.Component {
         }else{
             try{
                 await TransfersApi.postTransfer(transfer, this.state.token)
+                this.setState({
+                    success: true,
+                    visible: false,
+                    infoModal: "",
+                    errorInfo: "Transfer added"
+                });
+
+                //Publica el cambio para los componentes de Teams y Players
+                pubsub.publish('NewTransfer', true);
+
             }catch(err){
                 this.setState({
                     errorInfo: "Failed when inserting the new transfer!"
@@ -134,88 +262,56 @@ class Transfers extends React.Component {
 
     }
 
-    handleCancel(_id, transfer) {
-        this.setState(prevState => {
-            const isEditing = Object.assign({}, prevState.isEditing);
-            delete isEditing[_id];
-            return{
-                isEditing: isEditing
-            }
+    openModal(transfer, show) {
+        let info;
+        if(show === "info"){
+            info = <InfoTransfer transfer={transfer} teams={this.state.teams} players={this.state.players} onCloseModal={this.closeModal}/>;
+                this.setState({
+                    infoModal: info,
+                    visible : true
+            });
+        }else if(show === "edit"){
+            info = <EditTransfer key={transfer._id} 
+                transfer = {transfer}
+                teams={this.state.teams} 
+                players={this.state.players} 
+                onCloseModal={this.closeModal}
+                onSave={this.handleSave.bind(this, transfer._id)}/>;
+                this.setState({
+                    infoModal: info,
+                    visible : true
+            });
+        }else if("create"){
+            info = <NewTransfer onAddTransfer={this.addTransfer} teams={this.state.teams} players={this.state.players} onCloseModal={this.closeModal}/>
+            this.setState({
+                infoModal: info,
+                visible : true
+            });
+        }
+    }
+
+    closeModal() {
+        this.setState({
+            visible : false,
+            infoModal: ""
         });
     }
-
-    handleChange(_id, transfer) {
-        this.setState(prevState => ({
-            isEditing: {...prevState.isEditing, [_id]: transfer}
-        }))
-    }
-
-    async handleSave(_id,transfer){
-        if (transfer.contract_years==="" || transfer.cost==="") {
-            this.setState({
-                errorInfo: "You must write the cost and the contract years"
-            })
-        
-        }else{
-            try{
-                await TransfersApi.putTransfer(transfer,this.state.token)
-                const isEditing = Object.assign({}, this.state.isEditing);
-                delete isEditing[_id];
-                this.setState({
-                    isEditing: isEditing
-                })
-            }catch(err){
-                this.setState({
-                    errorInfo: "Failed when updating the transfer!"
-                })
-            }
-    
-            try{
-                let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
-                this.setState({
-                        transfers: allTransfers
-                    }
-                )
-            }catch (err){
-                this.setState({
-                    errorInfo: "Problem with connection to server"
-                })
-            }
-        }
-    }
-
-    async handleDelete(transfer){
-
-        try{
-            await TransfersApi.deleteTransfer(transfer._id, this.state.token);
-        }catch(err){
-            this.setState({
-                errorInfo: "Failed when deleting the transfer!"
-            })
-        }
-
-        try{
-            let allTransfers = await TransfersApi.getAllTransfers(this.state.token);
-            this.setState({
-                    transfers: allTransfers
-                }
-            )
-        }catch (err){
-            this.setState({
-                errorInfo: "Problem with connection to server"
-            })
-        }
-
-    }
-
-    sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
 
     content(){
         return(
             <div>
-                <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
+                <Modal 
+                    visible={this.state.visible}
+                    width="90%"
+                    effect="fadeInUp"
+                    onClickAway={() => this.closeModal()}
+                >
+                    <div>
+                        <Alert message={this.state.errorInfo} onClose={this.handleCloseError}/>
+                        {this.state.infoModal}
+                    </div>
+                </Modal>
+                <Alert message={this.state.errorInfo} success={this.state.success} onClose={this.handleCloseError} />
                 <table className="table">
                     <thead>
                         <tr>
@@ -225,20 +321,17 @@ class Transfers extends React.Component {
                             <th>Transfer Date</th>
                             <th>Contract Years</th>
                             <th>Cost</th>
-                            <th>&nbsp;</th>
+                            <th><button className="btn btn-success" onClick={() => this.openModal("", "create")}>Add Transfer</button></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <NewTransfer onAddTransfer={this.onAddTransfer} teams={this.state.teams} players={this.state.players}></NewTransfer>
-                        {this.state.transfers.map((transfer) => 
-                            ! this.state.isEditing[transfer._id] ?
-                            <Transfer key={transfer._id} transfer={transfer} teams={this.state.teams} players={this.state.players} onEdit={this.handleEdit} onDelete={this.handleDelete}/>
-                            :
-                            <EditTransfer key={transfer._id} transfer={this.state.isEditing[transfer._id]} 
-                                teams={this.state.teams} players={this.state.players}
-                                onCancel={this.handleCancel.bind(this, transfer._id)}
-                                onChange={this.handleChange.bind(this, transfer._id)}
-                                onSave={this.handleSave.bind(this, transfer._id)}></EditTransfer>
+                        {this.state.transfers.map((transfer) =>
+                            <Transfer key={transfer._id} 
+                                transfer={transfer}
+                                teams={this.state.teams} 
+                                players={this.state.players}
+                                onDelete={this.handleDelete} 
+                                onView={this.openModal}/>
                         )}
                     </tbody>
                     
@@ -250,12 +343,12 @@ class Transfers extends React.Component {
 
     render(){
         const mystyle = {
-            width: 90,
-            height: 90,
+            width: 160,
+            height: 160,
             resizeMode: 'stretch',
             marginTop: "5%",
-            marginLeft: "45%",
-            marginBottom: "5%"
+            marginLeft: "44%",
+            marginBottom: "6%"
         };
           
         return(
