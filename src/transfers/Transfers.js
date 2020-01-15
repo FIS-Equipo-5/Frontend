@@ -10,6 +10,7 @@ import InfoTransfer from './InfoTransfer.js'
 import TransfersApi from './TransfersApi.js'
 import TeamsApi from '../teams/TeamsApi.js';
 import PlayersApi from '../players/PlayersApi.js';
+import pubsub from 'pubsub-js';
 
 class Transfers extends React.Component {
 
@@ -96,6 +97,58 @@ class Transfers extends React.Component {
             this.setState({loaded: true})
     }
 
+    componentWillMount(){
+        //Se suscribe al pubsub 'NewTeam' para actualizar el desplegable de equipos
+        this.pubsub_event = pubsub.subscribe('NewTeam', function(topic, items){
+            if(items){
+                TeamsApi.getAllTeams(this.state.token)
+            .then( 
+                (result) => {
+                    if(result.status==="error"){
+                        this.setState({ 
+                            teams: [],
+                            errorInfo: result.message})
+                    }else{
+                        this.setState({teams: result})
+                    }
+                }
+                ,(error) => {
+                    this.setState({
+                        teams: [],
+                        errorInfo: "Problem with connection to server"
+                    })
+                }
+            )}
+        }.bind(this))
+
+        //Se suscribe al pubsub 'NewPlayer' para actualizar el desplegable de jugadores
+        this.pubsub_event = pubsub.subscribe('NewPlayer', function(topic, items){
+            if(items){
+                PlayersApi.getAllPlayers(this.state.token)
+                .then( 
+                    (result) => {
+                        if(result.status==="error"){
+                            this.setState({ 
+                                players: [],
+                                errorInfo: result.message})
+                        }else{
+                            this.setState({players: result})
+                        }
+                    }
+                    ,(error) => {
+                        this.setState({
+                            players: [],
+                            errorInfo: "Problem with connection to server"
+                        })
+                    }
+            )}
+        }.bind(this))
+    }
+
+    componentWillUnmount(){
+        pubsub.unsubscribe(this.pubsub_event);
+    }
+
     async handleDelete(transfer){
 
         try{
@@ -139,6 +192,9 @@ class Transfers extends React.Component {
                     success: true,
                     errorInfo: "Update success"
                 })
+
+                //Publica el cambio para el componente de Teams
+                pubsub.publish('EditTransfer', true);
             }catch(err){
                 this.setState({
                     errorInfo: "Failed when updating the transfer!"
@@ -181,6 +237,10 @@ class Transfers extends React.Component {
                     infoModal: "",
                     errorInfo: "Transfer added"
                 });
+
+                //Publica el cambio para los componentes de Teams y Players
+                pubsub.publish('NewTransfer', true);
+
             }catch(err){
                 this.setState({
                     errorInfo: "Failed when inserting the new transfer!"
