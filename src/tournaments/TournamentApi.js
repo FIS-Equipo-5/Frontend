@@ -79,6 +79,23 @@ class TournamentApi {
         });
     }
 
+    static async initTournament(id,arraydId,token) {
+        console.log(id)
+        let obejcttoAdd =JSON.stringify(arraydId)
+        const request = await new Request(TournamentApi.API_BASE_URL + "/tournament/initialize/" + id, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token,
+            },
+            body: obejcttoAdd
+        });
+
+        let response = await fetch(request)
+        let data = await response.json()
+        return data;
+    }
     static postTournament(tournament, token) {
         let obejcttoAdd =JSON.stringify({
             name: tournament.name,
