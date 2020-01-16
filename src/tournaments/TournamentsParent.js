@@ -1,5 +1,4 @@
 import React from 'react';
-import Alert from '../Alert.js';
 
 import Matches from './Matches'
 import Tournaments from './Tournaments'

@@ -4,7 +4,6 @@ import TournamentApi from './TournamentApi'
 import TeamsApi from '../teams/TeamsApi'
 import Tournament from './Tournament'
 import NewTournament from './NewTournament.js';
-import Modal from 'react-awesome-modal';
 
 class Tournaments extends React.Component {
 
