@@ -1,5 +1,6 @@
 import React from 'react';
 import TeamsApi from '../teams/TeamsApi';
+import MatchApi from '../tournaments/MatchApi';
 import Modal from 'react-awesome-modal';
 import MatchEdit from './MatchEdit'
 
@@ -18,7 +19,7 @@ class MatchInfo extends React.Component {
         if (typeof this.stats === 'undefined') {
             this.stats = { localScore: "0", visitorScore: "0" }
         }
-        
+
         this.score = this.stats.localScore + ' - ' + this.stats.visitorScore;
         this.date = props.match.matchDate;
         this.formatDate = this.date.substring(8, 10) + "/"
@@ -27,7 +28,7 @@ class MatchInfo extends React.Component {
 
         this.weather = '';
         this.icon = '';
-       
+
         if (props.match.weather === 'no weather data') {
             this.weather = props.match.weather;
         } else {
@@ -82,6 +83,30 @@ class MatchInfo extends React.Component {
         )
     }
 
+    handleChange(_id, match) {
+        this.setState(prevState => ({
+            isEditing: { ...prevState.isEditing, [_id]: match }
+        }));
+    }
+
+    handleSave(match) {
+        if (validateMatch(match)) {
+            console.log('save', match);
+            MatchApi.putMatchById(match, this.state.token).then((result) => {
+
+            },
+                (error) => {
+                    this.setState({
+                        errorInfo: "Cannot modify the match, try again"
+                    });
+                })
+        } else {
+            return {
+                errorInfo: "Some values are empty"
+            }
+        }
+    }
+
 
 
     render() {
@@ -130,19 +155,16 @@ class MatchInfo extends React.Component {
                     <MatchEdit key={this.props.match._id}
                         match={this.props.match}
                         teams={this.state.teams}
-                    // onCancel={this.handleCancel.bind(this, player._id)} 
-                    // onChange={this.handleChange.bind(this, player._id)} 
-                    // onSave={this.handleSave.bind(this, player._id)}
+                        onCancel={this.closeModal.bind(this)}
+                        onSave={this.handleSave.bind(this.props.match)}
                     />
 
-                    <div className='row h-100 justify-content-center align-items-center'>
-                        <button className="btn btn-sm btn-primary" style={{ width: "10%" }} onClick={() => this.closeModal()}><i className="fa fa-save" /></button>
-                        <button className="btn btn-danger btn-sm" style={{ width: "10%" }} onClick={() => this.closeModal()}>Close</button>
-                    </div>
                 </Modal>
             </div>
         );
     }
 }
+
+
 
 export default MatchInfo;
