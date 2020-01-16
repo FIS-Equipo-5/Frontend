@@ -1,9 +1,6 @@
 import React from 'react';
-import Modal from 'react-awesome-modal';
 import TournamentApi from './TournamentApi'
-import MatchEdit from './MatchEdit'
-
-
+import pubsub from 'pubsub-js';
 
 class TournamentInit extends React.Component {
 
@@ -39,7 +36,8 @@ class TournamentInit extends React.Component {
         await TournamentApi.initTournament(this.tournamentid["_id"],value,this.state.token)
 
         this.props.onClose()
-
+        //Publica el cambio para el componente de Transfer
+        pubsub.publish('TournamentInit', true);
     }
 
     handleChange(event) {

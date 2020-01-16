@@ -1,7 +1,7 @@
 class MatchsApi {
 
-    static API_BASE_URL = (process.env.NODE_ENV==="production")? "https://fis-g5-tournaments.herokuapp.com/api/v1" : "/api/v1"
-    
+    static API_BASE_URL = (process.env.NODE_ENV === "production") ? "https://fis-g5-tournaments.herokuapp.com/api/v1" : "/api/v1"
+
     static requestHeader() {
         return {}
     }
@@ -54,13 +54,14 @@ class MatchsApi {
                 'Content-Type': 'application/json',
                 'x-access-token': token,
             },
+
             body: JSON.stringify({
-                // origin_team_id: updateMatch.origin_team_id,
-                // destiny_team_id: updateMatch.destiny_team_id,
-                // transfer_date: updateMatch.transfer_date,
-                // contract_years: updateMatch.contract_years,
-                // cost: updateMatch.cost,
-                // player_id: updateMatch.player_id,
+                venue_city: updateMatch.venue_city,
+                tournamentUuid: updateMatch.tournamentUuid,
+                visitorTeamName: updateMatch.visitorTeamName,
+                localTeamName: updateMatch.localTeamName,
+                matchDate: updateMatch.matchDate,
+                stats: updateMatch.stats
             })
         });
 

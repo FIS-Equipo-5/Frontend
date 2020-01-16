@@ -3,6 +3,8 @@ import Alert from '../Alert.js';
 import MatchApi from './MatchApi'
 import Match from './Match'
 import MatchInfo from './MatchInfo'
+import pubsub from 'pubsub-js';
+
 
 class Matches extends React.Component {
 
@@ -29,6 +31,19 @@ class Matches extends React.Component {
 
     componentDidMount() {
         this.getAllMatches(0);
+    }
+
+    componentWillMount() {
+        //Se suscribe al pubsub 'NewTeam' para actualizar el desplegable de equipos
+        this.pubsub_event = pubsub.subscribe('TournamentInit', function (topic, items) {
+            if (items) {
+                this.getAllMatches(0);
+            }
+        }.bind(this))
+    }
+
+    componentWillUnmount() {
+        pubsub.unsubscribe(this.pubsub_event);
     }
 
     componentDidUpdate(prevProps) {
@@ -90,6 +105,7 @@ class Matches extends React.Component {
 
     handleCloseInfo() {
         this.setState({ matchSelected: null });
+        this.getAllMatches(0);
     }
 
     async handleSave(_id, match) {
