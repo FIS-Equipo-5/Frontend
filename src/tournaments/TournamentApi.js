@@ -24,10 +24,12 @@ class TournamentApi {
     }
     
 
-    static getTournamentById(token) {
-        const request = new Request(TournamentApi.API_BASE_URL + "/matches", {
+    static getTournamentById(tournamentId,token) {
+        const request = new Request(TournamentApi.API_BASE_URL + "/tournament/"+tournamentId, {
             method: 'GET',
             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'x-access-token': token,
             }
         });
@@ -37,26 +39,24 @@ class TournamentApi {
         });
     }
 
-    static putTournamentById(updateMatch, token) {
-        const request = new Request(TournamentApi.API_BASE_URL + "/match/" + updateMatch._id, {
+    static putTournamentById(updateTournament, token) {
+        let id =updateTournament._id
+        delete updateTournament._id;
+        delete updateTournament.__v;
+        let bodytosend = JSON.stringify(updateTournament)
+        const request = new Request(TournamentApi.API_BASE_URL + "/tournament/" + id, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'x-access-token': token,
             },
-            body: JSON.stringify({
-                // origin_team_id: updateMatch.origin_team_id,
-                // destiny_team_id: updateMatch.destiny_team_id,
-                // transfer_date: updateMatch.transfer_date,
-                // contract_years: updateMatch.contract_years,
-                // cost: updateMatch.cost,
-                // player_id: updateMatch.player_id,
-            })
+            body: bodytosend
         });
-
         return fetch(request).then(response => {
-            return response;
+
+            return response.json();
+
         }).catch(error => {
             return error;
         });
