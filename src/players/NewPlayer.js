@@ -1,5 +1,4 @@
 import React from 'react';
-import TeamsApi from '../teams/TeamsApi.js';
 
 class NewPlayer extends React.Component{
     constructor(props){
